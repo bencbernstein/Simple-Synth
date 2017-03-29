@@ -22,38 +22,45 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XaR-bX-5Js">
-                                <rect key="frame" x="105" y="74" width="121" height="98"/>
+                                <rect key="frame" x="100" y="74" width="121" height="98"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
-                                    <action selector="soundButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ChF-5Q-94u"/>
+                                    <action selector="soundButton:" destination="BYZ-38-t0r" eventType="touchDown" id="1Hd-xl-PZp"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GWJ-dE-tkc" userLabel="Button2">
                                 <rect key="frame" x="276" y="74" width="121" height="98"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
-                                    <action selector="soundButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="JEk-H3-98v"/>
+                                    <action selector="soundButton:" destination="BYZ-38-t0r" eventType="touchDown" id="KL0-hL-JnO"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Vu-c1-AVj" userLabel="Button4">
-                                <rect key="frame" x="441" y="74" width="121" height="98"/>
+                                <rect key="frame" x="100" y="203" width="121" height="98"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
-                                    <action selector="soundButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zNY-NZ-PFi"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ff-Uz-hHh" userLabel="Button4">
-                                <rect key="frame" x="365" y="203" width="121" height="98"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <connections>
-                                    <action selector="soundButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dsu-oJ-ZMg"/>
+                                    <action selector="soundButton:" destination="BYZ-38-t0r" eventType="touchDown" id="fcq-FI-axd"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k8C-rN-Zac" userLabel="Button3">
-                                <rect key="frame" x="186" y="203" width="121" height="98"/>
+                                <rect key="frame" x="454" y="74" width="121" height="98"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <connections>
-                                    <action selector="soundButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="yHr-6N-scU"/>
+                                    <action selector="soundButton:" destination="BYZ-38-t0r" eventType="touchDown" id="Wc6-fn-CGa"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ff-Uz-hHh" userLabel="Button5">
+                                <rect key="frame" x="276" y="203" width="121" height="98"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="soundButton:" destination="BYZ-38-t0r" eventType="touchDown" id="NmZ-j6-rJ1"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q3m-pW-3pT" userLabel="Button6">
+                                <rect key="frame" x="454" y="203" width="121" height="98"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="soundButton:" destination="BYZ-38-t0r" eventType="touchDown" id="kob-jo-8K8"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -65,6 +72,7 @@
                         <outlet property="button3" destination="k8C-rN-Zac" id="ZrI-gq-kG2"/>
                         <outlet property="button4" destination="5Vu-c1-AVj" id="Ieu-rF-1dq"/>
                         <outlet property="button5" destination="7ff-Uz-hHh" id="ZPD-bv-i1k"/>
+                        <outlet property="button6" destination="Q3m-pW-3pT" id="QlG-qD-OH2"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

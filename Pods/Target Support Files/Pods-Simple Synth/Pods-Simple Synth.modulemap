@@ -1,0 +1,6 @@
+framework module Pods_Simple_Synth {
+  umbrella header "Pods-Simple Synth-umbrella.h"
+
+  export *
+  module * { export * }
+}

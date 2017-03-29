@@ -12,6 +12,7 @@
 		B57ECC491E8B38370087AAF1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57ECC471E8B38370087AAF1 /* Main.storyboard */; };
 		B57ECC4B1E8B38370087AAF1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B57ECC4A1E8B38370087AAF1 /* Assets.xcassets */; };
 		B57ECC4E1E8B38370087AAF1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57ECC4C1E8B38370087AAF1 /* LaunchScreen.storyboard */; };
+		B5D255C61E8C2C9E0079CB0E /* Conductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D255C51E8C2C9E0079CB0E /* Conductor.swift */; };
 		C0B89A62E8EA1B7CA546030B /* Pods_Simple_Synth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D365B321DF67CB891E1AB3 /* Pods_Simple_Synth.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,6 +25,7 @@
 		B57ECC4A1E8B38370087AAF1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B57ECC4D1E8B38370087AAF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B57ECC4F1E8B38370087AAF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5D255C51E8C2C9E0079CB0E /* Conductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conductor.swift; sourceTree = "<group>"; };
 		C2430570CC26FF51F2331BE6 /* Pods-Simple Synth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Simple Synth.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Simple Synth/Pods-Simple Synth.debug.xcconfig"; sourceTree = "<group>"; };
 		F2D365B321DF67CB891E1AB3 /* Pods_Simple_Synth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Simple_Synth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -92,6 +94,7 @@
 		B5C91F551E8B51C9001BB06F /* Oscillators */ = {
 			isa = PBXGroup;
 			children = (
+				B5D255C51E8C2C9E0079CB0E /* Conductor.swift */,
 			);
 			name = Oscillators;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B57ECC461E8B38370087AAF1 /* ViewController.swift in Sources */,
+				B5D255C61E8C2C9E0079CB0E /* Conductor.swift in Sources */,
 				B57ECC441E8B38370087AAF1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -351,6 +355,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -367,6 +372,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

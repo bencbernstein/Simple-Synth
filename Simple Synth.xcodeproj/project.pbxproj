@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B51E7A111E8C96140064848B /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51E7A101E8C96140064848B /* Colors.swift */; };
 		B57ECC441E8B38370087AAF1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57ECC431E8B38370087AAF1 /* AppDelegate.swift */; };
 		B57ECC461E8B38370087AAF1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57ECC451E8B38370087AAF1 /* ViewController.swift */; };
 		B57ECC491E8B38370087AAF1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57ECC471E8B38370087AAF1 /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 
 /* Begin PBXFileReference section */
 		8D573CBB5F8850799046751A /* Pods-Simple Synth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Simple Synth.release.xcconfig"; path = "Pods/Target Support Files/Pods-Simple Synth/Pods-Simple Synth.release.xcconfig"; sourceTree = "<group>"; };
+		B51E7A101E8C96140064848B /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B57ECC401E8B38370087AAF1 /* Simple Synth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple Synth.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B57ECC431E8B38370087AAF1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B57ECC451E8B38370087AAF1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -59,6 +61,14 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B51E7A0F1E8C96040064848B /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				B51E7A101E8C96140064848B /* Colors.swift */,
+			);
+			name = Library;
+			sourceTree = "<group>";
+		};
 		B57ECC371E8B38370087AAF1 = {
 			isa = PBXGroup;
 			children = (
@@ -80,6 +90,7 @@
 		B57ECC421E8B38370087AAF1 /* Simple Synth */ = {
 			isa = PBXGroup;
 			children = (
+				B51E7A0F1E8C96040064848B /* Library */,
 				B5C91F551E8B51C9001BB06F /* Oscillators */,
 				B57ECC431E8B38370087AAF1 /* AppDelegate.swift */,
 				B57ECC451E8B38370087AAF1 /* ViewController.swift */,
@@ -224,6 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B57ECC461E8B38370087AAF1 /* ViewController.swift in Sources */,
+				B51E7A111E8C96140064848B /* Colors.swift in Sources */,
 				B5D255C61E8C2C9E0079CB0E /* Conductor.swift in Sources */,
 				B57ECC441E8B38370087AAF1 /* AppDelegate.swift in Sources */,
 			);

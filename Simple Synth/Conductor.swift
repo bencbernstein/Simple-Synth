@@ -39,7 +39,7 @@ final class Conductor {
     
     init () {
         // oscillators
-        let baseFreq = 300.0
+        let baseFreq = 400.0
         osc1.frequency = baseFreq
         osc2.frequency = baseFreq * 27/24
         osc3.frequency = baseFreq * 30/24
@@ -64,19 +64,19 @@ final class Conductor {
 
         tones.forEach {
             $0.attackDuration = 0.05
-            $0.decayDuration = 0.5
-            $0.sustainLevel = 0.3
-            $0.releaseDuration = 0.5
+            $0.decayDuration = 0.4
+            $0.sustainLevel = 0.25
+            $0.releaseDuration = 0.4
         }
 
         masterVolumeMixer = AKMixer(envelope1, envelope2, envelope3, envelope4, envelope5, envelope6)
 
         reverb = AKCostelloReverb(masterVolumeMixer)
-        //reverb.cutoffFrequency = 500
+        reverb.cutoffFrequency = 300
         reverb.feedback = 0.4
         reverb.play()
         
-        reverbMixer = AKDryWetMixer(masterVolumeMixer, reverb, balance: 1.0)
+        reverbMixer = AKDryWetMixer(masterVolumeMixer, reverb, balance: 0.7)
 
         AudioKit.output = reverbMixer
         AudioKit.start()

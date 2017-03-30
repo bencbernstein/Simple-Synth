@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     
     @IBAction func fingerUp(_ sender: UIButton) {
         UIView.animate(withDuration: 0.05, animations: {
-            sender.backgroundColor = self.colors[sender.tag]
+            sender.backgroundColor = UIColor.clear
         })
         let tone = conductor.tones[sender.tag]
         tone.stop()
@@ -45,25 +45,19 @@ class ViewController: UIViewController {
     }
     
     //MARK: Button Setup
-    let colors = [0: UIColor.blue, 1: UIColor.green, 2:UIColor.yellow, 3:UIColor.brown, 4:UIColor.cyan, 5: UIColor.purple]
-    
     func setupButtons() {
-        button1.backgroundColor = UIColor.blue
+        let buttons = [button1, button2, button3, button4, button5, button6]
+        buttons.forEach {
+            $0?.layer.cornerRadius = 20
+            $0?.layer.borderWidth = 5
+            $0?.layer.borderColor = UIColor.lightGray.cgColor
+        }
+
         button1.tag = 0
-        
-        button2.backgroundColor = UIColor.green
         button2.tag = 1
-        
-        button3.backgroundColor = UIColor.red
         button3.tag = 2
-        
-        button4.backgroundColor = UIColor.yellow
         button4.tag = 3
-        
-        button5.backgroundColor = UIColor.cyan
         button5.tag = 4
-        
-        button6.backgroundColor = UIColor.purple
         button6.tag = 5
         
         

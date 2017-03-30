@@ -13,6 +13,8 @@ final class Conductor {
     
     static let sharedInstance = Conductor()
     
+    let bank = AKOscillatorBank()
+    
     let osc1 = AKOscillator()
     let osc2 = AKOscillator()
     let osc3 = AKOscillator()
@@ -56,27 +58,25 @@ final class Conductor {
         envelope5 = AKAmplitudeEnvelope(osc5)
         envelope6 = AKAmplitudeEnvelope(osc6)
 
-        
         let envelopes = [envelope1, envelope2, envelope3, envelope4, envelope5, envelope6]
         
         tones = envelopes
 
         tones.forEach {
-            $0.attackDuration = 0.01
-            $0.rampTime = 0.01
-            $0.decayDuration = 0.05
+            $0.attackDuration = 0.05
+            $0.decayDuration = 0.5
             $0.sustainLevel = 0.3
-            $0.releaseDuration = 0.1
+            $0.releaseDuration = 0.5
         }
 
         masterVolumeMixer = AKMixer(envelope1, envelope2, envelope3, envelope4, envelope5, envelope6)
 
         reverb = AKCostelloReverb(masterVolumeMixer)
-        reverb.cutoffFrequency = 500
+        //reverb.cutoffFrequency = 500
         reverb.feedback = 0.4
         reverb.play()
         
-        reverbMixer = AKDryWetMixer(masterVolumeMixer, reverb, balance: 2.0)
+        reverbMixer = AKDryWetMixer(masterVolumeMixer, reverb, balance: 1.0)
 
         AudioKit.output = reverbMixer
         AudioKit.start()

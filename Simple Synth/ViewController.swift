@@ -21,35 +21,28 @@ class ViewController: UIViewController {
     @IBOutlet weak var button2: UIButton!
     @IBOutlet weak var button1: UIButton!
     
-    @IBAction func soundButton(_ sender: UIButton) {
+    @IBAction func fingerUp(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.05, animations: {
+            sender.backgroundColor = self.colors[sender.tag]
+        })
         let tone = conductor.tones[sender.tag]
-        
-        if tone.isPlaying {
-            tone.stop()
-        }
-            let feedback = UIImpactFeedbackGenerator(style: .light)
-            feedback.impactOccurred()
-            
-            tone.play()
-            DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
-                tone.stop()
-                
-                UIView.animate(withDuration: 0.2, animations: {
-                    sender.backgroundColor = self.colors[sender.tag]
-                })
-            }
-            UIView.animate(withDuration: 0.05) {
-                sender.backgroundColor = UIColor.lightGray
-            }
+        tone.stop()
     }
     
+    @IBAction func fingerDown(_ sender: UIButton) {
+        UIView.animate(withDuration: 0.05, animations: {
+            sender.backgroundColor = UIColor.lightGray
+        })
+        let tone = conductor.tones[sender.tag]
+        tone.play()
+
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black
         setupButtons()
     }
-    
     
     //MARK: Button Setup
     let colors = [0: UIColor.blue, 1: UIColor.green, 2:UIColor.yellow, 3:UIColor.brown, 4:UIColor.cyan, 5: UIColor.purple]

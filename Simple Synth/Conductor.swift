@@ -13,8 +13,6 @@ final class Conductor {
     
     static let sharedInstance = Conductor()
     
-    let bank = AKOscillatorBank()
-    
     let osc1 = AKOscillator()
     let osc2 = AKOscillator()
     let osc3 = AKOscillator()
@@ -23,6 +21,7 @@ final class Conductor {
     let osc6 = AKOscillator()
         
     var tones = [AKAmplitudeEnvelope]()
+    var oscillators = [AKOscillator]()
     
     var envelope1: AKAmplitudeEnvelope
     var envelope2: AKAmplitudeEnvelope
@@ -47,8 +46,8 @@ final class Conductor {
         osc5.frequency = baseFreq * 40/24
         osc6.frequency = baseFreq * 48/24
         
-        let oscillators = [osc1, osc2, osc3, osc4, osc5, osc6]
-        oscillators.forEach {$0.amplitude = 0.5; $0.start() }
+        oscillators = [osc1, osc2, osc3, osc4, osc5, osc6]
+        oscillators.forEach {$0.amplitude = 0.5; $0.rampTime = 0.1; $0.start() }
         
         // wrap them in amplitude envelopes
         envelope1 = AKAmplitudeEnvelope(osc1)
@@ -58,13 +57,11 @@ final class Conductor {
         envelope5 = AKAmplitudeEnvelope(osc5)
         envelope6 = AKAmplitudeEnvelope(osc6)
 
-        let envelopes = [envelope1, envelope2, envelope3, envelope4, envelope5, envelope6]
+        tones = [envelope1, envelope2, envelope3, envelope4, envelope5, envelope6]
         
-        tones = envelopes
-
         tones.forEach {
-            $0.attackDuration = 0.05
-            $0.decayDuration = 0.4
+            $0.attackDuration = 0.1
+            $0.decayDuration = 0.3
             $0.sustainLevel = 0.25
             $0.releaseDuration = 0.4
         }

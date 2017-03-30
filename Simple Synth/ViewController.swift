@@ -21,19 +21,29 @@ class ViewController: UIViewController {
     @IBOutlet weak var button2: UIButton!
     @IBOutlet weak var button1: UIButton!
     
-    @IBAction func fingerUp(_ sender: UIButton) {
+    @IBAction func fingerUp(_ sender: Key) {
         UIView.animate(withDuration: 0.05, animations: {
             sender.backgroundColor = UIColor.clear
         })
         let tone = conductor.tones[sender.tag]
         tone.stop()
     }
+   
     
-    @IBAction func fingerDown(_ sender: UIButton) {
+    @IBAction func fingerDown(_ sender: Key) {
+
         UIView.animate(withDuration: 0.05, animations: {
             sender.backgroundColor = UIColor.lightGray
         })
         let tone = conductor.tones[sender.tag]
+        let oscillator = conductor.oscillators[sender.tag]
+        
+        oscillator.amplitude = Double(sender.currentPressure)
+        
+        if oscillator.amplitude < 0.1 {
+            oscillator.amplitude = 0.1
+        }
+        print("osc amplitude", oscillator.amplitude)
         tone.play()
 
     }
@@ -52,6 +62,7 @@ class ViewController: UIViewController {
             $0?.layer.borderWidth = 5
             $0?.layer.borderColor = UIColor.lightGray.cgColor
         }
+        
 
         button1.tag = 0
         button2.tag = 1

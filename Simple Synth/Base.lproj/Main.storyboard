@@ -26,63 +26,54 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GWJ-dE-tkc" userLabel="Button2" customClass="Key" customModule="Simple_Synth" customModuleProvider="target">
                                 <rect key="frame" x="283" y="50" width="100" height="100"/>
                                 <connections>
-                                    <action selector="fingerDown:" destination="BYZ-38-t0r" eventType="touchDown" id="Dpk-wY-ycr"/>
                                     <action selector="fingerUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="y3o-WJ-zse"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="k8C-rN-Zac" userLabel="Button3" customClass="Key" customModule="Simple_Synth" customModuleProvider="target">
                                 <rect key="frame" x="403" y="50" width="100" height="100"/>
                                 <connections>
-                                    <action selector="fingerDown:" destination="BYZ-38-t0r" eventType="touchDown" id="jBd-Gd-3RP"/>
                                     <action selector="fingerUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jgK-uI-ah7"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ff-Uz-hHh" userLabel="Button5" customClass="Key" customModule="Simple_Synth" customModuleProvider="target">
                                 <rect key="frame" x="283.5" y="169.5" width="100" height="100.5"/>
                                 <connections>
-                                    <action selector="fingerDown:" destination="BYZ-38-t0r" eventType="touchDown" id="7pB-dY-oqR"/>
                                     <action selector="fingerUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="ani-Im-hS6"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q3m-pW-3pT" userLabel="Button6" customClass="Key" customModule="Simple_Synth" customModuleProvider="target">
                                 <rect key="frame" x="403.5" y="169.5" width="99.5" height="100.5"/>
                                 <connections>
-                                    <action selector="fingerDown:" destination="BYZ-38-t0r" eventType="touchDown" id="GQT-di-RXW"/>
                                     <action selector="fingerUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Fpn-GT-lZX"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5Vu-c1-AVj" userLabel="Button4" customClass="Key" customModule="Simple_Synth" customModuleProvider="target">
                                 <rect key="frame" x="164" y="169" width="99.5" height="100.5"/>
                                 <connections>
-                                    <action selector="fingerDown:" destination="BYZ-38-t0r" eventType="touchDown" id="RAS-E7-jRI"/>
                                     <action selector="fingerUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fLI-D4-ZcS"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XaR-bX-5Js" customClass="Key" customModule="Simple_Synth" customModuleProvider="target">
                                 <rect key="frame" x="163" y="50" width="100" height="100"/>
                                 <connections>
-                                    <action selector="fingerDown:" destination="BYZ-38-t0r" eventType="touchDown" id="YFG-zl-t85"/>
                                     <action selector="fingerUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="zvI-13-Hz0"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2JY-Qn-7OD" userLabel="Button7" customClass="Key" customModule="Simple_Synth" customModuleProvider="target">
                                 <rect key="frame" x="164" y="290" width="99.5" height="100.5"/>
                                 <connections>
-                                    <action selector="fingerDown:" destination="BYZ-38-t0r" eventType="touchDown" id="FTe-B3-wWg"/>
                                     <action selector="fingerUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="SHq-LP-ltL"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TBd-IN-IV9" userLabel="Button8" customClass="Key" customModule="Simple_Synth" customModuleProvider="target">
                                 <rect key="frame" x="284" y="290" width="99.5" height="100.5"/>
                                 <connections>
-                                    <action selector="fingerDown:" destination="BYZ-38-t0r" eventType="touchDown" id="wd1-wy-X9a"/>
                                     <action selector="fingerUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="kw5-qu-Xis"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QM5-Lf-Tv0" userLabel="Button9" customClass="Key" customModule="Simple_Synth" customModuleProvider="target">
                                 <rect key="frame" x="404" y="290" width="99.5" height="100.5"/>
                                 <connections>
-                                    <action selector="fingerDown:" destination="BYZ-38-t0r" eventType="touchDown" id="ThC-pp-aMJ"/>
                                     <action selector="fingerUp:" destination="BYZ-38-t0r" eventType="touchUpInside" id="5xs-2y-cCo"/>
                                 </connections>
                             </button>

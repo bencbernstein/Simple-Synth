@@ -22,7 +22,8 @@ final class Conductor {
     let osc7 = AKOscillator()
     let osc8 = AKOscillator()
     let osc9 = AKOscillator()
-        
+    
+
     var tones = [AKAmplitudeEnvelope]()
     var oscillators = [AKOscillator]()
     
@@ -58,8 +59,12 @@ final class Conductor {
         osc9.frequency = baseFreq * 2 * 36/24
         
         oscillators = [osc1, osc2, osc3, osc4, osc5, osc6, osc7, osc8, osc9]
-        oscillators.forEach {$0.amplitude = 1; $0.rampTime = 0.1; $0.start() }
-        
+        oscillators.forEach {
+            $0.amplitude = 1
+            $0.rampTime = 0.1
+            $0.start()
+        }
+
         // wrap them in amplitude envelopes
         envelope1 = AKAmplitudeEnvelope(osc1)
         envelope2 = AKAmplitudeEnvelope(osc2)
@@ -84,8 +89,8 @@ final class Conductor {
         
 
         reverb = AKCostelloReverb(masterVolumeMixer)
-        reverb.cutoffFrequency = 300
-        reverb.feedback = 0.4
+        reverb.cutoffFrequency = 200
+        reverb.feedback = 0.5
         reverb.play()
         
         reverbMixer = AKDryWetMixer(masterVolumeMixer, reverb, balance: 0.5)

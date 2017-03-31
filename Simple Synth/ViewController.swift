@@ -10,19 +10,19 @@ import UIKit
 import AudioKit
 import AudioToolbox
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, KeyDelegate {
     
     let conductor = Conductor.sharedInstance
     
     @IBOutlet weak var button9: Key!
     @IBOutlet weak var button8: Key!
     @IBOutlet weak var button7: Key!
-    @IBOutlet weak var button6: UIButton!
-    @IBOutlet weak var button5: UIButton!
-    @IBOutlet weak var button4: UIButton!
-    @IBOutlet weak var button3: UIButton!
-    @IBOutlet weak var button2: UIButton!
-    @IBOutlet weak var button1: UIButton!
+    @IBOutlet weak var button6: Key!
+    @IBOutlet weak var button5: Key!
+    @IBOutlet weak var button4: Key!
+    @IBOutlet weak var button3: Key!
+    @IBOutlet weak var button2: Key!
+    @IBOutlet weak var button1: Key!
     
     @IBAction func fingerUp(_ sender: Key) {
         UIView.animate(withDuration: 0.05, animations: {
@@ -31,18 +31,15 @@ class ViewController: UIViewController {
         let tone = conductor.tones[sender.tag]
         tone.stop()
     }
-   
-    
-    @IBAction func fingerDown(_ sender: Key) {
-
+    func key(_ key: Key, didChangePressure: CGFloat) {
         UIView.animate(withDuration: 0.05, animations: {
-            sender.backgroundColor = UIColor.lightGray
+            key.backgroundColor = UIColor.lightGray
         })
-        let tone = conductor.tones[sender.tag]
-        let oscillator = conductor.oscillators[sender.tag]
+        let tone = conductor.tones[key.tag]
+        let oscillator = conductor.oscillators[key.tag]
         
-        oscillator.amplitude = 1
-            //Double(sender.currentPressure) * 1.3
+        oscillator.amplitude = Double(key.currentPressure) * 1.3
+        
         
         if oscillator.amplitude < 0.1 {
             oscillator.amplitude = 0.1
@@ -51,39 +48,35 @@ class ViewController: UIViewController {
         // delays, i.e. plays the LAST PRESSURE, FIX THIS
         print("osc amplitude", oscillator.amplitude)
         tone.play()
-
     }
-    
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor.black
-        makeSlider()
+        //makeSlider()
         setupButtons()
     }
     
+    
+
     //MARK: Button Setup
     func setupButtons() {
         let buttons = [button1, button2, button3, button4, button5, button6, button7,button8,button9]
+        var i = 0
         buttons.forEach {
             $0?.layer.cornerRadius = 20
             $0?.layer.borderWidth = 5
             $0?.layer.borderColor = UIColor.lightGray.cgColor
+            $0?.tag = i
+            i += 1
+            $0?.delegate = self
         }
         
-        button1.tag = 0
-        button2.tag = 1
-        button3.tag = 2
-        button4.tag = 3
-        button5.tag = 4
-        button6.tag = 5
-        button7.tag = 6
-        button8.tag = 7
-  
     }
     
 }
 
-//Make Slider
+//MARK: Slider
 extension ViewController {
     func makeSlider() {
         let slider = UISlider()

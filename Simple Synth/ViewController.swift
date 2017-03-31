@@ -31,35 +31,40 @@ class ViewController: UIViewController, KeyDelegate {
         let tone = conductor.tones[sender.tag]
         tone.stop()
     }
+    
+    
     func key(_ key: Key, didChangePressure: CGFloat) {
+        
         UIView.animate(withDuration: 0.05, animations: {
             key.backgroundColor = UIColor.lightGray
+            //key.backgroundColor = UIColor(red: 128, green: 128, blue: 128, alpha: 0.3)
         })
+        
         let tone = conductor.tones[key.tag]
         let oscillator = conductor.oscillators[key.tag]
         
-        oscillator.amplitude = Double(key.currentPressure) * 1.3
-        
+        oscillator.amplitude = Double(key.currentPressure)
         
         if oscillator.amplitude < 0.1 {
             oscillator.amplitude = 0.1
         }
+        if oscillator.amplitude > 1 {
+            oscillator.amplitude = 1
+        }
         
-        // delays, i.e. plays the LAST PRESSURE, FIX THIS
-        print("osc amplitude", oscillator.amplitude)
+        print("oscillator amplitude:", oscillator.amplitude)
         tone.play()
     }
    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor.black
         //makeSlider()
         setupButtons()
     }
-    
-    
+}
 
-    //MARK: Button Setup
+ //MARK: Button Setup
+extension ViewController {
     func setupButtons() {
         let buttons = [button1, button2, button3, button4, button5, button6, button7,button8,button9]
         var i = 0
@@ -68,8 +73,8 @@ class ViewController: UIViewController, KeyDelegate {
             $0?.layer.borderWidth = 5
             $0?.layer.borderColor = UIColor.lightGray.cgColor
             $0?.tag = i
-            i += 1
             $0?.delegate = self
+            i += 1
         }
         
     }

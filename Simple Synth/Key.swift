@@ -24,13 +24,13 @@ class Key: UIButton {
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         touches.forEach { currentPressure = $0.force/$0.maximumPossibleForce }
-        print(currentPressure)
+        print("pressure:", currentPressure)
 
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //currentPressure = 0
+        currentPressure = 0
         self.sendActions(for: UIControlEvents.touchUpInside)
     }
-     
+    
 }

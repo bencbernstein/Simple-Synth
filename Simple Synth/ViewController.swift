@@ -22,10 +22,13 @@ class ViewController: UIViewController, KeyDelegate {
     @IBOutlet weak var button2: Key!
     @IBOutlet weak var button1: Key!
     
+    let birdButton = UIButton()
+    let frogButton = UIButton()
+    
     //MARK: Synthesizer Methods
     @IBAction func fingerUp(_ key: Key) {
         keyUpAnimation(key: key)
-
+        
         let MIDINote = conductor.MIDINotes[key.tag]
         conductor.oscBank.stop(noteNumber: MIDINote)
     }
@@ -33,13 +36,13 @@ class ViewController: UIViewController, KeyDelegate {
     func keyHeld(_ key: Key, currentPressure: CGFloat) {
         keyDownAnimation(key: key, currentPressure: currentPressure)
         conductor.amplitude.sustainLevel = Double(currentPressure)
-
+        
     }
     
     func keyDown(_ key: Key) {
         let MIDINote = conductor.MIDINotes[key.tag]
         conductor.oscBank.play(noteNumber: MIDINote, velocity: 127)
-
+        
     }
     
 }
@@ -48,35 +51,64 @@ class ViewController: UIViewController, KeyDelegate {
 extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //makeSlider()
+        frogMode()
+        setupKeys()
         setupButtons()
     }
 }
 
 //MARK: Button Setup
 extension ViewController {
-    func setupButtons() {
-        let buttons = [button1, button2, button3, button4, button5, button6, button7, button8, button9]
+    func setupKeys() {
+        let keys = [button1, button2, button3, button4, button5, button6, button7, button8, button9]
         var i = 0
-        buttons.forEach {
+        keys.forEach {
             $0?.layer.cornerRadius = 20
             $0?.layer.borderWidth = 5
-            $0?.layer.borderColor = UIColor.lightGray.cgColor
+            $0?.layer.borderColor = UIColor.black.cgColor
             $0?.tag = i
             $0?.delegate = self
             i += 1
         }
         
     }
+    func setupButtons() {
+        let instrumentButtons = [birdButton, frogButton]
+        instrumentButtons.forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            self.view.addSubview($0)
+            $0.widthAnchor.constraint(equalTo: button1.widthAnchor, multiplier: 1).isActive = true
+            $0.heightAnchor.constraint(equalTo: button1.heightAnchor, multiplier: 1).isActive = true
+            $0.leftAnchor.constraint(equalTo: button3.rightAnchor, constant: 30).isActive = true
+        }
+        
+        birdButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
+        birdButton.addTarget(self, action: #selector(birdMode), for: .touchUpInside)
+        
+        frogButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -60).isActive = true
+        frogButton.addTarget(self, action: #selector(frogMode), for: .touchUpInside)
+    }
     
+    func frogMode() {
+        birdButton.setImage(#imageLiteral(resourceName: "Kiwi Bird-100"), for: .normal)
+        frogButton.setImage(#imageLiteral(resourceName: "Frog Filled-100"), for: .normal)
+        conductor.amplitude2.start()
+    }
+    
+    func birdMode() {
+        birdButton.setImage(#imageLiteral(resourceName: "Kiwi Bird Filled-100"), for: .normal)
+        frogButton.setImage(#imageLiteral(resourceName: "Frog-100"), for: .normal)
+        //conductor.oscBank = conductor.sineOscillators
+        
+        
+    }
 }
 
 //MARK: Key Animations
 extension ViewController {
     func keyDownAnimation(key: Key, currentPressure: CGFloat) {
         UIView.animate(withDuration: 0.05, animations: {
-            key.backgroundColor = UIColor.lightGray.withAlphaComponent(currentPressure * 1.2)
+            key.backgroundColor = UIColor.black.withAlphaComponent(currentPressure * 1.2)
         })
     }
     
@@ -85,7 +117,7 @@ extension ViewController {
             key.backgroundColor = UIColor.clear
         })
     }
- 
+    
     
 }
 

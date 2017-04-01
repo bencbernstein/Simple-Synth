@@ -23,21 +23,25 @@ class ViewController: UIViewController, KeyDelegate {
     @IBOutlet weak var button1: Key!
     
     //MARK: Synthesizer Methods
-    @IBAction func fingerUp(_ sender: Key) {
-        UIView.animate(withDuration: 0.05, animations: {
-            sender.backgroundColor = UIColor.clear
-        })
-        let tone = conductor.tones[sender.tag]
-        tone.stop()
+    @IBAction func fingerUp(_ key: Key) {
+        keyUpAnimation(key: key)
+
+        let MIDINote = conductor.MIDINotes[key.tag]
+        conductor.oscBank.stop(noteNumber: MIDINote)
     }
     
-    func key(_ key: Key, currentPressure: CGFloat) {
-        let tone = conductor.tones[key.tag]
-        let oscillator = conductor.oscillators[key.tag]
+    func keyHeld(_ key: Key, currentPressure: CGFloat) {
         keyDownAnimation(key: key, currentPressure: currentPressure)
-        oscillator.amplitude = Double(currentPressure)
-        tone.play()
+        conductor.amplitude.sustainLevel = Double(currentPressure)
+
     }
+    
+    func keyDown(_ key: Key) {
+        let MIDINote = conductor.MIDINotes[key.tag]
+        conductor.oscBank.play(noteNumber: MIDINote, velocity: 127)
+
+    }
+    
 }
 
 //MARK: UI
@@ -72,9 +76,17 @@ extension ViewController {
 extension ViewController {
     func keyDownAnimation(key: Key, currentPressure: CGFloat) {
         UIView.animate(withDuration: 0.05, animations: {
-            key.backgroundColor = UIColor.lightGray.withAlphaComponent(currentPressure)
+            key.backgroundColor = UIColor.lightGray.withAlphaComponent(currentPressure * 1.2)
         })
     }
+    
+    func keyUpAnimation(key: Key) {
+        UIView.animate(withDuration: 0.05, animations: {
+            key.backgroundColor = UIColor.clear
+        })
+    }
+ 
+    
 }
 
 //MARK: Slider

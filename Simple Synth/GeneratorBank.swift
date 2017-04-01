@@ -13,30 +13,53 @@ class GeneratorBank: AKPolyphonicNode {
     
     var osc1: AKOscillatorBank
     var osc2: AKOscillatorBank
+    var osc1EQ: AKEqualizerFilter
     
-    var osc1Mixer: AKMixer
-    var osc2Mixer: AKMixer
+    var frogMixer: AKMixer
+    var kiwiMixer: AKMixer
     
     var sourceMixer: AKMixer
+    var amplitude: AKAmplitudeEnvelope
     
     override init() {
         let  sine = AKTable(.sine)
         let square = AKTable(.square)
         
+        // kiwi
         osc1 = AKOscillatorBank(waveform: sine)
+        osc1.rampTime = 0.2
+        osc1.attackDuration = 0.1
+        osc1.decayDuration = 0.2
+        osc1.releaseDuration = 0.2
+        
+        osc1EQ = AKEqualizerFilter(osc1)
+        osc1EQ.centerFrequency = 3000
+        osc1EQ.gain = -30
+        
+        //frog
         osc2 = AKOscillatorBank(waveform: square)
+        osc2.rampTime = 0.2
+        osc2.attackDuration = 0.1
+        osc2.decayDuration = 0.2
+        osc2.releaseDuration = 0.2
         
-        osc1Mixer = AKMixer(osc1)
-        osc1Mixer.start()
-        osc2Mixer = AKMixer(osc2)
-        osc2Mixer.start()
+        kiwiMixer = AKMixer(osc1EQ)
+        kiwiMixer.start()
         
-        sourceMixer = AKMixer(osc1Mixer, osc2Mixer)
+        frogMixer = AKMixer(osc2)
+        frogMixer.start()
+        
+        sourceMixer = AKMixer(kiwiMixer, frogMixer)
         sourceMixer.start()
-        super.init()
         
-        //conncet it out i think?
-        avAudioNode = sourceMixer.avAudioNode
+        amplitude = AKAmplitudeEnvelope(sourceMixer)
+        amplitude.rampTime = 0.1
+        amplitude.start()
+       
+        super.init()
+
+        //connect to the top
+        avAudioNode = amplitude.avAudioNode
     }
     
     override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {

@@ -21,6 +21,9 @@ class Key: UIButton {
 
     var currentPressure: CGFloat = 0  {
         didSet {
+            if currentPressure < 0.2 {
+                currentPressure = 0.2
+            }
             delegate?.keyHeld(self, currentPressure: currentPressure)
         }
         
@@ -31,7 +34,6 @@ class Key: UIButton {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-   
         touches.forEach { currentPressure = $0.force/$0.maximumPossibleForce }
         
     }

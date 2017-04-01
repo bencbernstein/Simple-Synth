@@ -35,7 +35,7 @@ class ViewController: UIViewController, KeyDelegate {
     
     func keyHeld(_ key: Key, currentPressure: CGFloat) {
         keyDownAnimation(key: key, currentPressure: currentPressure)
-        conductor.core.sourceMixer.volume = Double(currentPressure)
+        conductor.core.amplitude.sustainLevel = Double(currentPressure)
     }
     
     func keyDown(_ key: Key) {
@@ -50,7 +50,7 @@ class ViewController: UIViewController, KeyDelegate {
 extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
-        frogMode()
+        kiwiMode()
         setupKeys()
         setupButtons()
     }
@@ -81,25 +81,25 @@ extension ViewController {
             $0.leftAnchor.constraint(equalTo: button3.rightAnchor, constant: 30).isActive = true
         }
         
-        birdButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
-        birdButton.addTarget(self, action: #selector(birdMode), for: .touchUpInside)
+        birdButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -60).isActive = true
+        birdButton.addTarget(self, action: #selector(kiwiMode), for: .touchUpInside)
         
-        frogButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -60).isActive = true
+        frogButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
         frogButton.addTarget(self, action: #selector(frogMode), for: .touchUpInside)
     }
     
     func frogMode() {
         birdButton.setImage(#imageLiteral(resourceName: "Kiwi Bird-100"), for: .normal)
         frogButton.setImage(#imageLiteral(resourceName: "Frog Filled-100"), for: .normal)
-        conductor.core.osc1Mixer.volume = 0
-        conductor.core.osc2Mixer.volume = 1
+        conductor.core.kiwiMixer.volume = 0
+        conductor.core.frogMixer.volume = 0.7
     }
     
-    func birdMode() {
+    func kiwiMode() {
         birdButton.setImage(#imageLiteral(resourceName: "Kiwi Bird Filled-100"), for: .normal)
         frogButton.setImage(#imageLiteral(resourceName: "Frog-100"), for: .normal)
-        conductor.core.osc1Mixer.volume = 1
-        conductor.core.osc2Mixer.volume = 0
+        conductor.core.kiwiMixer.volume = 1
+        conductor.core.frogMixer.volume = 0
         
         
         
@@ -110,7 +110,7 @@ extension ViewController {
 extension ViewController {
     func keyDownAnimation(key: Key, currentPressure: CGFloat) {
         UIView.animate(withDuration: 0.05, animations: {
-            key.backgroundColor = UIColor.black.withAlphaComponent(currentPressure * 1.2)
+            key.backgroundColor = UIColor.black.withAlphaComponent(currentPressure)
         })
     }
     

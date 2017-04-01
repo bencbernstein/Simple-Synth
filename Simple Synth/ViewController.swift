@@ -26,6 +26,8 @@ class ViewController: UIViewController, KeyDelegate {
     let frogButton = UIButton()
     let timeButton = UIButton()
     
+    var isDay: Bool = true
+    
     //MARK: Synthesizer Methods
     @IBAction func fingerUp(_ key: Key) {
         keyUpAnimation(key: key)
@@ -52,6 +54,7 @@ extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         kiwiMode()
+        toggleDayNight()
         setupKeys()
         setupButtons()
     }
@@ -79,14 +82,20 @@ extension ViewController {
             self.view.addSubview($0)
             $0.widthAnchor.constraint(equalTo: button1.widthAnchor, multiplier: 1).isActive = true
             $0.heightAnchor.constraint(equalTo: button1.heightAnchor, multiplier: 1).isActive = true
-            $0.leftAnchor.constraint(equalTo: button3.rightAnchor, constant: 30).isActive = true
+           
         }
         
+        birdButton.leftAnchor.constraint(equalTo: button3.rightAnchor, constant: 30).isActive = true
         birdButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -60).isActive = true
         birdButton.addTarget(self, action: #selector(kiwiMode), for: .touchUpInside)
         
+        frogButton.leftAnchor.constraint(equalTo: button3.rightAnchor, constant: 30).isActive = true
         frogButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
         frogButton.addTarget(self, action: #selector(frogMode), for: .touchUpInside)
+        
+        timeButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        timeButton.rightAnchor.constraint(equalTo: button4.leftAnchor, constant: -30).isActive = true
+        timeButton.addTarget(self, action: #selector(toggleDayNight), for: .touchUpInside)
     }
     
     func frogMode() {
@@ -101,9 +110,18 @@ extension ViewController {
         frogButton.setImage(#imageLiteral(resourceName: "Frog-100"), for: .normal)
         conductor.core.kiwiMixer.volume = 1
         conductor.core.frogMixer.volume = 0
-        
-        
-        
+    }
+    
+    func toggleDayNight() {
+        if isDay {
+            timeButton.setImage(#imageLiteral(resourceName: "Sun"), for: .normal)
+            conductor.MIDINotes = conductor.majorPentatonic
+            isDay = false
+        } else {
+            timeButton.setImage(#imageLiteral(resourceName: "Moon"), for: .normal)
+            conductor.MIDINotes = conductor.minorPentatonic
+            isDay = true
+        }
     }
 }
 

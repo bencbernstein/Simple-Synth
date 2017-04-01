@@ -14,20 +14,26 @@ final class Conductor: AKMIDIListener {
     
     var core = GeneratorBank()
     
-    let MIDINotes: [UInt8] = [69,71,73,76,78,81,83,85,88]
+    var MIDINotes: [UInt8]
     var reverb: AKReverb
     var finalMixer: AKDryWetMixer
+    
+    let minorPentatonic: [UInt8] = [69,72,74,76,79,81,84,86,88]
+    let majorPentatonic: [UInt8] = [69,71,73,76,78,81,83,85,88]
+    
     //var compressor: AKCompressor
     
     var masterVolumeMixer = AKMixer()
 
     private init () {
 
+        MIDINotes = majorPentatonic
+        
         reverb = AKReverb(core)
         reverb.loadFactoryPreset(.largeHall)
         reverb.play()
     
-        finalMixer = AKDryWetMixer(core, reverb, balance: 0.2)
+        finalMixer = AKDryWetMixer(core, reverb, balance: 0.4)
         
 //        compressor = AKCompressor(finalMixer)
 //        compressor.threshold = 0

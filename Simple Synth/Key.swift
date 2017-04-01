@@ -28,15 +28,12 @@ class Key: UIButton {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         delegate?.keyDown(self)
-
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
    
         touches.forEach { currentPressure = $0.force/$0.maximumPossibleForce }
         
-        print("currentpressure:", currentPressure)
-
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

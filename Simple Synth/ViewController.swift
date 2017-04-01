@@ -57,7 +57,7 @@ extension ViewController {
 //MARK: Button Setup
 extension ViewController {
     func setupButtons() {
-        let buttons = [button1, button2, button3, button4, button5, button6, button7,button8,button9]
+        let buttons = [button1, button2, button3, button4, button5, button6, button7, button8, button9]
         var i = 0
         buttons.forEach {
             $0?.layer.cornerRadius = 20
@@ -87,22 +87,5 @@ extension ViewController {
     }
  
     
-}
-
-//MARK: Slider
-extension ViewController {
-    func makeSlider() {
-        let slider = UISlider()
-        slider.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(slider)
-        slider.tintColor = UIColor.lightGray
-        
-        //slider.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi/2))
-        
-        slider.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
-        slider.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
-        slider.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.2).isActive = true
-        slider.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.1).isActive = true
-    }
 }
 

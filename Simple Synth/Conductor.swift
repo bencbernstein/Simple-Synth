@@ -26,9 +26,8 @@ final class Conductor {
 
     init () {
         oscBank.attackDuration = 0.1
-        oscBank.decayDuration = 0.3
-        oscBank.sustainLevel = 0.4
-        oscBank.releaseDuration = 0.3
+        oscBank.decayDuration = 0.1
+        oscBank.releaseDuration = 0.1
         oscBank.rampTime = 0.2
         
         amplitude = AKAmplitudeEnvelope(oscBank)
@@ -40,7 +39,7 @@ final class Conductor {
         reverb.play()
         
     
-        finalMixer = AKDryWetMixer(amplitude, reverb, balance: 0.6)
+        finalMixer = AKDryWetMixer(amplitude, reverb, balance: 0.5)
 
         AudioKit.output = finalMixer
         AudioKit.start()

@@ -17,25 +17,25 @@ final class Conductor: AKMIDIListener {
     let MIDINotes: [UInt8] = [69,71,73,76,78,81,83,85,88]
     var reverb: AKReverb
     var finalMixer: AKDryWetMixer
-    var compressor: AKCompressor
+    //var compressor: AKCompressor
     
     var masterVolumeMixer = AKMixer()
 
     private init () {
 
         reverb = AKReverb(core)
-        reverb.loadFactoryPreset(.mediumRoom)
+        reverb.loadFactoryPreset(.largeHall)
         reverb.play()
     
-        finalMixer = AKDryWetMixer(core, reverb, balance: 0.5)
+        finalMixer = AKDryWetMixer(core, reverb, balance: 0.2)
         
-        compressor = AKCompressor(finalMixer)
-        compressor.threshold = -10
-        compressor.headRoom = 5
-        compressor.attackTime = 0.01
-        compressor.masterGain = 5
+//        compressor = AKCompressor(finalMixer)
+//        compressor.threshold = 0
+//        compressor.attackTime = 1
+//        compressor.releaseTime = 2
+//        compressor.masterGain = 3
 
-        AudioKit.output = compressor
+        AudioKit.output = finalMixer
         AudioKit.start()
         
     }

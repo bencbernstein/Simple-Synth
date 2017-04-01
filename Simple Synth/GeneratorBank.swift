@@ -27,10 +27,10 @@ class GeneratorBank: AKPolyphonicNode {
         
         // kiwi
         osc1 = AKOscillatorBank(waveform: sine)
-        osc1.rampTime = 0.2
+        osc1.rampTime = 0.1
         osc1.attackDuration = 0.1
-        osc1.decayDuration = 0.2
-        osc1.releaseDuration = 0.2
+        osc1.decayDuration = 0.1
+        osc1.releaseDuration = 0.01
         
         osc1EQ = AKEqualizerFilter(osc1)
         osc1EQ.centerFrequency = 3000
@@ -38,7 +38,7 @@ class GeneratorBank: AKPolyphonicNode {
         
         //frog
         osc2 = AKOscillatorBank(waveform: square)
-        osc2.rampTime = 0.2
+        osc2.rampTime = 0.1
         osc2.attackDuration = 0.1
         osc2.decayDuration = 0.2
         osc2.releaseDuration = 0.2

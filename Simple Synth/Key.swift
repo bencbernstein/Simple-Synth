@@ -10,13 +10,16 @@ import Foundation
 import UIKit
 
 protocol KeyDelegate: class {
-    func key(_ key: Key, didChangePressure: CGFloat)
+    func key(_ key: Key, currentPressure: CGFloat)
 }
 
 class Key: UIButton {
     var currentPressure: CGFloat = 0 {
         didSet {
-            delegate?.key(self, didChangePressure: currentPressure)
+            if currentPressure < 0.3 {
+                currentPressure = 0.3
+            }
+            delegate?.key(self, currentPressure: currentPressure)
         }
         
     }
@@ -29,7 +32,7 @@ class Key: UIButton {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        currentPressure = 0
+        currentPressure = 0.1
         self.sendActions(for: UIControlEvents.touchUpInside)
     }
     

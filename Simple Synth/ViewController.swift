@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import AudioKit
-import AudioToolbox
 
 class ViewController: UIViewController, KeyDelegate {
     
@@ -24,6 +22,7 @@ class ViewController: UIViewController, KeyDelegate {
     @IBOutlet weak var button2: Key!
     @IBOutlet weak var button1: Key!
     
+    //MARK: Synthesizer Methods
     @IBAction func fingerUp(_ sender: Key) {
         UIView.animate(withDuration: 0.05, animations: {
             sender.backgroundColor = UIColor.clear
@@ -32,38 +31,26 @@ class ViewController: UIViewController, KeyDelegate {
         tone.stop()
     }
     
-    
-    func key(_ key: Key, didChangePressure: CGFloat) {
-        
-        UIView.animate(withDuration: 0.05, animations: {
-            key.backgroundColor = UIColor.lightGray
-            //key.backgroundColor = UIColor(red: 128, green: 128, blue: 128, alpha: 0.3)
-        })
-        
+    func key(_ key: Key, currentPressure: CGFloat) {
         let tone = conductor.tones[key.tag]
         let oscillator = conductor.oscillators[key.tag]
-        
-        oscillator.amplitude = Double(key.currentPressure)
-        
-        if oscillator.amplitude < 0.1 {
-            oscillator.amplitude = 0.1
-        }
-        if oscillator.amplitude > 1 {
-            oscillator.amplitude = 1
-        }
-        
-        print("oscillator amplitude:", oscillator.amplitude)
+        keyDownAnimation(key: key, currentPressure: currentPressure)
+        oscillator.amplitude = Double(currentPressure)
         tone.play()
     }
-   
+}
+
+//MARK: UI
+extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         //makeSlider()
         setupButtons()
     }
 }
 
- //MARK: Button Setup
+//MARK: Button Setup
 extension ViewController {
     func setupButtons() {
         let buttons = [button1, button2, button3, button4, button5, button6, button7,button8,button9]
@@ -79,6 +66,15 @@ extension ViewController {
         
     }
     
+}
+
+//MARK: Key Animations
+extension ViewController {
+    func keyDownAnimation(key: Key, currentPressure: CGFloat) {
+        UIView.animate(withDuration: 0.05, animations: {
+            key.backgroundColor = UIColor.lightGray.withAlphaComponent(currentPressure)
+        })
+    }
 }
 
 //MARK: Slider

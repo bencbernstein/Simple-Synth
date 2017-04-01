@@ -24,6 +24,7 @@ class ViewController: UIViewController, KeyDelegate {
     
     let birdButton = UIButton()
     let frogButton = UIButton()
+    let timeButton = UIButton()
     
     //MARK: Synthesizer Methods
     @IBAction func fingerUp(_ key: Key) {
@@ -72,7 +73,7 @@ extension ViewController {
         
     }
     func setupButtons() {
-        let instrumentButtons = [birdButton, frogButton]
+        let instrumentButtons = [birdButton, frogButton, timeButton]
         instrumentButtons.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview($0)

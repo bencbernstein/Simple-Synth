@@ -22,13 +22,14 @@ class GeneratorBank: AKPolyphonicNode {
     var amplitude: AKAmplitudeEnvelope
     
     override init() {
-        let  sine = AKTable(.sine)
+        let sine = AKTable(.sine)
         let square = AKTable(.square)
         
         // kiwi
         osc1 = AKOscillatorBank(waveform: sine)
         osc1.rampTime = 0.1
         osc1.attackDuration = 0.1
+        osc1.sustainLevel = 0.8
         osc1.decayDuration = 0.1
         osc1.releaseDuration = 0.01
         
@@ -40,6 +41,7 @@ class GeneratorBank: AKPolyphonicNode {
         osc2 = AKOscillatorBank(waveform: square)
         osc2.rampTime = 0.1
         osc2.attackDuration = 0.1
+        osc2.sustainLevel = 0.8
         osc2.decayDuration = 0.2
         osc2.releaseDuration = 0.2
         

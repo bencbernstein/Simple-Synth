@@ -30,18 +30,17 @@ class ViewController: UIViewController, KeyDelegate {
         keyUpAnimation(key: key)
         
         let MIDINote = conductor.MIDINotes[key.tag]
-        conductor.oscBank.stop(noteNumber: MIDINote)
+        conductor.core.stop(noteNumber: MIDINote)
     }
     
     func keyHeld(_ key: Key, currentPressure: CGFloat) {
         keyDownAnimation(key: key, currentPressure: currentPressure)
-        conductor.amplitude.sustainLevel = Double(currentPressure)
-        
+        conductor.core.sourceMixer.volume = Double(currentPressure)
     }
     
     func keyDown(_ key: Key) {
         let MIDINote = conductor.MIDINotes[key.tag]
-        conductor.oscBank.play(noteNumber: MIDINote, velocity: 127)
+        conductor.core.play(noteNumber: MIDINote, velocity: 127)
         
     }
     
@@ -92,13 +91,16 @@ extension ViewController {
     func frogMode() {
         birdButton.setImage(#imageLiteral(resourceName: "Kiwi Bird-100"), for: .normal)
         frogButton.setImage(#imageLiteral(resourceName: "Frog Filled-100"), for: .normal)
-        conductor.amplitude2.start()
+        conductor.core.osc1Mixer.volume = 0
+        conductor.core.osc2Mixer.volume = 1
     }
     
     func birdMode() {
         birdButton.setImage(#imageLiteral(resourceName: "Kiwi Bird Filled-100"), for: .normal)
         frogButton.setImage(#imageLiteral(resourceName: "Frog-100"), for: .normal)
-        //conductor.oscBank = conductor.sineOscillators
+        conductor.core.osc1Mixer.volume = 1
+        conductor.core.osc2Mixer.volume = 0
+        
         
         
     }

@@ -25,6 +25,9 @@ class ViewController: UIViewController, KeyDelegate {
     let birdButton = UIButton()
     let frogButton = UIButton()
     let hornetButton = UIButton()
+    
+    let delayButton = UIButton()
+    
     let timeButton = UIButton()
     
     var isDay: Bool = true
@@ -69,7 +72,7 @@ extension ViewController {
             $0?.layer.cornerRadius = 20
             $0?.layer.borderWidth = 5
             $0?.layer.borderColor = UIColor.black.cgColor
-                //UIColor.colors[i].withAlphaComponent(0.5).cgColor
+            //UIColor.colors[i].withAlphaComponent(0.5).cgColor
             $0?.tag = i
             $0?.delegate = self
             i += 1
@@ -97,7 +100,16 @@ extension ViewController {
         hornetButton.centerYAnchor.constraint(equalTo: button9.centerYAnchor).isActive = true
         hornetButton.addTarget(self, action: #selector(hornetMode), for: .touchUpInside)
         
-        timeButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        delayButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(delayButton)
+        delayButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -60).isActive = true
+        delayButton.widthAnchor.constraint(equalTo: button1.widthAnchor, multiplier: 0.9).isActive = true
+        delayButton.heightAnchor.constraint(equalTo: button1.heightAnchor, multiplier: 0.9).isActive = true
+        delayButton.rightAnchor.constraint(equalTo: button1.leftAnchor, constant: -30).isActive = true
+        delayButton.setImage(#imageLiteral(resourceName: "CLOCK-NO"), for: .normal)
+        delayButton.addTarget(self, action: #selector(nextDelayMode), for: .touchUpInside)
+
+        timeButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
         timeButton.rightAnchor.constraint(equalTo: button4.leftAnchor, constant: -30).isActive = true
         timeButton.addTarget(self, action: #selector(toggleDayNight), for: .touchUpInside)
     }
@@ -118,7 +130,7 @@ extension ViewController {
         conductor.core.kiwiMixer.volume = 1.4
         conductor.core.frogMixer.volume = 0
         conductor.core.hornetMixer.volume = 0
-
+        
     }
     
     func hornetMode() {
@@ -128,6 +140,25 @@ extension ViewController {
         conductor.core.kiwiMixer.volume = 0
         conductor.core.frogMixer.volume = 0
         conductor.core.hornetMixer.volume = 0.8
+        
+    }
+    
+    func nextDelayMode() {
+        if conductor.delay.isBypassed {
+            conductor.delay.time = conductor.shortDelay
+            conductor.delay.start()
+            delayButton.setImage(#imageLiteral(resourceName: "CLOCK-SHORT"), for: .normal)
+        } else if conductor.delay.time == conductor.shortDelay {
+            conductor.delay.time = conductor.mediumDelay
+            delayButton.setImage(#imageLiteral(resourceName: "CLOCK-MEDIUM"), for: .normal)
+        } else if conductor.delay.time == conductor.mediumDelay {
+            conductor.delay.time = conductor.longDelay
+            delayButton.setImage(#imageLiteral(resourceName: "CLOCK-LONG"), for: .normal)
+        }
+        else if conductor.delay.time == conductor.longDelay {
+            conductor.delay.bypass()
+            delayButton.setImage(#imageLiteral(resourceName: "CLOCK-NO"), for: .normal)
+        }
 
     }
     
@@ -149,7 +180,7 @@ extension ViewController {
     func keyDownAnimation(key: Key, currentPressure: CGFloat) {
         UIView.animate(withDuration: 0.05, animations: {
             key.backgroundColor = UIColor.black.withAlphaComponent(currentPressure)
-                //UIColor.colors[key.tag].withAlphaComponent(currentPressure)
+            //UIColor.colors[key.tag].withAlphaComponent(currentPressure)
         })
     }
     

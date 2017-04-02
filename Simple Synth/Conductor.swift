@@ -15,39 +15,39 @@ final class Conductor: AKMIDIListener {
     var core = GeneratorBank()
     
     var MIDINotes: [UInt8]
-    var reverb: AKReverb
-    var finalMixer: AKDryWetMixer
-    
     let minorPentatonic: [UInt8] = [69,72,74,76,79,81,84,86,88]
     let majorPentatonic: [UInt8] = [69,71,73,76,78,81,83,85,88]
     
-    //var compressor: AKCompressor
+    var reverb: AKReverb
+    var delay: AKDelay
     
-    var masterVolumeMixer = AKMixer()
-
+    let shortDelay = 0.3
+    let mediumDelay = 0.6
+    let longDelay = 1.2
+    
+    var finalMixer: AKDryWetMixer
+    
     private init () {
 
         MIDINotes = majorPentatonic
         
+        delay = AKDelay(core)
+        delay.feedback = 0.8
+        delay.time = shortDelay
+        delay.bypass()
+        
         reverb = AKReverb(core)
         reverb.loadFactoryPreset(.largeHall)
         reverb.play()
-    
-        finalMixer = AKDryWetMixer(core, reverb, balance: 0.4)
         
-//        compressor = AKCompressor(finalMixer)
-//        compressor.threshold = 0
-//        compressor.attackTime = 1
-//        compressor.releaseTime = 2
-//        compressor.masterGain = 3
-
+        finalMixer = AKDryWetMixer(delay, reverb, balance: 0.4)
+        
         AudioKit.output = finalMixer
         AudioKit.start()
         
     }
     
     func receivedMIDINoteOn(noteNumber: MIDINoteNumber, velocity: MIDIVelocity, channel: MIDIChannel) {
-        print("received midi in conductor")
         core.play(noteNumber: noteNumber, velocity: velocity)
     }
     

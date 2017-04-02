@@ -61,7 +61,6 @@ class GeneratorBank: AKPolyphonicNode {
         hornetMixer.start()
         
         sourceMixer = AKMixer(kiwiMixer, frogMixer, hornetMixer)
-        sourceMixer.volume = 1
         sourceMixer.start()
         
         amplitude = AKAmplitudeEnvelope(sourceMixer)

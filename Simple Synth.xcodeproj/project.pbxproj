@@ -392,7 +392,7 @@
 				DEVELOPMENT_TEAM = SRFS2YY3XR;
 				INFOPLIST_FILE = "Simple Synth/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.burningflowers.;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simplesynth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
@@ -409,7 +409,7 @@
 				DEVELOPMENT_TEAM = SRFS2YY3XR;
 				INFOPLIST_FILE = "Simple Synth/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.burningflowers.;
+				PRODUCT_BUNDLE_IDENTIFIER = com.simplesynth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;

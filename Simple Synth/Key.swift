@@ -21,8 +21,8 @@ class Key: UIButton {
 
     var currentPressure: CGFloat = 0  {
         didSet {
-            if currentPressure < 0.2 {
-                currentPressure = 0.2
+            if currentPressure < 0.1 {
+                currentPressure = 0.1
             }
             delegate?.keyHeld(self, currentPressure: currentPressure)
         }

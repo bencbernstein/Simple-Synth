@@ -9,21 +9,24 @@
 import UIKit
 
 enum Palette {
-    case gray, lightGray, lightBlue, darkGrey, blue, pink
+    case purple, blue, green, yellow, orange, red
     
     var color: UIColor {
         switch self {
-        case .gray: return UIColor(hex: 0x3F3F3F)
-        case .lightGray: return UIColor(hex: 0xABABAB)
-        case .blue: return UIColor(hex: 0xC0EBFC)
-        case .lightBlue: return UIColor(hex: 0xc0ebfc)
-        case .darkGrey: return UIColor(hex: 0x8d8d8d)
-        case .pink: return UIColor(hex: 0xFCC2C2)
+        case .purple: return UIColor(hex: 0x4B0082)
+        case .blue: return UIColor(hex: 0x0000FF)
+        case .green: return UIColor(hex: 0x00FF00)
+        case .yellow: return UIColor(hex: 0xFFFF00)
+        case .orange: return UIColor(hex: 0xFF7F00)
+        case .red: return UIColor(hex: 0xFF0000)
         }
     }
+
 }
 
 extension UIColor {
+    
+    static let colors = [Palette.purple.color, Palette.blue.color, Palette.green.color, Palette.yellow.color, Palette.orange.color, Palette.red.color, Palette.purple.color, Palette.blue.color, Palette.green.color ]
     
     convenience init(hex: Int) {
         let components = (

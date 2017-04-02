@@ -24,6 +24,7 @@ class ViewController: UIViewController, KeyDelegate {
     
     let birdButton = UIButton()
     let frogButton = UIButton()
+    let hornetButton = UIButton()
     let timeButton = UIButton()
     
     var isDay: Bool = true
@@ -31,7 +32,6 @@ class ViewController: UIViewController, KeyDelegate {
     //MARK: Synthesizer Methods
     @IBAction func fingerUp(_ key: Key) {
         keyUpAnimation(key: key)
-        
         let MIDINote = conductor.MIDINotes[key.tag]
         conductor.core.stop(noteNumber: MIDINote)
     }
@@ -69,6 +69,7 @@ extension ViewController {
             $0?.layer.cornerRadius = 20
             $0?.layer.borderWidth = 5
             $0?.layer.borderColor = UIColor.black.cgColor
+                //UIColor.colors[i].withAlphaComponent(0.5).cgColor
             $0?.tag = i
             $0?.delegate = self
             i += 1
@@ -76,22 +77,25 @@ extension ViewController {
         
     }
     func setupButtons() {
-        let instrumentButtons = [birdButton, frogButton, timeButton]
+        let instrumentButtons = [birdButton, frogButton, hornetButton, timeButton]
         instrumentButtons.forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
             self.view.addSubview($0)
             $0.widthAnchor.constraint(equalTo: button1.widthAnchor, multiplier: 1).isActive = true
             $0.heightAnchor.constraint(equalTo: button1.heightAnchor, multiplier: 1).isActive = true
-           
         }
         
         birdButton.leftAnchor.constraint(equalTo: button3.rightAnchor, constant: 30).isActive = true
-        birdButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -60).isActive = true
+        birdButton.centerYAnchor.constraint(equalTo: button3.centerYAnchor).isActive = true
         birdButton.addTarget(self, action: #selector(kiwiMode), for: .touchUpInside)
         
         frogButton.leftAnchor.constraint(equalTo: button3.rightAnchor, constant: 30).isActive = true
-        frogButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
+        frogButton.centerYAnchor.constraint(equalTo: button6.centerYAnchor).isActive = true
         frogButton.addTarget(self, action: #selector(frogMode), for: .touchUpInside)
+        
+        hornetButton.leftAnchor.constraint(equalTo: button3.rightAnchor, constant: 30).isActive = true
+        hornetButton.centerYAnchor.constraint(equalTo: button9.centerYAnchor).isActive = true
+        hornetButton.addTarget(self, action: #selector(hornetMode), for: .touchUpInside)
         
         timeButton.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         timeButton.rightAnchor.constraint(equalTo: button4.leftAnchor, constant: -30).isActive = true
@@ -99,17 +103,32 @@ extension ViewController {
     }
     
     func frogMode() {
-        birdButton.setImage(#imageLiteral(resourceName: "Kiwi Bird-100"), for: .normal)
+        birdButton.setImage(#imageLiteral(resourceName: "Hummingbird-100"), for: .normal)
         frogButton.setImage(#imageLiteral(resourceName: "Frog Filled-100"), for: .normal)
+        hornetButton.setImage(#imageLiteral(resourceName: "Hornet-100"), for: .normal)
         conductor.core.kiwiMixer.volume = 0
-        conductor.core.frogMixer.volume = 0.7
+        conductor.core.frogMixer.volume = 1.3
+        conductor.core.hornetMixer.volume = 0
     }
     
     func kiwiMode() {
-        birdButton.setImage(#imageLiteral(resourceName: "Kiwi Bird Filled-100"), for: .normal)
+        birdButton.setImage(#imageLiteral(resourceName: "Hummingbird Filled-100"), for: .normal)
         frogButton.setImage(#imageLiteral(resourceName: "Frog-100"), for: .normal)
-        conductor.core.kiwiMixer.volume = 1
+        hornetButton.setImage(#imageLiteral(resourceName: "Hornet-100"), for: .normal)
+        conductor.core.kiwiMixer.volume = 1.4
         conductor.core.frogMixer.volume = 0
+        conductor.core.hornetMixer.volume = 0
+
+    }
+    
+    func hornetMode() {
+        birdButton.setImage(#imageLiteral(resourceName: "Hummingbird-100"), for: .normal)
+        frogButton.setImage(#imageLiteral(resourceName: "Frog-100"), for: .normal)
+        hornetButton.setImage(#imageLiteral(resourceName: "Hornet Filled-100"), for: .normal)
+        conductor.core.kiwiMixer.volume = 0
+        conductor.core.frogMixer.volume = 0
+        conductor.core.hornetMixer.volume = 0.8
+
     }
     
     func toggleDayNight() {
@@ -130,6 +149,7 @@ extension ViewController {
     func keyDownAnimation(key: Key, currentPressure: CGFloat) {
         UIView.animate(withDuration: 0.05, animations: {
             key.backgroundColor = UIColor.black.withAlphaComponent(currentPressure)
+                //UIColor.colors[key.tag].withAlphaComponent(currentPressure)
         })
     }
     

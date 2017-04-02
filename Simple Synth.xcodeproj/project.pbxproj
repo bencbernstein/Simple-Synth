@@ -70,7 +70,7 @@
 		B51E7A0F1E8C96040064848B /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				B57334851E906AC4008CEAC0 /* fonts */,
+				B57334851E906AC4008CEAC0 /* Fonts */,
 				B51E7A101E8C96140064848B /* Colors.swift */,
 			);
 			name = Library;
@@ -84,12 +84,12 @@
 			name = Components;
 			sourceTree = "<group>";
 		};
-		B57334851E906AC4008CEAC0 /* fonts */ = {
+		B57334851E906AC4008CEAC0 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
 				B57334861E906ACB008CEAC0 /* Pacifico-Regular.ttf */,
 			);
-			name = fonts;
+			name = Fonts;
 			path = ..;
 			sourceTree = "<group>";
 		};

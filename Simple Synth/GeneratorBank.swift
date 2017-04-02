@@ -13,16 +13,18 @@ class GeneratorBank: AKPolyphonicNode {
     
     var osc1: AKOscillatorBank
     var osc2: AKOscillatorBank
-    var osc1EQ: AKEqualizerFilter
+    var osc3: AKOscillatorBank
     
     var frogMixer: AKMixer
     var kiwiMixer: AKMixer
+    var hornetMixer: AKMixer
     
     var sourceMixer: AKMixer
     var amplitude: AKAmplitudeEnvelope
     
     override init() {
         let sine = AKTable(.sine)
+        let triangle = AKTable(.triangle)
         let square = AKTable(.square)
         
         // kiwi
@@ -33,25 +35,33 @@ class GeneratorBank: AKPolyphonicNode {
         osc1.decayDuration = 0.1
         osc1.releaseDuration = 0.01
         
-        osc1EQ = AKEqualizerFilter(osc1)
-        osc1EQ.centerFrequency = 3000
-        osc1EQ.gain = -30
-        
         //frog
-        osc2 = AKOscillatorBank(waveform: square)
+        osc2 = AKOscillatorBank(waveform: triangle)
         osc2.rampTime = 0.1
         osc2.attackDuration = 0.1
         osc2.sustainLevel = 0.8
-        osc2.decayDuration = 0.2
-        osc2.releaseDuration = 0.2
+        osc2.decayDuration = 0.1
+        osc2.releaseDuration = 0.01
         
-        kiwiMixer = AKMixer(osc1EQ)
+        //hornet
+        osc3 = AKOscillatorBank(waveform: square)
+        osc3.rampTime = 0.1
+        osc3.attackDuration = 0.1
+        osc3.sustainLevel = 0.8
+        osc3.decayDuration = 0.1
+        osc3.releaseDuration = 0.01
+        
+        kiwiMixer = AKMixer(osc1)
         kiwiMixer.start()
         
         frogMixer = AKMixer(osc2)
         frogMixer.start()
         
-        sourceMixer = AKMixer(kiwiMixer, frogMixer)
+        hornetMixer = AKMixer(osc3)
+        hornetMixer.start()
+        
+        sourceMixer = AKMixer(kiwiMixer, frogMixer, hornetMixer)
+        sourceMixer.volume = 1
         sourceMixer.start()
         
         amplitude = AKAmplitudeEnvelope(sourceMixer)
@@ -67,11 +77,15 @@ class GeneratorBank: AKPolyphonicNode {
     override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
         osc1.play(noteNumber: noteNumber, velocity: velocity)
         osc2.play(noteNumber: noteNumber, velocity: velocity)
+        osc3.play(noteNumber: noteNumber, velocity: velocity)
+
     }
     
     override func stop(noteNumber: MIDINoteNumber) {
         osc1.stop(noteNumber: noteNumber)
         osc2.stop(noteNumber: noteNumber)
+        osc3.stop(noteNumber: noteNumber)
+
     }
     
 }

@@ -119,7 +119,7 @@ extension ViewController {
         frogButton.setImage(#imageLiteral(resourceName: "Frog Filled-100"), for: .normal)
         hornetButton.setImage(#imageLiteral(resourceName: "Hornet-100"), for: .normal)
         conductor.core.kiwiMixer.volume = 0
-        conductor.core.frogMixer.volume = 1.3
+        conductor.core.frogMixer.volume = 1.5
         conductor.core.hornetMixer.volume = 0
     }
     
@@ -127,7 +127,7 @@ extension ViewController {
         birdButton.setImage(#imageLiteral(resourceName: "Hummingbird Filled-100"), for: .normal)
         frogButton.setImage(#imageLiteral(resourceName: "Frog-100"), for: .normal)
         hornetButton.setImage(#imageLiteral(resourceName: "Hornet-100"), for: .normal)
-        conductor.core.kiwiMixer.volume = 1.4
+        conductor.core.kiwiMixer.volume = 1.5
         conductor.core.frogMixer.volume = 0
         conductor.core.hornetMixer.volume = 0
         

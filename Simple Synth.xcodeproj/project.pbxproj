@@ -25,6 +25,7 @@
 		B51E7A101E8C96140064848B /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B51E7A131E8CA0180064848B /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		B57334861E906ACB008CEAC0 /* Pacifico-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pacifico-Regular.ttf"; sourceTree = "<group>"; };
+		B57334881E91DA8C008CEAC0 /* Simple_Synth.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; name = Simple_Synth.mobileprovision; path = "Simple Synth/Simple_Synth.mobileprovision"; sourceTree = "<group>"; };
 		B57ECC401E8B38370087AAF1 /* Simple Synth.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Simple Synth.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B57ECC431E8B38370087AAF1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B57ECC451E8B38370087AAF1 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +54,7 @@
 		1D1AA3DFEEB0A10D08ABE766 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B57334881E91DA8C008CEAC0 /* Simple_Synth.mobileprovision */,
 				F2D365B321DF67CB891E1AB3 /* Pods_Simple_Synth.framework */,
 			);
 			name = Frameworks;
@@ -149,6 +151,7 @@
 				B57ECC3E1E8B38370087AAF1 /* Resources */,
 				19DAF1FEE112D79DAC4D7744 /* [CP] Embed Pods Frameworks */,
 				494BE8BF04B62DC4A3ECA787 /* [CP] Copy Pods Resources */,
+				B57334951E91DE7E008CEAC0 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -238,6 +241,19 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Simple Synth/Pods-Simple Synth-resources.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		B57334951E91DE7E008CEAC0 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"$BUILT_PRODUCTS_DIR/$FRAMEWORKS_FOLDER_PATH/AudioKit.framework/fix-framework.sh\"";
 		};
 		CB7C24A776299113B979AE48 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -377,6 +393,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
@@ -391,9 +408,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = SRFS2YY3XR;
 				INFOPLIST_FILE = "Simple Synth/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.simplesynth;
+				PRODUCT_BUNDLE_IDENTIFIER = com.burningflowe.rs.simplesynth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -408,9 +427,11 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = SRFS2YY3XR;
 				INFOPLIST_FILE = "Simple Synth/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.simplesynth;
+				PRODUCT_BUNDLE_IDENTIFIER = com.burningflowe.rs.simplesynth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;

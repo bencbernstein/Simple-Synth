@@ -32,7 +32,7 @@ class GeneratorBank: AKPolyphonicNode {
         osc1.rampTime = 0.1
         osc1.attackDuration = 0.1
         osc1.sustainLevel = 0.8
-        osc1.decayDuration = 0.1
+        osc1.decayDuration = 0.01
         osc1.releaseDuration = 0.01
         
         //frog
@@ -40,7 +40,7 @@ class GeneratorBank: AKPolyphonicNode {
         osc2.rampTime = 0.1
         osc2.attackDuration = 0.1
         osc2.sustainLevel = 0.8
-        osc2.decayDuration = 0.1
+        osc2.decayDuration = 0.01
         osc2.releaseDuration = 0.01
         
         //hornet
@@ -48,7 +48,7 @@ class GeneratorBank: AKPolyphonicNode {
         osc3.rampTime = 0.1
         osc3.attackDuration = 0.1
         osc3.sustainLevel = 0.8
-        osc3.decayDuration = 0.1
+        osc3.decayDuration = 0.01
         osc3.releaseDuration = 0.01
         
         kiwiMixer = AKMixer(osc1)

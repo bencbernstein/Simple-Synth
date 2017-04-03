@@ -34,6 +34,7 @@ final class Conductor: AKMIDIListener {
         delay = AKDelay(core)
         delay.feedback = 0.8
         delay.time = shortDelay
+        delay.dryWetMix = 0.3
         delay.bypass()
         
         reverb = AKReverb(core)

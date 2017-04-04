@@ -44,6 +44,8 @@ final class Conductor: AKMIDIListener {
         finalMixer = AKDryWetMixer(delay, reverb, balance: 0.4)
         
         AudioKit.output = finalMixer
+        AKSettings.defaultToSpeaker = true
+        AKSettings.playbackWhileMuted = true
         AudioKit.start()
         
     }

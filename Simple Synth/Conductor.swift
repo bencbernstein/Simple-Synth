@@ -21,9 +21,9 @@ final class Conductor: AKMIDIListener {
     var reverb: AKReverb
     var delay: AKDelay
     
-    let shortDelay = 0.3
-    let mediumDelay = 0.6
-    let longDelay = 1.2
+    let shortDelay = 0.15
+    let mediumDelay = 0.3
+    let longDelay = 0.6
     
     var finalMixer: AKDryWetMixer
     
@@ -44,8 +44,10 @@ final class Conductor: AKMIDIListener {
         finalMixer = AKDryWetMixer(delay, reverb, balance: 0.4)
         
         AudioKit.output = finalMixer
-        AKSettings.defaultToSpeaker = true
+        //AKSettings.defaultToSpeaker = true
         AKSettings.playbackWhileMuted = true
+        try? AKSettings.setSession(category: .playback)
+        try? AKSettings.session.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
         AudioKit.start()
         
     }

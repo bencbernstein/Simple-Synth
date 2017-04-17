@@ -12,7 +12,6 @@ import UIKit
 protocol KeyDelegate: class {
     func keyDown(_ key: Key)
     func keyHeld(_ key: Key, currentPressure: CGFloat)
-    
 }
 
 class Key: UIButton {
@@ -23,6 +22,8 @@ class Key: UIButton {
         didSet {
             if currentPressure < 0.2 {
                 currentPressure = 0.2
+            } else if currentPressure.isNaN {
+                currentPressure = 1
             }
             delegate?.keyHeld(self, currentPressure: currentPressure)
         }

@@ -32,6 +32,8 @@ class ViewController: UIViewController, KeyDelegate {
     
     var isDay: Bool = true
     
+    var is3DTouchAvailable = false
+    
     //MARK: Synthesizer Methods
     @IBAction func fingerUp(_ key: Key) {
         keyUpAnimation(key: key)
@@ -41,7 +43,7 @@ class ViewController: UIViewController, KeyDelegate {
     
     func keyHeld(_ key: Key, currentPressure: CGFloat) {
         keyDownAnimation(key: key, currentPressure: currentPressure)
-        conductor.core.amplitude.sustainLevel = Double(currentPressure)
+        if is3DTouchAvailable { conductor.core.amplitude.sustainLevel = Double(currentPressure) }
     }
     
     func keyDown(_ key: Key) {
@@ -56,6 +58,7 @@ class ViewController: UIViewController, KeyDelegate {
 extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        is3DTouchAvailable = self.traitCollection.forceTouchCapability == UIForceTouchCapability.available
         kiwiMode()
         toggleDayNight()
         setupKeys()

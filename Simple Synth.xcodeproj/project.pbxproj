@@ -15,6 +15,7 @@
 		B57ECC491E8B38370087AAF1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57ECC471E8B38370087AAF1 /* Main.storyboard */; };
 		B57ECC4B1E8B38370087AAF1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B57ECC4A1E8B38370087AAF1 /* Assets.xcassets */; };
 		B57ECC4E1E8B38370087AAF1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57ECC4C1E8B38370087AAF1 /* LaunchScreen.storyboard */; };
+		B5A07A7D1EA6B9D500DCB2B9 /* AudioPlot.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A07A7C1EA6B9D500DCB2B9 /* AudioPlot.swift */; };
 		B5A908491E8FFF5000A20505 /* GeneratorBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A908481E8FFF5000A20505 /* GeneratorBank.swift */; };
 		B5D255C61E8C2C9E0079CB0E /* Conductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D255C51E8C2C9E0079CB0E /* Conductor.swift */; };
 		C0B89A62E8EA1B7CA546030B /* Pods_Simple_Synth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D365B321DF67CB891E1AB3 /* Pods_Simple_Synth.framework */; };
@@ -33,6 +34,7 @@
 		B57ECC4A1E8B38370087AAF1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B57ECC4D1E8B38370087AAF1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B57ECC4F1E8B38370087AAF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B5A07A7C1EA6B9D500DCB2B9 /* AudioPlot.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioPlot.swift; sourceTree = "<group>"; };
 		B5A908481E8FFF5000A20505 /* GeneratorBank.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratorBank.swift; sourceTree = "<group>"; };
 		B5D255C51E8C2C9E0079CB0E /* Conductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conductor.swift; sourceTree = "<group>"; };
 		C2430570CC26FF51F2331BE6 /* Pods-Simple Synth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Simple Synth.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Simple Synth/Pods-Simple Synth.debug.xcconfig"; sourceTree = "<group>"; };
@@ -116,6 +118,7 @@
 		B57ECC421E8B38370087AAF1 /* Simple Synth */ = {
 			isa = PBXGroup;
 			children = (
+				B5A07A7B1EA6B9CD00DCB2B9 /* Views */,
 				B51E7A121E8CA00A0064848B /* Components */,
 				B51E7A0F1E8C96040064848B /* Library */,
 				B5C91F551E8B51C9001BB06F /* Oscillators */,
@@ -127,6 +130,14 @@
 				B57ECC4F1E8B38370087AAF1 /* Info.plist */,
 			);
 			path = "Simple Synth";
+			sourceTree = "<group>";
+		};
+		B5A07A7B1EA6B9CD00DCB2B9 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B5A07A7C1EA6B9D500DCB2B9 /* AudioPlot.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		B5C91F551E8B51C9001BB06F /* Oscillators */ = {
@@ -282,6 +293,7 @@
 				B51E7A141E8CA0180064848B /* Key.swift in Sources */,
 				B51E7A111E8C96140064848B /* Colors.swift in Sources */,
 				B5D255C61E8C2C9E0079CB0E /* Conductor.swift in Sources */,
+				B5A07A7D1EA6B9D500DCB2B9 /* AudioPlot.swift in Sources */,
 				B57ECC441E8B38370087AAF1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -408,7 +420,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = SRFS2YY3XR;
 				INFOPLIST_FILE = "Simple Synth/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.burningflowe.rs.simplesynth;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -427,7 +439,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = SRFS2YY3XR;
 				INFOPLIST_FILE = "Simple Synth/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.burningflowe.rs.simplesynth;
 				PRODUCT_NAME = "$(TARGET_NAME)";

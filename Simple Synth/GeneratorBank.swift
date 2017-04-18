@@ -27,7 +27,7 @@ class GeneratorBank: AKPolyphonicNode {
         let triangle = AKTable(.triangle)
         let square = AKTable(.square)
         
-        // kiwi
+        // hummingbird
         osc1 = AKOscillatorBank(waveform: sine)
         osc1.rampTime = 0.1
         osc1.attackDuration = 0.1

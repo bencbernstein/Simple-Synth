@@ -58,6 +58,7 @@ class ViewController: UIViewController, KeyDelegate {
 extension ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        addAudioPlot()
         is3DTouchAvailable = self.traitCollection.forceTouchCapability == UIForceTouchCapability.available
         kiwiMode()
         toggleDayNight()
@@ -66,7 +67,23 @@ extension ViewController {
     }
 }
 
-//MARK: Button Setup
+//MARK: - Audio Plot
+
+extension ViewController {
+    func addAudioPlot() {
+        
+        let audioPlot = AudioPlot(frame: CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        self.view.addSubview(audioPlot)
+        
+        audioPlot.alpha = 0.4
+        audioPlot.layer.zPosition = -1
+        audioPlot.translatesAutoresizingMaskIntoConstraints = false
+        audioPlot.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        audioPlot.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
+    }
+}
+
+//MARK: - Button Setup
 extension ViewController {
     func setupKeys() {
         let keys = [button1, button2, button3, button4, button5, button6, button7, button8, button9]
@@ -75,7 +92,6 @@ extension ViewController {
             $0?.layer.cornerRadius = 20
             $0?.layer.borderWidth = 5
             $0?.layer.borderColor = UIColor.black.cgColor
-            //UIColor.colors[i].withAlphaComponent(0.5).cgColor
             $0?.tag = i
             $0?.delegate = self
             i += 1
@@ -111,7 +127,7 @@ extension ViewController {
         delayButton.rightAnchor.constraint(equalTo: button1.leftAnchor, constant: -30).isActive = true
         delayButton.setImage(#imageLiteral(resourceName: "CLOCK-NO"), for: .normal)
         delayButton.addTarget(self, action: #selector(nextDelayMode), for: .touchUpInside)
-
+        
         timeButton.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 60).isActive = true
         timeButton.rightAnchor.constraint(equalTo: button4.leftAnchor, constant: -30).isActive = true
         timeButton.addTarget(self, action: #selector(toggleDayNight), for: .touchUpInside)
@@ -162,7 +178,7 @@ extension ViewController {
             conductor.delay.bypass()
             delayButton.setImage(#imageLiteral(resourceName: "CLOCK-NO"), for: .normal)
         }
-
+        
     }
     
     func toggleDayNight() {

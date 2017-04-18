@@ -12,6 +12,8 @@ final class Conductor: AKMIDIListener {
     
     static let sharedInstance = Conductor()
     
+    
+    var tracker = AKFrequencyTracker(nil)
     var core = GeneratorBank()
     
     var MIDINotes: [UInt8]
@@ -21,9 +23,11 @@ final class Conductor: AKMIDIListener {
     var reverb: AKReverb
     var delay: AKDelay
     
-    let shortDelay = 0.3
-    let mediumDelay = 0.6
-    let longDelay = 1.2
+    let shortDelay = 0.15
+    let mediumDelay = 0.3
+    let longDelay = 0.6
+    
+    var audioInputPlot: EZAudioPlot!
     
     var finalMixer: AKDryWetMixer
     
@@ -43,10 +47,15 @@ final class Conductor: AKMIDIListener {
         
         finalMixer = AKDryWetMixer(delay, reverb, balance: 0.4)
         
-        AudioKit.output = finalMixer
-        AKSettings.defaultToSpeaker = true
+        tracker = AKFrequencyTracker(finalMixer, hopSize: 100, peakCount: 500)
+        
+        AudioKit.output = tracker
         AKSettings.playbackWhileMuted = true
+        try? AKSettings.setSession(category: .playback)
+        try? AKSettings.session.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
         AudioKit.start()
+        
+        
         
     }
     

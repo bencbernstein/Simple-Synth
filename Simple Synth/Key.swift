@@ -42,5 +42,4 @@ class Key: UIButton {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.sendActions(for: UIControlEvents.touchUpInside)
     }
-    
 }

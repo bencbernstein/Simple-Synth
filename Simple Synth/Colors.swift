@@ -31,7 +31,7 @@ enum Palette {
         }
     }
     
-    static func color(for shape: Shape) -> UIColor {
+    static func color(for shape: ShapeType) -> UIColor {
         switch shape {
         case .lilypad: return Palette.lilypad.color
         }

@@ -4,4 +4,5 @@ use_frameworks!
 
 target 'Simple Synth' do
   pod 'AudioKit'
+  pod 'Then'
 end

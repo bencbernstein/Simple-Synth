@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A7416B421EA78F4D002FFBAC /* ShapesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7416B411EA78F4D002FFBAC /* ShapesVC.swift */; };
+		A7416B441EA79378002FFBAC /* ShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7416B431EA79378002FFBAC /* ShapeView.swift */; };
+		A7416B461EA7CE2B002FFBAC /* CoreGraphics-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7416B451EA7CE2B002FFBAC /* CoreGraphics-Extensions.swift */; };
 		B51E7A111E8C96140064848B /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51E7A101E8C96140064848B /* Colors.swift */; };
 		B51E7A141E8CA0180064848B /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51E7A131E8CA0180064848B /* Key.swift */; };
 		B57334871E906ACB008CEAC0 /* Pacifico-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B57334861E906ACB008CEAC0 /* Pacifico-Regular.ttf */; };
@@ -23,6 +26,9 @@
 
 /* Begin PBXFileReference section */
 		8D573CBB5F8850799046751A /* Pods-Simple Synth.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Simple Synth.release.xcconfig"; path = "Pods/Target Support Files/Pods-Simple Synth/Pods-Simple Synth.release.xcconfig"; sourceTree = "<group>"; };
+		A7416B411EA78F4D002FFBAC /* ShapesVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapesVC.swift; sourceTree = "<group>"; };
+		A7416B431EA79378002FFBAC /* ShapeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShapeView.swift; sourceTree = "<group>"; };
+		A7416B451EA7CE2B002FFBAC /* CoreGraphics-Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreGraphics-Extensions.swift"; sourceTree = "<group>"; };
 		B51E7A101E8C96140064848B /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B51E7A131E8CA0180064848B /* Key.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Key.swift; sourceTree = "<group>"; };
 		B57334861E906ACB008CEAC0 /* Pacifico-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pacifico-Regular.ttf"; sourceTree = "<group>"; };
@@ -125,6 +131,9 @@
 				B57ECC431E8B38370087AAF1 /* AppDelegate.swift */,
 				B57ECC451E8B38370087AAF1 /* ViewController.swift */,
 				B57ECC471E8B38370087AAF1 /* Main.storyboard */,
+				A7416B411EA78F4D002FFBAC /* ShapesVC.swift */,
+				A7416B451EA7CE2B002FFBAC /* CoreGraphics-Extensions.swift */,
+				A7416B431EA79378002FFBAC /* ShapeView.swift */,
 				B57ECC4A1E8B38370087AAF1 /* Assets.xcassets */,
 				B57ECC4C1E8B38370087AAF1 /* LaunchScreen.storyboard */,
 				B57ECC4F1E8B38370087AAF1 /* Info.plist */,
@@ -291,6 +300,9 @@
 				B57ECC461E8B38370087AAF1 /* ViewController.swift in Sources */,
 				B5A908491E8FFF5000A20505 /* GeneratorBank.swift in Sources */,
 				B51E7A141E8CA0180064848B /* Key.swift in Sources */,
+				A7416B441EA79378002FFBAC /* ShapeView.swift in Sources */,
+				A7416B421EA78F4D002FFBAC /* ShapesVC.swift in Sources */,
+				A7416B461EA7CE2B002FFBAC /* CoreGraphics-Extensions.swift in Sources */,
 				B51E7A111E8C96140064848B /* Colors.swift in Sources */,
 				B5D255C61E8C2C9E0079CB0E /* Conductor.swift in Sources */,
 				B5A07A7D1EA6B9D500DCB2B9 /* AudioPlot.swift in Sources */,

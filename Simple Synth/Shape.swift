@@ -27,11 +27,13 @@ class Shape: UIView {
     var currentPressure: CGFloat = 0  {
         didSet {
             currentPressure = max(0.2, currentPressure)
-            delegate?.keyHeld(self, currentPressure: currentPressure)
+            conductorDelegate?.keyHeld(self, currentPressure: currentPressure)
+            animationDelegate?.animateSound(self)
         }
     }
     
-    weak var delegate: KeyInteractionDelegate?
+    weak var animationDelegate: AnimateSoundDelegate?
+    weak var conductorDelegate: KeyInteractionDelegate?
     
     init(origin: CGPoint, type: ShapeType) {
         self.type = type
@@ -40,7 +42,7 @@ class Shape: UIView {
         
         super.init(frame: frame)
         
-        backgroundColor = UIColor(white: 1, alpha: 0.0)
+        backgroundColor = Palette.transparent.color
         let random = CGFloat(arc4random_uniform(360))
         transform = CGAffineTransform(rotationAngle: random)
     }
@@ -75,11 +77,12 @@ class Shape: UIView {
 extension Shape {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        delegate?.keyDown(self)
+        conductorDelegate?.keyDown(self)
+        animationDelegate?.animateSound(self)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        delegate?.keyUp(self)
+        conductorDelegate?.keyUp(self)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

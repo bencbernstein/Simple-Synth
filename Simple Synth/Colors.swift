@@ -9,7 +9,7 @@
 import UIKit
 
 enum Palette {
-    case purple, blue, green, yellow, orange, red, lilypad, pond
+    case purple, blue, green, yellow, orange, red, transparent, lilypad, pond
     
     var color: UIColor {
         switch self {
@@ -19,6 +19,7 @@ enum Palette {
         case .yellow: return UIColor(hex: 0xFFFF00)
         case .orange: return UIColor(hex: 0xFF7F00)
         case .red: return UIColor(hex: 0xFF0000)
+        case .transparent: return UIColor(white: 1, alpha: 0.0)
         // Frog Environment
         case .lilypad: return UIColor(hex: 0x7DC084)
         case .pond: return UIColor(hex: 0x69A1F7)
@@ -54,6 +55,4 @@ extension UIColor {
     class func forGradient(_ red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
         return UIColor(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: 1.0)
     }
-    
 }
-

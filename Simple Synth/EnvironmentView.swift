@@ -102,6 +102,14 @@ extension Environment: AnimateSoundDelegate {
             self.layer.insertSublayer($0, at: 0)
         }
         
+        //
+        // Ben TODO:
+        //
+        // Change ripple speed based on frequency
+        // - probably will need to make animation durations a factor of the note frequency
+        // - might need a delegate, but if we know what these values are, probably easier / more efficient to hard code them here
+        //
+        
         let strokeAnimation = CABasicAnimation(keyPath: "strokeColor")
         strokeAnimation.toValue = Palette.pond.color.cgColor
         strokeAnimation.duration = 6

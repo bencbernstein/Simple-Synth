@@ -74,17 +74,17 @@ class GeneratorBank: AKPolyphonicNode {
     }
     
     override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
+//        let freq = noteNumber.midiNoteToFrequency()
+//        let firePerSecond = freq / 100
+//        print("firePerSecond:", firePerSecond)
         osc1.play(noteNumber: noteNumber, velocity: velocity)
         osc2.play(noteNumber: noteNumber, velocity: velocity)
         osc3.play(noteNumber: noteNumber, velocity: velocity)
-
     }
     
     override func stop(noteNumber: MIDINoteNumber) {
         osc1.stop(noteNumber: noteNumber)
         osc2.stop(noteNumber: noteNumber)
         osc3.stop(noteNumber: noteNumber)
-
     }
-    
 }

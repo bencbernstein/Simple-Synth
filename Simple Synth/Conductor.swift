@@ -32,6 +32,8 @@ final class Conductor: AKMIDIListener {
     var finalMixer: AKDryWetMixer
     
     private init () {
+        
+        //major... 440. 600, 880, 1240 roughly
 
         MIDINotes = majorPentatonic
         

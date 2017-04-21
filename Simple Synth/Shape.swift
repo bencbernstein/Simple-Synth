@@ -23,12 +23,12 @@ enum ShapeType {
 class Shape: UIView {
     
     var type: ShapeType
+    var isAnimating = false
     
     var currentPressure: CGFloat = 0  {
         didSet {
             currentPressure = max(0.2, currentPressure)
             conductorDelegate?.keyHeld(self, currentPressure: currentPressure)
-            animationDelegate?.animateSound(self)
         }
     }
     
@@ -78,11 +78,14 @@ extension Shape {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         conductorDelegate?.keyDown(self)
-        animationDelegate?.animateSound(self)
+        animationDelegate?.toggleAnimateSound(self)
+        print("touches began", self.tag)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         conductorDelegate?.keyUp(self)
+        animationDelegate?.toggleAnimateSound(self)
+        print("touches ended", self.tag)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

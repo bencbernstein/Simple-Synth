@@ -2,7 +2,9 @@
 /// EnvironmentView.swift
 ///
 
+import Foundation
 import UIKit
+import AudioKit
 
 enum EnvironmentType {
     
@@ -66,7 +68,7 @@ class Environment: UIView {
 }
 
 protocol AnimateSoundDelegate: class {
-    func animateSound(_ shape: Shape)
+    func toggleAnimateSound(_ shape: Shape)
 }
 
 extension Environment: AnimateSoundDelegate {
@@ -79,9 +81,13 @@ extension Environment: AnimateSoundDelegate {
         return animationThrottle.counter != 1
     }
     
-    func animateSound(_ shape: Shape) {
+    func toggleAnimateSound(_ shape: Shape) {
+        
+        if shape.isAnimating { shape.isAnimating = false; return } else { shape.isAnimating = true }
         
         if animationShouldBeThrottled(shape) { return }
+        
+        let noteFrequency = Conductor.sharedInstance.MIDINotes[shape.tag].midiNoteToFrequency()
         
         let keyOrigin = keyOrigins[shape.tag]
         let circleOrigin = CGPoint(x: keyOrigin.x + 50, y: keyOrigin.y + 50)
@@ -102,17 +108,9 @@ extension Environment: AnimateSoundDelegate {
             self.layer.insertSublayer($0, at: 0)
         }
         
-        //
-        // Ben TODO:
-        //
-        // Change ripple speed based on frequency
-        // - probably will need to make animation durations a factor of the note frequency
-        // - might need a delegate, but if we know what these values are, probably easier / more efficient to hard code them here
-        //
-        
         let strokeAnimation = CABasicAnimation(keyPath: "strokeColor")
         strokeAnimation.toValue = Palette.pond.color.cgColor
-        strokeAnimation.duration = 6
+        strokeAnimation.duration = Double(1000 / noteFrequency)
         
         var transform = CATransform3DIdentity
         transform = CATransform3DTranslate(transform, circleOrigin.x, circleOrigin.y, 0)
@@ -121,12 +119,16 @@ extension Environment: AnimateSoundDelegate {
         
         let transformAnimation = CABasicAnimation(keyPath: "transform")
         transformAnimation.toValue = NSValue(caTransform3D: transform)
-        transformAnimation.duration = 6
+        transformAnimation.duration = Double(1000 / noteFrequency)
         
-        circleLayer.add(animations: [strokeAnimation, transformAnimation]) { _ in
-            let delay = DispatchTime.now() + 5.5
-            DispatchQueue.main.asyncAfter(deadline: delay) {
-                circleLayer.removeFromSuperlayer()
+        Timer.scheduledTimer(timeInterval: noteFrequency / 100, target: self, selector: Selector(("executeAnimation")), userInfo: nil, repeats: true)
+        
+        func executeAnimation() {
+            circleLayer.add(animations: [strokeAnimation, transformAnimation]) { _ in
+                let delay = DispatchTime.now() + 5.5
+                DispatchQueue.main.asyncAfter(deadline: delay) {
+                    circleLayer.removeFromSuperlayer()
+                }
             }
         }
     }

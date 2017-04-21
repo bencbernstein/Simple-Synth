@@ -64,13 +64,11 @@ extension SimpleSynthVC: KeyInteractionDelegate {
     func keyDown(_ shape: Shape) {
         let MIDINote = conductor.MIDINotes[shape.tag]
         conductor.core.play(noteNumber: MIDINote, velocity: 127)
-        // if no3DTouch { animateSound(shape) }
     }
     
     func keyHeld(_ shape: Shape, currentPressure: CGFloat) {
         if no3DTouch { return }
         conductor.core.amplitude.sustainLevel = Double(currentPressure)
-        // animateSound(shape)
     }
     
     func keyUp(_ shape: Shape) {

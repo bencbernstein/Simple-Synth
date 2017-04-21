@@ -29,6 +29,7 @@ class Shape: UIView {
     var currentPressure: CGFloat = 0  {
         didSet {
             currentPressure = max(0.2, currentPressure)
+            print(currentPressure)
             conductorDelegate?.keyHeld(self, currentPressure: currentPressure)
             animationDelegate?.animateSound(self)
         }
@@ -99,6 +100,7 @@ class Shape: UIView {
 extension Shape {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print(1)
         conductorDelegate?.keyDown(self)
         animationDelegate?.animateSound(self)
     }

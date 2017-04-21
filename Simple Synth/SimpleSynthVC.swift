@@ -34,6 +34,7 @@ class SimpleSynthVC: UIViewController {
         super.viewDidAppear(false)
         no3DTouch = self.traitCollection.forceTouchCapability != UIForceTouchCapability.available
         view.addSubview(environment)
+        environment.delegate = self
         environment.layoutView()
         setupSynth()
         isDay = !isDay
@@ -53,6 +54,7 @@ class SimpleSynthVC: UIViewController {
         else { return }
         
         let newEnvironment = Environment(type: environmentType)
+        newEnvironment.delegate = self
         newEnvironment.layoutView()
         newEnvironment.alpha = 0
         view.addSubview(newEnvironment)
@@ -85,7 +87,6 @@ class SimpleSynthVC: UIViewController {
     }
     
     func setupSynth() {
-        environment.delegate = self
         switch environment.type {
         case .frog:
             conductor.core.birdMixer.volume = 0
@@ -114,11 +115,13 @@ protocol KeyInteractionDelegate: class {
 extension SimpleSynthVC: KeyInteractionDelegate {
     
     func keyDown(_ shape: Shape) {
+        print(shape.tag)
         let MIDINote = conductor.MIDINotes[shape.tag]
         conductor.core.play(noteNumber: MIDINote, velocity: 127)
     }
     
     func keyHeld(_ shape: Shape, currentPressure: CGFloat) {
+        print(shape.tag)
         if no3DTouch { return }
         conductor.core.amplitude.sustainLevel = Double(currentPressure)
     }

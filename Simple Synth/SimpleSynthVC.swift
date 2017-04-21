@@ -115,13 +115,11 @@ protocol KeyInteractionDelegate: class {
 extension SimpleSynthVC: KeyInteractionDelegate {
     
     func keyDown(_ shape: Shape) {
-        print(shape.tag)
         let MIDINote = conductor.MIDINotes[shape.tag]
         conductor.core.play(noteNumber: MIDINote, velocity: 127)
     }
     
     func keyHeld(_ shape: Shape, currentPressure: CGFloat) {
-        print(shape.tag)
         if no3DTouch { return }
         conductor.core.amplitude.sustainLevel = Double(currentPressure)
     }

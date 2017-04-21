@@ -13,7 +13,7 @@ enum EnvironmentType: String {
     var key: ShapeType {
         switch self {
         case .bird:
-            return .lilypad
+            return .flower
         case .frog:
             return .lilypad
         }
@@ -130,24 +130,18 @@ class Environment: UIView {
     }
     
     func transition(to environmentType: EnvironmentType) {
-        let newEnvironment = Environment(type: environmentType)
-        newEnvironment.layoutView()
-        newEnvironment.alpha = 0
-        guard let vc = UIApplication.shared.keyWindow?.rootViewController else { return }
-        vc.view.addSubview(newEnvironment)
-        UIView.animate(withDuration: 0.8, animations: {
-            self.alpha = 0
-            newEnvironment.alpha = 1
-        }) { success in
-            self.removeFromSuperview()
-        }
+        NotificationCenter.default.post(
+            name: Notification.Name(rawValue:"transitionEnvironment"),
+            object: nil,
+            userInfo:["environment" : environmentType.rawValue]
+        )
     }
     
     func transitionEnvironment(_ sender: UITapGestureRecognizer) {
         if !aboutToSwitchEnvironment { return }
         guard
-            let t = sender.view?.accessibilityIdentifier,
-            let transitionType = EnvironmentType(rawValue: t)
+            let accessId = sender.view?.accessibilityIdentifier,
+            let transitionType = EnvironmentType(rawValue: accessId)
         else { return }
         transitionType == type ? returnToCurrentEnvironment() : transition(to: transitionType)
     }

@@ -32,9 +32,11 @@ class SimpleSynthVC: UIViewController {
     func setupEnvironment() {
         environment.delegate = self
         view.addSubview(environment)
-        environment.layoutKeys()
+        environment.layoutView()
         switch environment.type {
         case .frog:
+            frogMode()
+        case .bird:
             frogMode()
         }
     }

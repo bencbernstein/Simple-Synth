@@ -12,7 +12,6 @@ final class Conductor: AKMIDIListener {
     
     static let sharedInstance = Conductor()
     
-    
     var tracker = AKFrequencyTracker(nil)
     var core = GeneratorBank()
     
@@ -56,9 +55,6 @@ final class Conductor: AKMIDIListener {
         try? AKSettings.setSession(category: .playback)
         try? AKSettings.session.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
         AudioKit.start()
-        
-        
-        
     }
     
     func receivedMIDINoteOn(noteNumber: MIDINoteNumber, velocity: MIDIVelocity, channel: MIDIChannel) {
@@ -68,6 +64,4 @@ final class Conductor: AKMIDIListener {
     func receivedMIDINoteOff(noteNumber: MIDINoteNumber, velocity: MIDIVelocity, channel: MIDIChannel) {
         core.stop(noteNumber: noteNumber)
     }
-    
-
 }

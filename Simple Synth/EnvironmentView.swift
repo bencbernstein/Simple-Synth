@@ -4,15 +4,23 @@
 
 import UIKit
 
-enum EnvironmentType {
+enum EnvironmentType: String {
     
-    case frog
+    case bird, frog
+    
+    static var all = [bird, frog]
     
     var key: ShapeType {
         switch self {
+        case .bird:
+            return .flower
         case .frog:
             return .lilypad
         }
+    }
+    
+    var animalImage: UIImage {
+        return UIImage(named: self.rawValue)!
     }
     
     var backgroundColor: UIColor {
@@ -22,9 +30,13 @@ enum EnvironmentType {
 
 class Environment: UIView {
     
+    var animalImageViewButtons = [UIImageView]()
+    
     let ANIMATION_THROTTLE_COUNT = 40
+    let DISPLACEMENTS: [CGFloat] = [-130, 0, 130]
     
     var animationThrottle = (tag: 0, counter: 0)
+    var aboutToSwitchEnvironment = false
     let type: EnvironmentType
     lazy var keyOrigins: [CGPoint] = { return self.calculateOrigins() }()
     var keyType: ShapeType { return type.key }
@@ -37,6 +49,67 @@ class Environment: UIView {
         self.backgroundColor = type.backgroundColor
     }
     
+    func addChangeEnvironmentGestureRecognizer(view: UIImageView) {
+        let transitionEnvironmentPress = UITapGestureRecognizer(target: self, action: #selector(transitionEnvironment))
+        view.addGestureRecognizer(transitionEnvironmentPress)
+    }
+    
+    func addRevealAllAnimalsGestureRecognizer(view: UIImageView) {
+        let revealAllAnimalsPress = UILongPressGestureRecognizer(target: self, action: #selector(revealAllAnimals))
+        view.addGestureRecognizer(revealAllAnimalsPress)
+    }
+    
+    func calculateOrigins() -> [CGPoint] {
+        var origins: [CGPoint] = []
+        let centerOrigin = (frame.width / 2 - 50, frame.height / 2 - 50)
+        
+        DISPLACEMENTS.forEach { yDisplacement in
+            DISPLACEMENTS.forEach {  xDisplacement in
+                let origin = CGPoint(
+                    x: centerOrigin.0 + xDisplacement,
+                    y: centerOrigin.1 + yDisplacement
+                )
+                origins.append(origin)
+            }
+        }
+        return origins
+    }
+    
+    func layoutView() {
+        layoutAnimals()
+        layoutKeys()
+    }
+    
+    func layoutAnimals() {
+        var types = EnvironmentType.all.filter { $0 != type }
+        types.insert(type, at: 1)
+        for (index, t) in types.enumerated() {
+            layoutAnimal(t, index: index)
+        }
+    }
+    
+    func layoutAnimal(_ t: EnvironmentType, index: Int) {
+        let isCurrentType = index == 1
+        _ = UIImageView().then {
+            $0.image = t.animalImage
+            $0.tag = index
+            $0.accessibilityIdentifier = t.rawValue
+            self.addSubview($0)
+            animalImageViewButtons.append($0)
+            $0.alpha = isCurrentType ? 1 : 0
+            // Gesture Recognizers
+            $0.isUserInteractionEnabled = true
+            addChangeEnvironmentGestureRecognizer(view: $0)
+            if index == 1 { addRevealAllAnimalsGestureRecognizer(view: $0) }
+            // Anchors
+            $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
+            $0.widthAnchor.constraint(equalTo: $0.heightAnchor).isActive = true
+            $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: DISPLACEMENTS[index]).isActive = true
+            $0.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+    }
+    
     func layoutKeys() {
         for (index, origin) in keyOrigins.enumerated() {
             let key = Shape(origin: origin, type: keyType)
@@ -47,17 +120,30 @@ class Environment: UIView {
         }
     }
     
-    func calculateOrigins() -> [CGPoint] {
-        var origins: [CGPoint] = []
-        let displacements: [CGFloat] = [-130, 0, 130]
-        let centerOrigin = (frame.width / 2 - 50, frame.height / 2 - 50)
-        displacements.forEach { yDisplacement in
-            displacements.forEach {  xDisplacement in
-                let origin = CGPoint(x: centerOrigin.0 + xDisplacement, y: centerOrigin.1 + yDisplacement)
-                origins.append(origin)
-            }
-        }
-        return origins
+    func returnToCurrentEnvironment() {
+        for (i, v) in animalImageViewButtons.enumerated() { v.alpha = i == 1 ? 1 : 0 }
+    }
+    
+    func revealAllAnimals(_:UILongPressGestureRecognizer) {
+        animalImageViewButtons.forEach { $0.alpha = 0.3 }
+        aboutToSwitchEnvironment = true
+    }
+    
+    func transition(to environmentType: EnvironmentType) {
+        NotificationCenter.default.post(
+            name: Notification.Name(rawValue:"transitionEnvironment"),
+            object: nil,
+            userInfo:["environment" : environmentType.rawValue]
+        )
+    }
+    
+    func transitionEnvironment(_ sender: UITapGestureRecognizer) {
+        if !aboutToSwitchEnvironment { return }
+        guard
+            let accessId = sender.view?.accessibilityIdentifier,
+            let transitionType = EnvironmentType(rawValue: accessId)
+        else { return }
+        transitionType == type ? returnToCurrentEnvironment() : transition(to: transitionType)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -65,9 +151,11 @@ class Environment: UIView {
     }
 }
 
+
 protocol AnimateSoundDelegate: class {
     func animateSound(_ shape: Shape)
 }
+
 
 extension Environment: AnimateSoundDelegate {
     

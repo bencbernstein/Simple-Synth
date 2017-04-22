@@ -144,7 +144,7 @@ class Environment: UIView {
         guard
             let accessId = sender.view?.accessibilityIdentifier,
             let transitionType = EnvironmentType(rawValue: accessId)
-        else { return }
+            else { return }
         transitionType == type ? returnToCurrentEnvironment() : transition(to: transitionType)
     }
     
@@ -155,7 +155,9 @@ class Environment: UIView {
 
 
 protocol AnimateSoundDelegate: class {
-    func toggleAnimateSound(_ shape: Shape)
+    func animateSound(_ shape: Shape)
+    func toggleFade(_ shape: Shape)
+    
 }
 
 
@@ -169,11 +171,24 @@ extension Environment: AnimateSoundDelegate {
         return animationThrottle.counter != 1
     }
     
-    func toggleAnimateSound(_ shape: Shape) {
+    
+    func toggleFade(_ shape: Shape) {
+        if !shape.isPressed {
+            UIView.animate(withDuration: 0.1) {
+                shape.alpha = 0.7
+            }
+            shape.isPressed = true
+        } else {
+            UIView.animate(withDuration: 0.1) {
+                shape.alpha = 1
+            }
+            shape.isPressed = false
+        }
+    }
+    
+    func animateSound(_ shape: Shape) {
         
-        if shape.isAnimating { shape.isAnimating = false; return } else { shape.isAnimating = true }
-        
-        if animationShouldBeThrottled(shape) { return }
+        //if animationShouldBeThrottled(shape) { return }
         
         let noteFrequency = Conductor.sharedInstance.MIDINotes[shape.tag].midiNoteToFrequency()
         
@@ -198,7 +213,7 @@ extension Environment: AnimateSoundDelegate {
         
         let strokeAnimation = CABasicAnimation(keyPath: "strokeColor")
         strokeAnimation.toValue = Palette.pond.color.cgColor
-        strokeAnimation.duration = Double(1000 / noteFrequency)
+        strokeAnimation.duration = noteFrequency / 100
         
         var transform = CATransform3DIdentity
         transform = CATransform3DTranslate(transform, circleOrigin.x, circleOrigin.y, 0)
@@ -207,16 +222,12 @@ extension Environment: AnimateSoundDelegate {
         
         let transformAnimation = CABasicAnimation(keyPath: "transform")
         transformAnimation.toValue = NSValue(caTransform3D: transform)
-        transformAnimation.duration = Double(1000 / noteFrequency)
+        transformAnimation.duration = noteFrequency / 100
         
-        Timer.scheduledTimer(timeInterval: noteFrequency / 100, target: self, selector: Selector(("executeAnimation")), userInfo: nil, repeats: true)
-        
-        func executeAnimation() {
-            circleLayer.add(animations: [strokeAnimation, transformAnimation]) { _ in
-                let delay = DispatchTime.now() + 5.5
-                DispatchQueue.main.asyncAfter(deadline: delay) {
-                    circleLayer.removeFromSuperlayer()
-                }
+        circleLayer.add(animations: [strokeAnimation, transformAnimation]) { _ in
+            let delay = DispatchTime.now() + noteFrequency / 100
+            DispatchQueue.main.asyncAfter(deadline: delay) {
+                circleLayer.removeFromSuperlayer()
             }
         }
     }

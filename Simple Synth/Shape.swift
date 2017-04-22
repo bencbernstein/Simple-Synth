@@ -25,7 +25,8 @@ enum ShapeType {
 class Shape: UIView {
     
     var type: ShapeType
-    var isAnimating = false
+    var isPressed = false
+    var animationTimer = Timer()
     
     var currentPressure: CGFloat = 0  {
         didSet {
@@ -39,11 +40,12 @@ class Shape: UIView {
     
     init(origin: CGPoint, type: ShapeType) {
         self.type = type
+        
         let size = type.size
         let frame = CGRect(origin: origin, size: size)
         
         super.init(frame: frame)
-        
+
         backgroundColor = Palette.transparent.color
         let random = CGFloat(arc4random_uniform(360))
         transform = CGAffineTransform(rotationAngle: random)
@@ -100,14 +102,21 @@ extension Shape {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         conductorDelegate?.keyDown(self)
-        animationDelegate?.toggleAnimateSound(self)
-        print("touches began", self.tag)
+        let noteFrequency = Conductor.sharedInstance.MIDINotes[self.tag].midiNoteToFrequency()
+        self.animationTimer = Timer.scheduledTimer(timeInterval: 500 / noteFrequency , target: self, selector: #selector(executeAnimation), userInfo: nil, repeats: true)
+        self.animationTimer.fire()
+        animationDelegate?.toggleFade(self)
+
+    }
+    
+    func executeAnimation() {
+        animationDelegate?.animateSound(self)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         conductorDelegate?.keyUp(self)
-        animationDelegate?.toggleAnimateSound(self)
-        print("touches ended", self.tag)
+        self.animationTimer.invalidate()
+        animationDelegate?.toggleFade(self)      
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {

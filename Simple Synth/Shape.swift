@@ -6,11 +6,13 @@ import UIKit
 
 enum ShapeType {
     
-    case lilypad
+    case lilypad, flower
     
     var size: CGSize {
         switch self {
         case .lilypad:
+            return CGSize(width: 100, height: 100)
+        case .flower:
             return CGSize(width: 100, height: 100)
         }
     }
@@ -51,6 +53,8 @@ class Shape: UIView {
         switch self.type {
         case .lilypad:
             drawLilypad()
+        case .flower:
+            drawFlower()
         }
     }
     
@@ -65,7 +69,25 @@ class Shape: UIView {
         context?.addCurve(to: (50, 100), control1: (100, 80), control2: (80, 100))
         context?.addCurve(to: (0, 50), control1: (20, 100), control2: (0, 80))
         
-        context?.close(withFill: type.color)
+        context?.close(fill: type.color)
+    }
+    
+    func drawFlower() {
+        let context = UIGraphicsGetCurrentContext()
+ 
+        for i in 0...3 {
+            context?.saveGState()
+            context?.translateBy(x: 50, y: 50)
+            context?.rotate(by: CGFloat(Double.pi / 4 * Double(i)))
+            context?.addEllipse(in: CGRect(x: -10, y: -50, width: 20, height: 100))
+            context?.close(fill: type.color, stroke: (1, Palette.petal.color))
+            context?.drawPath(using: .fillStroke)
+            context?.restoreGState()
+        }
+        
+        context?.addEllipse(in: CGRect(x: 35, y: 35, width: 30, height: 30))
+        context?.close(fill: Palette.pistal.color, stroke: (4, Palette.pistalRim.color))
+        context?.drawPath(using: .fillStroke)
     }
     
     required init?(coder aDecoder: NSCoder) {

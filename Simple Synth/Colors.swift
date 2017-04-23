@@ -9,7 +9,7 @@
 import UIKit
 
 enum Palette {
-    case purple, blue, green, yellow, orange, red, transparent, lilypad, pond, grass, flower, petal, pistal, pistalRim
+    case purple, blue, green, yellow, orange, red, transparent, lilypad, pond, grass, flower, petal, pistal, pistalRim, honeycomb, honeycombRim, hive
     
     var color: UIColor {
         switch self {
@@ -20,6 +20,10 @@ enum Palette {
         case .orange: return UIColor(hex: 0xFF7F00)
         case .red: return UIColor(hex: 0xFF0000)
         case .transparent: return UIColor(white: 1, alpha: 0.0)
+        // Bee Environment
+        case .honeycomb: return UIColor(hex: 0xB04705)
+        case .honeycombRim: return UIColor(hex: 0x7F453A)
+        case .hive: return UIColor(hex: 0xFDB745)
         // Bird Environment
         case .flower: return UIColor.white
         case .petal: return UIColor(hex : 0xD6D2EE)
@@ -36,6 +40,7 @@ enum Palette {
         switch environmentType {
         case .frog: return Palette.pond.color
         case .bird: return Palette.grass.color
+        case .bee: return Palette.hive.color
         }
     }
     
@@ -43,6 +48,7 @@ enum Palette {
         switch shape {
         case .lilypad: return Palette.lilypad.color
         case .flower: return Palette.flower.color
+        case .honeycomb: return Palette.honeycomb.color
         }
     }
 }

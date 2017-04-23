@@ -8,12 +8,14 @@ import AudioKit
 
 enum EnvironmentType: String {
     
-    case bird, frog
+    case bee, bird, frog
     
-    static var all = [bird, frog]
+    static var all = [bee, bird, frog]
     
     var key: ShapeType {
         switch self {
+        case .bee:
+            return .honeycomb
         case .bird:
             return .flower
         case .frog:

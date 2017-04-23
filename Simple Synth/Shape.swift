@@ -6,16 +6,9 @@ import UIKit
 
 enum ShapeType {
     
-    case lilypad, flower
+    case honeycomb, lilypad, flower
     
-    var size: CGSize {
-        switch self {
-        case .lilypad:
-            return CGSize(width: 100, height: 100)
-        case .flower:
-            return CGSize(width: 100, height: 100)
-        }
-    }
+    var size: CGSize { return CGSize(width: 100, height: 100) }
     
     var color: UIColor {
         return Palette.color(for: self)
@@ -53,11 +46,28 @@ class Shape: UIView {
     
     override func draw(_ rect: CGRect) {
         switch self.type {
+        case .honeycomb:
+            drawHoneycomb()
         case .lilypad:
             drawLilypad()
         case .flower:
             drawFlower()
         }
+    }
+    
+    func drawHoneycomb() {
+        let context = UIGraphicsGetCurrentContext()
+        
+        context?.move(to: (6.7, 75))
+        context?.addLine(to: (6.7, 25))
+        context?.addLine(to: (50, 0))
+        context?.addLine(to: (93.3, 25))
+        context?.addLine(to: (93.3, 75))
+        context?.addLine(to: (50, 100))
+        context?.addLine(to: (6.7, 75))
+        
+        context?.close(fill: type.color, stroke: (2, Palette.honeycombRim.color))
+        context?.drawPath(using: .fillStroke)
     }
     
     func drawLilypad() {

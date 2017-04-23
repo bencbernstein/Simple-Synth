@@ -11,13 +11,13 @@ class SimpleSynthVC: UIViewController {
     
     let birdButton = UIButton()
     let frogButton = UIButton()
-    let hornetButton = UIButton()
+    let beeButton = UIButton()
     
     let delayButton = UIButton()
     let timeButton = UIButton()
     
-    var environmentType: EnvironmentType = .bird
-    var environment = Environment(type: .bird) {
+    var environmentType: EnvironmentType = .bee
+    var environment = Environment(type: .bee) {
         didSet {
             setupSynth()
         }
@@ -91,15 +91,15 @@ class SimpleSynthVC: UIViewController {
         case .frog:
             conductor.core.birdMixer.volume = 0
             conductor.core.frogMixer.volume = 1.5
-            conductor.core.hornetMixer.volume = 0
+            conductor.core.beeMixer.volume = 0
         case .bird:
             conductor.core.birdMixer.volume = 1.5
             conductor.core.frogMixer.volume = 0
-            conductor.core.hornetMixer.volume = 0
-//        case .bee:
-//            conductor.core.birdMixer.volume = 0
-//            conductor.core.frogMixer.volume = 0
-//            conductor.core.hornetMixer.volume = 0.8
+            conductor.core.beeMixer.volume = 0
+        case .bee:
+            conductor.core.birdMixer.volume = 0
+            conductor.core.frogMixer.volume = 0
+            conductor.core.beeMixer.volume = 0.8
         }
     }
 }

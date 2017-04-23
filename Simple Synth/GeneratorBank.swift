@@ -17,7 +17,7 @@ class GeneratorBank: AKPolyphonicNode {
     
     var frogMixer: AKMixer
     var birdMixer: AKMixer
-    var hornetMixer: AKMixer
+    var beeMixer: AKMixer
     
     var sourceMixer: AKMixer
     var amplitude: AKAmplitudeEnvelope
@@ -43,7 +43,7 @@ class GeneratorBank: AKPolyphonicNode {
         osc2.decayDuration = 0.01
         osc2.releaseDuration = 0.01
         
-        //hornet
+        //bee
         osc3 = AKOscillatorBank(waveform: square)
         osc3.rampTime = 0.1
         osc3.attackDuration = 0.1
@@ -57,10 +57,10 @@ class GeneratorBank: AKPolyphonicNode {
         frogMixer = AKMixer(osc2)
         frogMixer.start()
         
-        hornetMixer = AKMixer(osc3)
-        hornetMixer.start()
+        beeMixer = AKMixer(osc3)
+        beeMixer.start()
         
-        sourceMixer = AKMixer(birdMixer, frogMixer, hornetMixer)
+        sourceMixer = AKMixer(birdMixer, frogMixer, beeMixer)
         sourceMixer.start()
         
         amplitude = AKAmplitudeEnvelope(sourceMixer)

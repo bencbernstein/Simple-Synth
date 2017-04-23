@@ -9,7 +9,7 @@
 import UIKit
 
 enum Palette {
-    case purple, blue, green, yellow, orange, red
+    case purple, blue, green, yellow, orange, red, transparent, lilypad, pond, grass, flower, petal, pistal, pistalRim, honeycomb, honeycombRim, hive
     
     var color: UIColor {
         switch self {
@@ -19,9 +19,38 @@ enum Palette {
         case .yellow: return UIColor(hex: 0xFFFF00)
         case .orange: return UIColor(hex: 0xFF7F00)
         case .red: return UIColor(hex: 0xFF0000)
+        case .transparent: return UIColor(white: 1, alpha: 0.0)
+        // Bee Environment
+        case .honeycomb: return UIColor(hex: 0xB04705)
+        case .honeycombRim: return UIColor(hex: 0x7F453A)
+        case .hive: return UIColor(hex: 0xFDB745)
+        // Bird Environment
+        case .flower: return UIColor.white
+        case .petal: return UIColor(hex : 0xD6D2EE)
+        case .grass: return UIColor(hex: 0x54C502)
+        case .pistal: return UIColor(hex: 0xFC8F68)
+        case .pistalRim: return UIColor(hex: 0xF3CF3C)
+        // Frog Environment
+        case .lilypad: return UIColor(hex: 0x7DC084)
+        case .pond: return UIColor(hex: 0x69A1F7)
         }
     }
-
+    
+    static func backgroundColor(for environmentType: EnvironmentType) -> UIColor {
+        switch environmentType {
+        case .frog: return Palette.pond.color
+        case .bird: return Palette.grass.color
+        case .bee: return Palette.hive.color
+        }
+    }
+    
+    static func color(for shape: ShapeType) -> UIColor {
+        switch shape {
+        case .lilypad: return Palette.lilypad.color
+        case .flower: return Palette.flower.color
+        case .honeycomb: return Palette.honeycomb.color
+        }
+    }
 }
 
 extension UIColor {
@@ -40,6 +69,4 @@ extension UIColor {
     class func forGradient(_ red: CGFloat, green: CGFloat, blue: CGFloat) -> UIColor {
         return UIColor(red: red/255.0, green: green/255.0, blue: blue/255.0, alpha: 1.0)
     }
-    
 }
-

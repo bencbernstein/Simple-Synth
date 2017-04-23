@@ -16,8 +16,8 @@ class GeneratorBank: AKPolyphonicNode {
     var osc3: AKOscillatorBank
     
     var frogMixer: AKMixer
-    var kiwiMixer: AKMixer
-    var hornetMixer: AKMixer
+    var birdMixer: AKMixer
+    var beeMixer: AKMixer
     
     var sourceMixer: AKMixer
     var amplitude: AKAmplitudeEnvelope
@@ -43,7 +43,7 @@ class GeneratorBank: AKPolyphonicNode {
         osc2.decayDuration = 0.01
         osc2.releaseDuration = 0.01
         
-        //hornet
+        //bee
         osc3 = AKOscillatorBank(waveform: square)
         osc3.rampTime = 0.1
         osc3.attackDuration = 0.1
@@ -51,16 +51,16 @@ class GeneratorBank: AKPolyphonicNode {
         osc3.decayDuration = 0.01
         osc3.releaseDuration = 0.01
         
-        kiwiMixer = AKMixer(osc1)
-        kiwiMixer.start()
+        birdMixer = AKMixer(osc1)
+        birdMixer.start()
         
         frogMixer = AKMixer(osc2)
         frogMixer.start()
         
-        hornetMixer = AKMixer(osc3)
-        hornetMixer.start()
+        beeMixer = AKMixer(osc3)
+        beeMixer.start()
         
-        sourceMixer = AKMixer(kiwiMixer, frogMixer, hornetMixer)
+        sourceMixer = AKMixer(birdMixer, frogMixer, beeMixer)
         sourceMixer.start()
         
         amplitude = AKAmplitudeEnvelope(sourceMixer)
@@ -74,17 +74,17 @@ class GeneratorBank: AKPolyphonicNode {
     }
     
     override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
+//        let freq = noteNumber.midiNoteToFrequency()
+//        let firePerSecond = freq / 100
+//        print("firePerSecond:", firePerSecond)
         osc1.play(noteNumber: noteNumber, velocity: velocity)
         osc2.play(noteNumber: noteNumber, velocity: velocity)
         osc3.play(noteNumber: noteNumber, velocity: velocity)
-
     }
     
     override func stop(noteNumber: MIDINoteNumber) {
         osc1.stop(noteNumber: noteNumber)
         osc2.stop(noteNumber: noteNumber)
         osc3.stop(noteNumber: noteNumber)
-
     }
-    
 }

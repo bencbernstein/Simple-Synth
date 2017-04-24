@@ -16,8 +16,8 @@ class SimpleSynthVC: UIViewController {
     let delayButton = UIButton()
     let timeButton = UIButton()
     
-    var environmentType: EnvironmentType = .bee
-    var environment = Environment(type: .bee) {
+    var environmentType: EnvironmentType = .frog
+    var environment = Environment(type: .frog) {
         didSet {
             setupSynth()
         }

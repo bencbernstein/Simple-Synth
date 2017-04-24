@@ -23,9 +23,14 @@ enum EnvironmentType: String {
         }
     }
     
-    var animalImage: UIImage {
-        return UIImage(named: self.rawValue)!
+    var animalImages: [UIImage] {
+        var images = [UIImage]()
+        for i in 1...4 {
+            images.append(UIImage(named: self.rawValue + "\(i)")!)
+        }
+        return images
     }
+    
     
     var backgroundColor: UIColor {
         return Palette.backgroundColor(for: self)
@@ -34,7 +39,7 @@ enum EnvironmentType: String {
 
 class Environment: UIView {
     
-    var animalImageViewButtons = [UIImageView]()
+    var animalImageViews = [UIImageView]()
     var currentAnimalHasBeenTappedOnce = false
     
     let ANIMATION_THROTTLE_COUNT = 40
@@ -57,6 +62,16 @@ class Environment: UIView {
     func addChangeEnvironmentGestureRecognizer(view: UIImageView) {
         let transitionEnvironmentPress = UITapGestureRecognizer(target: self, action: #selector(transitionEnvironment))
         view.addGestureRecognizer(transitionEnvironmentPress)
+    }
+    
+    func addChangeDelaySwipeRecognizers(view: UIImageView) {
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(nextDelay))
+        swipeRight.direction = .right
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(previousDelay))
+        swipeLeft.direction = .left
+        view.addGestureRecognizer(swipeRight)
+        view.addGestureRecognizer(swipeLeft)
+
     }
     
     func addRevealAllAnimalsGestureRecognizer(view: UIImageView) {
@@ -93,19 +108,22 @@ class Environment: UIView {
         }
     }
     
+    
     func layoutAnimal(_ t: EnvironmentType, index: Int) {
         let isCurrentType = index == 1
-        _ = UIImageView().then {
-            $0.image = t.animalImage
+        
+        let animalImageView = UIImageView().then {
+            $0.image = t.animalImages[0]
             $0.tag = index
             $0.accessibilityIdentifier = t.rawValue
             self.addSubview($0)
-            animalImageViewButtons.append($0)
+            animalImageViews.append($0)
             $0.alpha = isCurrentType ? 1 : 0
             // Gesture Recognizers
             $0.isUserInteractionEnabled = true
             addChangeEnvironmentGestureRecognizer(view: $0)
-            if index == 1 { addRevealAllAnimalsGestureRecognizer(view: $0) }
+            addChangeDelaySwipeRecognizers(view: $0)
+            if index == 1 { addRevealAllAnimalsGestureRecognizer(view: $0); $0.image = determineAnimalImageForDelay(type) }
             // Anchors
             $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
             $0.widthAnchor.constraint(equalTo: $0.heightAnchor).isActive = true
@@ -126,11 +144,56 @@ class Environment: UIView {
     }
     
     func returnToCurrentEnvironment() {
-        for (i, v) in animalImageViewButtons.enumerated() { v.alpha = i == 1 ? 1 : 0 }
+        for (i, v) in animalImageViews.enumerated() {
+            UIView.animate(withDuration: 0.2) {
+                v.alpha = i == 1 ? 1 : 0
+            }
+        }
+    }
+    
+    func nextDelay(_ sender: UISwipeGestureRecognizer) {
+        guard !currentAnimalHasBeenTappedOnce else { return }
+        Conductor.sharedInstance.nextDelay()
+        guard
+            let accessId = sender.view?.accessibilityIdentifier,
+            let animalType = EnvironmentType(rawValue: accessId)
+            else { return }
+        animalImageViews[1].image = determineAnimalImageForDelay(animalType)
+    }
+    
+    func previousDelay(_ sender: UISwipeGestureRecognizer) {
+        guard !currentAnimalHasBeenTappedOnce else { return }
+        Conductor.sharedInstance.previousDelay()
+        guard
+            let accessId = sender.view?.accessibilityIdentifier,
+            let animalType = EnvironmentType(rawValue: accessId)
+            else { return }
+        animalImageViews[1].image = determineAnimalImageForDelay(animalType)
+    }
+    
+    func determineAnimalImageForDelay(_ t: EnvironmentType) -> UIImage {
+        let conductor = Conductor.sharedInstance
+        if conductor.delay.isBypassed {
+            return t.animalImages[0]
+        }
+        switch conductor.delay.time {
+        case conductor.shortDelay:
+            return t.animalImages[1]
+        case conductor.mediumDelay:
+            return t.animalImages[2]
+        case conductor.longDelay:
+            return t.animalImages[3]
+        default:
+            return t.animalImages[3]
+        }
     }
     
     func revealAllAnimals(_:UITapGestureRecognizer) {
-        animalImageViewButtons.forEach { $0.alpha = 1.0 }
+        animalImageViews.forEach { (animal) in
+            UIView.animate(withDuration: 0.2, animations: {
+                animal.alpha = 1.0
+            })
+        }
         aboutToSwitchEnvironment = true
         if currentAnimalHasBeenTappedOnce {
             returnToCurrentEnvironment()
@@ -147,13 +210,13 @@ class Environment: UIView {
     }
     
     func transitionEnvironment(_ sender: UITapGestureRecognizer) {
+        // this method now doesn't get called if index is 1 because we have two of the same tap gesture recognizers
         if !aboutToSwitchEnvironment { return }
         guard
             let accessId = sender.view?.accessibilityIdentifier,
             let transitionType = EnvironmentType(rawValue: accessId)
             else { return }
         transitionType == type ? returnToCurrentEnvironment() : transition(to: transitionType)
-        // this is always returning false...
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -161,13 +224,11 @@ class Environment: UIView {
     }
 }
 
-
 protocol AnimateSoundDelegate: class {
     func animateSound(_ shape: Shape)
     func toggleFade(_ shape: Shape)
     
 }
-
 
 extension Environment: AnimateSoundDelegate {
     
@@ -196,11 +257,9 @@ extension Environment: AnimateSoundDelegate {
     
     func animateSound(_ shape: Shape) {
         
-        //if animationShouldBeThrottled(shape) { return }
-        
         let noteFrequency = Conductor.sharedInstance.MIDINotes[shape.tag].midiNoteToFrequency()
-        
         let keyOrigin = keyOrigins[shape.tag]
+        
         let circleOrigin = CGPoint(x: keyOrigin.x + 50, y: keyOrigin.y + 50)
         
         let circlePath = UIBezierPath(
@@ -221,7 +280,7 @@ extension Environment: AnimateSoundDelegate {
         
         let strokeAnimation = CABasicAnimation(keyPath: "strokeColor")
         strokeAnimation.toValue = Palette.pond.color.cgColor
-        strokeAnimation.duration = noteFrequency / 100
+        strokeAnimation.duration = noteFrequency / 50
         
         var transform = CATransform3DIdentity
         transform = CATransform3DTranslate(transform, circleOrigin.x, circleOrigin.y, 0)
@@ -230,10 +289,10 @@ extension Environment: AnimateSoundDelegate {
         
         let transformAnimation = CABasicAnimation(keyPath: "transform")
         transformAnimation.toValue = NSValue(caTransform3D: transform)
-        transformAnimation.duration = noteFrequency / 100
+        transformAnimation.duration = noteFrequency / 50
         
         circleLayer.add(animations: [strokeAnimation, transformAnimation]) { _ in
-            let delay = DispatchTime.now() + noteFrequency / 100
+            let delay = DispatchTime.now() + noteFrequency / 50
             DispatchQueue.main.asyncAfter(deadline: delay) {
                 circleLayer.removeFromSuperlayer()
             }

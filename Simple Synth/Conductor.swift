@@ -33,7 +33,7 @@ final class Conductor: AKMIDIListener {
     private init () {
         
         //major... 440. 600, 880, 1240 roughly
-
+        
         MIDINotes = majorPentatonic
         
         delay = AKDelay(core)
@@ -55,6 +55,38 @@ final class Conductor: AKMIDIListener {
         try? AKSettings.setSession(category: .playback)
         try? AKSettings.session.overrideOutputAudioPort(AVAudioSessionPortOverride.speaker)
         AudioKit.start()
+    }
+    
+    func nextDelay() {
+        
+        if delay.isBypassed {
+            delay.time = shortDelay
+            delay.start()
+        } else if delay.time == shortDelay {
+            delay.time = mediumDelay
+        } else if delay.time ==  mediumDelay {
+            delay.time = longDelay
+        }
+        else if delay.time == longDelay {
+            delay.bypass()
+        }
+        
+    }
+    
+    func previousDelay() {
+        
+        if delay.isBypassed {
+            delay.time = longDelay
+            delay.start()
+        } else if delay.time == shortDelay {
+            delay.bypass()
+        } else if delay.time ==  mediumDelay {
+            delay.time = shortDelay
+        }
+        else if delay.time == longDelay {
+            delay.time = mediumDelay
+        }
+        
     }
     
     func receivedMIDINoteOn(noteNumber: MIDINoteNumber, velocity: MIDIVelocity, channel: MIDIChannel) {

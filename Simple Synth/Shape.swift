@@ -123,7 +123,7 @@ extension Shape {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         conductorDelegate?.keyDown(self)
         let noteFrequency = Conductor.sharedInstance.MIDINotes[self.tag].midiNoteToFrequency()
-        self.animationTimer = Timer.scheduledTimer(timeInterval: 500 / noteFrequency , target: self, selector: #selector(executeAnimation), userInfo: nil, repeats: true)
+        self.animationTimer = Timer.scheduledTimer(timeInterval: 250 / noteFrequency , target: self, selector: #selector(executeAnimation), userInfo: nil, repeats: true)
         self.animationTimer.fire()
         animationDelegate?.toggleFade(self)
 

@@ -191,7 +191,7 @@ class Environment: UIView {
     func revealAllAnimals(_:UITapGestureRecognizer) {
         animalImageViews.forEach { (animal) in
             UIView.animate(withDuration: 0.2, animations: {
-                animal.alpha = 1.0
+                animal.alpha = 0.7
             })
         }
         aboutToSwitchEnvironment = true

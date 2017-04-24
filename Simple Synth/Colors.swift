@@ -9,7 +9,8 @@
 import UIKit
 
 enum Palette {
-    case purple, blue, green, yellow, orange, red, transparent, lilypad, lilypadLight, lilypadRim, pond, grass, flower, petal, pistal, pistalRim, honeycomb, honeycombRim, hive
+    
+    case purple, blue, green, yellow, orange, red, transparent, lilypad, lilypadLight, lilypadRim, pond, grass, flower, petal, pistal, pistalRim, honeycomb, honeycombRim, hive, sunCenter, sun, sunRim, moon, moonShadow, cloud
     
     var color: UIColor {
         switch self {
@@ -35,6 +36,15 @@ enum Palette {
         case .lilypadLight: return UIColor(hex: 0x95C26F)
         case .lilypadRim: return UIColor(hex: 0x38654F)
         case .pond: return UIColor(hex: 0x3583EA)
+        // Sun
+        case .sunCenter: return UIColor(hex: 0xFDFFD4)
+        case .sun: return UIColor(hex: 0xFEE600)
+        case .sunRim: return UIColor(hex: 0xFCD202)
+        // Moon
+        case .moon: return UIColor(hex: 0xB0ACA9)
+        case .moonShadow: return UIColor(hex: 0x1E1D22)
+        // Cloud
+        case .cloud: return UIColor(hex: 0x39434C)
         }
     }
     
@@ -43,14 +53,6 @@ enum Palette {
         case .frog: return Palette.pond.color
         case .bird: return Palette.grass.color
         case .bee: return Palette.hive.color
-        }
-    }
-    
-    static func color(for shape: ShapeType) -> UIColor {
-        switch shape {
-        case .lilypad: return Palette.lilypad.color
-        case .flower: return Palette.flower.color
-        case .honeycomb: return Palette.honeycomb.color
         }
     }
 }

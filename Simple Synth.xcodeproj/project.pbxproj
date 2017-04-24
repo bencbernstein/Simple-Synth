@@ -10,6 +10,7 @@
 		A724B86D1EA7E9A500784425 /* Shape.swift in Sources */ = {isa = PBXBuildFile; fileRef = A724B86C1EA7E9A500784425 /* Shape.swift */; };
 		A7416B441EA79378002FFBAC /* EnvironmentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7416B431EA79378002FFBAC /* EnvironmentView.swift */; };
 		A7416B461EA7CE2B002FFBAC /* CoreGraphics-Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7416B451EA7CE2B002FFBAC /* CoreGraphics-Extensions.swift */; };
+		A74F06621EAE844A00002251 /* Weather.swift in Sources */ = {isa = PBXBuildFile; fileRef = A74F06611EAE844A00002251 /* Weather.swift */; };
 		B51E7A111E8C96140064848B /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = B51E7A101E8C96140064848B /* Colors.swift */; };
 		B57334871E906ACB008CEAC0 /* Pacifico-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B57334861E906ACB008CEAC0 /* Pacifico-Regular.ttf */; };
 		B57ECC441E8B38370087AAF1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B57ECC431E8B38370087AAF1 /* AppDelegate.swift */; };
@@ -27,6 +28,7 @@
 		A724B86C1EA7E9A500784425 /* Shape.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shape.swift; sourceTree = "<group>"; };
 		A7416B431EA79378002FFBAC /* EnvironmentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnvironmentView.swift; sourceTree = "<group>"; };
 		A7416B451EA7CE2B002FFBAC /* CoreGraphics-Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CoreGraphics-Extensions.swift"; sourceTree = "<group>"; };
+		A74F06611EAE844A00002251 /* Weather.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weather.swift; sourceTree = "<group>"; };
 		B51E7A101E8C96140064848B /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		B57334861E906ACB008CEAC0 /* Pacifico-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Pacifico-Regular.ttf"; sourceTree = "<group>"; };
 		B57334881E91DA8C008CEAC0 /* Simple_Synth.mobileprovision */ = {isa = PBXFileReference; lastKnownFileType = file; name = Simple_Synth.mobileprovision; path = "Simple Synth/Simple_Synth.mobileprovision"; sourceTree = "<group>"; };
@@ -130,6 +132,7 @@
 			children = (
 				A7416B431EA79378002FFBAC /* EnvironmentView.swift */,
 				A724B86C1EA7E9A500784425 /* Shape.swift */,
+				A74F06611EAE844A00002251 /* Weather.swift */,
 				B57ECC451E8B38370087AAF1 /* SimpleSynthVC.swift */,
 			);
 			name = Views;
@@ -287,6 +290,7 @@
 				B5A908491E8FFF5000A20505 /* GeneratorBank.swift in Sources */,
 				A7416B441EA79378002FFBAC /* EnvironmentView.swift in Sources */,
 				A724B86D1EA7E9A500784425 /* Shape.swift in Sources */,
+				A74F06621EAE844A00002251 /* Weather.swift in Sources */,
 				A7416B461EA7CE2B002FFBAC /* CoreGraphics-Extensions.swift in Sources */,
 				B51E7A111E8C96140064848B /* Colors.swift in Sources */,
 				B5D255C61E8C2C9E0079CB0E /* Conductor.swift in Sources */,

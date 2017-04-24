@@ -44,11 +44,17 @@ class Environment: UIView {
     let type: EnvironmentType
     lazy var keyOrigins: [CGPoint] = { return self.calculateOrigins() }()
     var keyType: ShapeType { return type.key }
+    var weatherType: WeatherType {
+        didSet {
+            layoutWeather()
+        }
+    }
     
     weak var delegate: KeyInteractionDelegate?
     
-    init(type: EnvironmentType) {
+    init(type: EnvironmentType, weatherType: WeatherType = .cloudy) {
         self.type = type
+        self.weatherType = weatherType
         super.init(frame: UIScreen.main.bounds)
         self.backgroundColor = type.backgroundColor
     }
@@ -82,6 +88,7 @@ class Environment: UIView {
     func layoutView() {
         layoutAnimals()
         layoutKeys()
+        layoutWeather()
     }
     
     func layoutAnimals() {
@@ -98,7 +105,7 @@ class Environment: UIView {
             $0.image = t.animalImage
             $0.tag = index
             $0.accessibilityIdentifier = t.rawValue
-            self.addSubview($0)
+            addSubview($0)
             animalImageViewButtons.append($0)
             $0.alpha = isCurrentType ? 1 : 0
             // Gesture Recognizers
@@ -120,8 +127,32 @@ class Environment: UIView {
             key.tag = index
             key.conductorDelegate = delegate
             key.animationDelegate = self
-            self.addSubview(key)
+            addSubview(key)
         }
+    }
+    
+    func layoutWeather() {
+        let origin = CGPoint(x: frame.width - 100, y: 25)
+        let changeWeatherTap = UITapGestureRecognizer(target: self, action: #selector(changeWeather))
+        let weatherObject = Weather(origin: origin, type: weatherType)
+        weatherObject.isUserInteractionEnabled = true
+        weatherObject.addGestureRecognizer(changeWeatherTap)
+        addSubview(weatherObject)
+    }
+    
+    func changeWeather(_:UITapGestureRecognizer) {
+        guard let weatherObj = subviews.filter({ $0 is Weather }).first else { return }
+        weatherObj.removeFromSuperview()
+        weatherType = {
+            switch weatherType {
+            case .sunny:
+                return .dark
+            case .dark:
+                return .cloudy
+            case .cloudy:
+                return .sunny
+            }
+        }()
     }
     
     func returnToCurrentEnvironment() {
@@ -159,12 +190,12 @@ class Environment: UIView {
 protocol AnimateSoundDelegate: class {
     func animateSound(_ shape: Shape)
     func toggleFade(_ shape: Shape)
-    
 }
 
 
 extension Environment: AnimateSoundDelegate {
     
+    // TODO: remove, currently unused
     func animationShouldBeThrottled(_ shape: Shape) -> Bool {
         if animationThrottle.tag != shape.tag || animationThrottle.counter == ANIMATION_THROTTLE_COUNT {
             animationThrottle = (shape.tag, 0)
@@ -175,23 +206,12 @@ extension Environment: AnimateSoundDelegate {
     
     
     func toggleFade(_ shape: Shape) {
-        if !shape.isPressed {
-            UIView.animate(withDuration: 0.1) {
-                shape.alpha = 0.7
-            }
-            shape.isPressed = true
-        } else {
-            UIView.animate(withDuration: 0.1) {
-                shape.alpha = 1
-            }
-            shape.isPressed = false
-        }
+        UIView.animate(withDuration: 0.1) { shape.alpha = shape.isPressed ? 1 : 0.7 }
+        shape.isPressed = !shape.isPressed
     }
     
     func animateSound(_ shape: Shape) {
-        
-        //if animationShouldBeThrottled(shape) { return }
-        
+
         let noteFrequency = Conductor.sharedInstance.MIDINotes[shape.tag].midiNoteToFrequency()
         
         let keyOrigin = keyOrigins[shape.tag]
@@ -210,7 +230,7 @@ extension Environment: AnimateSoundDelegate {
             $0.lineWidth = 1.0
             $0.strokeColor = UIColor(red:0.31, green:0.53, blue:0.87, alpha:1.0).cgColor
             $0.fillColor = Palette.transparent.color.cgColor
-            self.layer.insertSublayer($0, at: 0)
+            layer.insertSublayer($0, at: 0)
         }
         
         let strokeAnimation = CABasicAnimation(keyPath: "strokeColor")

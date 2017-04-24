@@ -9,10 +9,6 @@ enum ShapeType {
     case honeycomb, lilypad, flower
     
     var size: CGSize { return CGSize(width: 100, height: 100) }
-    
-    var color: UIColor {
-        return Palette.color(for: self)
-    }
 }
 
 class Shape: UIView {
@@ -66,7 +62,7 @@ class Shape: UIView {
         context?.addLine(to: (50, 100))
         context?.addLine(to: (6.7, 75))
         
-        context?.fillAndStroke(fill: type.color, stroke: (2, Palette.honeycombRim.color))
+        context?.fillAndStroke(fill: Palette.honeycomb.color, stroke: (2, Palette.honeycombRim.color))
         context?.drawPath(using: .fillStroke)
     }
     
@@ -83,19 +79,18 @@ class Shape: UIView {
         context?.addCurve(to: (2, 50), control1: (18, 98), control2: (2, 78))
         
         context?.setShadow(offset: .zero, blur: 2, color: Palette.lilypadRim.color.cgColor)
-        context?.fillAndStroke(fill: type.color, stroke: (width: 2, color: Palette.lilypadRim.color))
+        context?.fillAndStroke(fill: Palette.lilypad.color, stroke: (width: 2, color: Palette.lilypadRim.color))
         context?.drawPath(using: .fillStroke)
         
         func addGradient() {
             context?.restoreGState()
             let origin = CGPoint(x: 65, y: 50)
             let locations: [CGFloat] = [0.0, 1.0]
-            let colors = [Palette.lilypadLight.color.cgColor, type.color.cgColor]
+            let colors = [Palette.lilypadLight.color.cgColor, Palette.lilypad.color.cgColor]
             let colorspace = CGColorSpaceCreateDeviceRGB()
             let gradient = CGGradient(colorsSpace: colorspace, colors: colors as CFArray, locations: locations)
             context?.drawRadialGradient(gradient!, startCenter: origin, startRadius: 0, endCenter: origin, endRadius: 30, options: [])
         }
-        
         addGradient()
     }
     
@@ -107,7 +102,7 @@ class Shape: UIView {
             context?.translateBy(x: 50, y: 50)
             context?.rotate(by: CGFloat(Double.pi / 4 * Double(i)))
             context?.addEllipse(in: CGRect(x: -10, y: -50, width: 20, height: 100))
-            context?.fillAndStroke(fill: type.color, stroke: (1, Palette.petal.color))
+            context?.fillAndStroke(fill: Palette.flower.color, stroke: (1, Palette.petal.color))
             context?.drawPath(using: .fillStroke)
             context?.restoreGState()
         }

@@ -59,7 +59,7 @@ class Environment: UIView {
     }
     
     func addRevealAllAnimalsGestureRecognizer(view: UIImageView) {
-        let revealAllAnimalsPress = UILongPressGestureRecognizer(target: self, action: #selector(revealAllAnimals))
+        let revealAllAnimalsPress = UITapGestureRecognizer(target: self, action: #selector(revealAllAnimals))
         view.addGestureRecognizer(revealAllAnimalsPress)
     }
     

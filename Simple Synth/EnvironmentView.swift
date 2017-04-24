@@ -35,6 +35,7 @@ enum EnvironmentType: String {
 class Environment: UIView {
     
     var animalImageViewButtons = [UIImageView]()
+    var currentAnimalHasBeenTappedOnce = false
     
     let ANIMATION_THROTTLE_COUNT = 40
     let DISPLACEMENTS: [CGFloat] = [-130, 0, 130]
@@ -128,9 +129,13 @@ class Environment: UIView {
         for (i, v) in animalImageViewButtons.enumerated() { v.alpha = i == 1 ? 1 : 0 }
     }
     
-    func revealAllAnimals(_:UILongPressGestureRecognizer) {
-        animalImageViewButtons.forEach { $0.alpha = 0.3 }
+    func revealAllAnimals(_:UITapGestureRecognizer) {
+        animalImageViewButtons.forEach { $0.alpha = 1.0 }
         aboutToSwitchEnvironment = true
+        if currentAnimalHasBeenTappedOnce {
+            returnToCurrentEnvironment()
+        }
+        currentAnimalHasBeenTappedOnce = !currentAnimalHasBeenTappedOnce
     }
     
     func transition(to environmentType: EnvironmentType) {
@@ -148,6 +153,7 @@ class Environment: UIView {
             let transitionType = EnvironmentType(rawValue: accessId)
             else { return }
         transitionType == type ? returnToCurrentEnvironment() : transition(to: transitionType)
+        // this is always returning false...
     }
     
     required init?(coder aDecoder: NSCoder) {

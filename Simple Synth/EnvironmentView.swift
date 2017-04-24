@@ -83,25 +83,8 @@ class Environment: UIView, UITableViewDelegate, UITableViewDataSource {
     func layoutView() {
         layoutAnimals()
         layoutKeys()
-        tableView.register(AnimalTableViewCell.self, forCellReuseIdentifier: "animalCell")
-        tableView.delegate = self
-        tableView.dataSource = self
+        setUpTableView()
     }
-    
-    // MARK: - TableView Methods
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 3
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        // each animal should go here
-        let cell = UITableViewCell()
-        cell.animalView = animalImageViewButtons[indexPath.row]
-        cell.backgroundColor = Palette.green.color
-        return cell
-    }
- 
     
     func layoutAnimals() {
         var types = EnvironmentType.all.filter { $0 != type }
@@ -117,20 +100,46 @@ class Environment: UIView, UITableViewDelegate, UITableViewDataSource {
             $0.image = t.animalImage
             $0.tag = index
             $0.accessibilityIdentifier = t.rawValue
-            self.addSubview($0)
             animalImageViewButtons.append($0)
             $0.alpha = isCurrentType ? 1 : 0
             // Gesture Recognizers
             $0.isUserInteractionEnabled = true
             addChangeEnvironmentGestureRecognizer(view: $0)
             if index == 1 { addRevealAllAnimalsGestureRecognizer(view: $0) }
-            // Anchors
-            $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
-            $0.widthAnchor.constraint(equalTo: $0.heightAnchor).isActive = true
-            $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: DISPLACEMENTS[index]).isActive = true
-            $0.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
-            $0.translatesAutoresizingMaskIntoConstraints = false
+
         }
+    }
+
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return animalImageViewButtons.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = AnimalTableViewCell()
+        cell.animalView.image = animalImageViewButtons[indexPath.row].image
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        <#code#>
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
+    func setUpTableView() {
+        tableView.register(AnimalTableViewCell.self, forCellReuseIdentifier: "animalCell")
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        self.addSubview(tableView)
+        tableView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        tableView.widthAnchor.constraint(equalToConstant: 100).isActive = true
+        tableView.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+        tableView.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
+        tableView.reloadData()
     }
     
     func layoutKeys() {

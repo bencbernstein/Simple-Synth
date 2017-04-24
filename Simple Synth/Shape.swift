@@ -66,22 +66,37 @@ class Shape: UIView {
         context?.addLine(to: (50, 100))
         context?.addLine(to: (6.7, 75))
         
-        context?.close(fill: type.color, stroke: (2, Palette.honeycombRim.color))
+        context?.fillAndStroke(fill: type.color, stroke: (2, Palette.honeycombRim.color))
         context?.drawPath(using: .fillStroke)
     }
     
     func drawLilypad() {
         let context = UIGraphicsGetCurrentContext()
         
-        context?.move(to: (0, 50))
+        context?.saveGState()
+        context?.move(to: (2, 50))
         context?.addLine(to: (30, 50))
-        context?.addLine(to: (5, 35))
-        context?.addCurve(to: (50, 0), control1: (5, 20), control2: (25, 0))
-        context?.addCurve(to: (100, 50), control1: (80, 0), control2: (100, 20))
-        context?.addCurve(to: (50, 100), control1: (100, 80), control2: (80, 100))
-        context?.addCurve(to: (0, 50), control1: (20, 100), control2: (0, 80))
+        context?.addLine(to: (5, 37))
+        context?.addCurve(to: (50, 2), control1: (7, 18), control2: (23, 2))
+        context?.addCurve(to: (98, 50), control1: (78, 2), control2: (98, 18))
+        context?.addCurve(to: (50, 98), control1: (98, 78), control2: (78, 98))
+        context?.addCurve(to: (2, 50), control1: (18, 98), control2: (2, 78))
         
-        context?.close(fill: type.color)
+        context?.setShadow(offset: .zero, blur: 2, color: Palette.lilypadRim.color.cgColor)
+        context?.fillAndStroke(fill: type.color, stroke: (width: 2, color: Palette.lilypadRim.color))
+        context?.drawPath(using: .fillStroke)
+        
+        func addGradient() {
+            context?.restoreGState()
+            let origin = CGPoint(x: 65, y: 50)
+            let locations: [CGFloat] = [0.0, 1.0]
+            let colors = [Palette.lilypadLight.color.cgColor, type.color.cgColor]
+            let colorspace = CGColorSpaceCreateDeviceRGB()
+            let gradient = CGGradient(colorsSpace: colorspace, colors: colors as CFArray, locations: locations)
+            context?.drawRadialGradient(gradient!, startCenter: origin, startRadius: 0, endCenter: origin, endRadius: 30, options: [])
+        }
+        
+        addGradient()
     }
     
     func drawFlower() {
@@ -92,13 +107,13 @@ class Shape: UIView {
             context?.translateBy(x: 50, y: 50)
             context?.rotate(by: CGFloat(Double.pi / 4 * Double(i)))
             context?.addEllipse(in: CGRect(x: -10, y: -50, width: 20, height: 100))
-            context?.close(fill: type.color, stroke: (1, Palette.petal.color))
+            context?.fillAndStroke(fill: type.color, stroke: (1, Palette.petal.color))
             context?.drawPath(using: .fillStroke)
             context?.restoreGState()
         }
         
         context?.addEllipse(in: CGRect(x: 35, y: 35, width: 30, height: 30))
-        context?.close(fill: Palette.pistal.color, stroke: (4, Palette.pistalRim.color))
+        context?.fillAndStroke(fill: Palette.pistal.color, stroke: (4, Palette.pistalRim.color))
         context?.drawPath(using: .fillStroke)
     }
     

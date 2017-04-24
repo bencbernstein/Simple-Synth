@@ -19,6 +19,7 @@
 		B57ECC4E1E8B38370087AAF1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B57ECC4C1E8B38370087AAF1 /* LaunchScreen.storyboard */; };
 		B5A908491E8FFF5000A20505 /* GeneratorBank.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5A908481E8FFF5000A20505 /* GeneratorBank.swift */; };
 		B5D255C61E8C2C9E0079CB0E /* Conductor.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5D255C51E8C2C9E0079CB0E /* Conductor.swift */; };
+		B5FF62D71EAE4886007A1844 /* AnimalTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5FF62D61EAE4886007A1844 /* AnimalTableViewCell.swift */; };
 		C0B89A62E8EA1B7CA546030B /* Pods_Simple_Synth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2D365B321DF67CB891E1AB3 /* Pods_Simple_Synth.framework */; };
 /* End PBXBuildFile section */
 
@@ -39,6 +40,7 @@
 		B57ECC4F1E8B38370087AAF1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B5A908481E8FFF5000A20505 /* GeneratorBank.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeneratorBank.swift; sourceTree = "<group>"; };
 		B5D255C51E8C2C9E0079CB0E /* Conductor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conductor.swift; sourceTree = "<group>"; };
+		B5FF62D61EAE4886007A1844 /* AnimalTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnimalTableViewCell.swift; sourceTree = "<group>"; };
 		C2430570CC26FF51F2331BE6 /* Pods-Simple Synth.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Simple Synth.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Simple Synth/Pods-Simple Synth.debug.xcconfig"; sourceTree = "<group>"; };
 		F2D365B321DF67CB891E1AB3 /* Pods_Simple_Synth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Simple_Synth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -128,6 +130,7 @@
 		B5A07A7B1EA6B9CD00DCB2B9 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				B5FF62D51EAE486F007A1844 /* Cells */,
 				A7416B431EA79378002FFBAC /* EnvironmentView.swift */,
 				A724B86C1EA7E9A500784425 /* Shape.swift */,
 				B57ECC451E8B38370087AAF1 /* SimpleSynthVC.swift */,
@@ -142,6 +145,14 @@
 				B5A908481E8FFF5000A20505 /* GeneratorBank.swift */,
 			);
 			name = Oscillators;
+			sourceTree = "<group>";
+		};
+		B5FF62D51EAE486F007A1844 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				B5FF62D61EAE4886007A1844 /* AnimalTableViewCell.swift */,
+			);
+			name = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -289,6 +300,7 @@
 				A724B86D1EA7E9A500784425 /* Shape.swift in Sources */,
 				A7416B461EA7CE2B002FFBAC /* CoreGraphics-Extensions.swift in Sources */,
 				B51E7A111E8C96140064848B /* Colors.swift in Sources */,
+				B5FF62D71EAE4886007A1844 /* AnimalTableViewCell.swift in Sources */,
 				B5D255C61E8C2C9E0079CB0E /* Conductor.swift in Sources */,
 				B57ECC441E8B38370087AAF1 /* AppDelegate.swift in Sources */,
 			);

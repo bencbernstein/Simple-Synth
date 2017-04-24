@@ -32,9 +32,10 @@ enum EnvironmentType: String {
     }
 }
 
-class Environment: UIView {
+class Environment: UIView, UITableViewDelegate, UITableViewDataSource {
     
     var animalImageViewButtons = [UIImageView]()
+    var tableView = UITableView()
     
     let ANIMATION_THROTTLE_COUNT = 40
     let DISPLACEMENTS: [CGFloat] = [-130, 0, 130]
@@ -82,7 +83,25 @@ class Environment: UIView {
     func layoutView() {
         layoutAnimals()
         layoutKeys()
+        tableView.register(AnimalTableViewCell.self, forCellReuseIdentifier: "animalCell")
+        tableView.delegate = self
+        tableView.dataSource = self
     }
+    
+    // MARK: - TableView Methods
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // each animal should go here
+        let cell = UITableViewCell()
+        cell.animalView = animalImageViewButtons[indexPath.row]
+        cell.backgroundColor = Palette.green.color
+        return cell
+    }
+ 
     
     func layoutAnimals() {
         var types = EnvironmentType.all.filter { $0 != type }
@@ -154,7 +173,6 @@ class Environment: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 }
-
 
 protocol AnimateSoundDelegate: class {
     func animateSound(_ shape: Shape)

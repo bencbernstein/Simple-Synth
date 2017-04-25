@@ -47,24 +47,20 @@ class Weather: UIView {
         drawWhiteCircle(x: 45, y: 42)
         drawWhiteCircle(x: 15, y: 22)
         drawWhiteCircle(x: 35, y: 27)
-
     }
     
     func drawMoon() {
-        
-        //crescent moon
         let crescentContext = UIGraphicsGetCurrentContext()
-        crescentContext?.addEllipse(in: CGRect(x: 20.5, y: 2.5, width: 70, height: 70))
         
+        crescentContext?.addEllipse(in: CGRect(x: 20.5, y: 2.5, width: 70, height: 70))
         crescentContext?.fillAndStroke(fill: Palette.moon.color, stroke: (width: 2, color: Palette.moon.color ))
         crescentContext?.drawPath(using: .fillStroke)
         
-        //mask circle
         let maskContext = UIGraphicsGetCurrentContext()
+        
         maskContext?.addEllipse(in: CGRect(x: 18, y: 0, width: 65, height: 65))
-        maskContext?.fill(Palette.backgroundColor(for: environmentType))
+        maskContext?.fill(Palette.backgroundColor(for: environmentType, weather: type))
         maskContext?.drawPath(using: .fillStroke)
-
     }
     
     func drawSun() {

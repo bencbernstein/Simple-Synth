@@ -12,7 +12,7 @@ enum EnvironmentType: String {
     
     static var all = [bee, bird, frog]
     
-    var key: ShapeType {
+    var key: KeyType {
         switch self {
         case .bee:
             return .honeycomb
@@ -31,7 +31,6 @@ enum EnvironmentType: String {
         return images
     }
     
-    
     var backgroundColor: UIColor {
         return Palette.backgroundColor(for: self)
     }
@@ -47,13 +46,12 @@ class Environment: UIView {
     
     var animationThrottle = (tag: 0, counter: 0)
     var aboutToSwitchEnvironment = false
+    let conductor = Conductor.sharedInstance
     let type: EnvironmentType
     lazy var keyOrigins: [CGPoint] = { return self.calculateOrigins() }()
-    var keyType: ShapeType { return type.key }
+    var keyType: KeyType { return type.key }
     var weatherType: WeatherType {
-        didSet {
-            layoutWeather()
-        }
+        didSet { layoutWeather() }
     }
     
     weak var delegate: KeyInteractionDelegate?
@@ -65,26 +63,7 @@ class Environment: UIView {
         self.backgroundColor = type.backgroundColor
     }
     
-    func addChangeEnvironmentGestureRecognizer(view: UIImageView) {
-        let transitionEnvironmentPress = UITapGestureRecognizer(target: self, action: #selector(transitionEnvironment))
-        view.addGestureRecognizer(transitionEnvironmentPress)
-    }
-    
-    func addChangeDelaySwipeRecognizers(view: UIImageView) {
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(nextDelay))
-        swipeRight.direction = .right
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(previousDelay))
-        swipeLeft.direction = .left
-        view.addGestureRecognizer(swipeRight)
-        view.addGestureRecognizer(swipeLeft)
-
-    }
-    
-    func addRevealAllAnimalsGestureRecognizer(view: UIImageView) {
-        let revealAllAnimalsPress = UITapGestureRecognizer(target: self, action: #selector(revealAllAnimals))
-        view.addGestureRecognizer(revealAllAnimalsPress)
-    }
-    
+    // Determines the origin for each key
     func calculateOrigins() -> [CGPoint] {
         var origins: [CGPoint] = []
         let centerOrigin = (frame.width / 2 - 50, frame.height / 2 - 50)
@@ -101,67 +80,9 @@ class Environment: UIView {
         return origins
     }
     
-    func layoutView() {
-        layoutAnimals()
-        layoutKeys()
-        layoutWeather()
-    }
-    
-    func layoutAnimals() {
-        var types = EnvironmentType.all.filter { $0 != type }
-        types.insert(type, at: 1)
-        for (index, t) in types.enumerated() {
-            layoutAnimal(t, index: index)
-        }
-    }
-    
-    
-    func layoutAnimal(_ t: EnvironmentType, index: Int) {
-        let isCurrentType = index == 1
-        
-        let animalImageView = UIImageView().then {
-            $0.image = t.animalImages[0]
-            $0.tag = index
-            $0.accessibilityIdentifier = t.rawValue
-            self.addSubview($0)
-            animalImageViews.append($0)
-            $0.alpha = isCurrentType ? 1 : 0
-            // Gesture Recognizers
-            $0.isUserInteractionEnabled = true
-            addChangeEnvironmentGestureRecognizer(view: $0)
-            addChangeDelaySwipeRecognizers(view: $0)
-            if index == 1 { addRevealAllAnimalsGestureRecognizer(view: $0); $0.image = determineAnimalImageForDelay(type) }
-            // Anchors
-            $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
-            $0.widthAnchor.constraint(equalTo: $0.heightAnchor).isActive = true
-            $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: DISPLACEMENTS[index]).isActive = true
-            $0.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
-            $0.translatesAutoresizingMaskIntoConstraints = false
-        }
-    }
-    
-    func layoutKeys() {
-        for (index, origin) in keyOrigins.enumerated() {
-            let key = Shape(origin: origin, type: keyType)
-            key.tag = index
-            key.conductorDelegate = delegate
-            key.animationDelegate = self
-            addSubview(key)
-        }
-    }
-    
-    func layoutWeather() {
-        let origin = CGPoint(x: frame.width - 100, y: 25)
-        let changeWeatherTap = UITapGestureRecognizer(target: self, action: #selector(changeWeather))
-        let weatherObject = Weather(origin: origin, type: weatherType)
-        weatherObject.isUserInteractionEnabled = true
-        weatherObject.addGestureRecognizer(changeWeatherTap)
-        addSubview(weatherObject)
-    }
-    
     func changeWeather(_:UITapGestureRecognizer) {
-        guard let weatherObj = subviews.filter({ $0 is Weather }).first else { return }
-        weatherObj.removeFromSuperview()
+        guard let currentWeatherView = subviews.filter({ $0 is Weather }).first else { return }
+        currentWeatherView.removeFromSuperview()
         weatherType = {
             switch weatherType {
             case .sunny:
@@ -176,59 +97,16 @@ class Environment: UIView {
     
     func returnToCurrentEnvironment() {
         for (i, v) in animalImageViews.enumerated() {
-            UIView.animate(withDuration: 0.2) {
-                v.alpha = i == 1 ? 1 : 0
-            }
-        }
-    }
-    
-    func nextDelay(_ sender: UISwipeGestureRecognizer) {
-        guard !currentAnimalHasBeenTappedOnce else { return }
-        Conductor.sharedInstance.nextDelay()
-        guard
-            let accessId = sender.view?.accessibilityIdentifier,
-            let animalType = EnvironmentType(rawValue: accessId)
-            else { return }
-        animalImageViews[1].image = determineAnimalImageForDelay(animalType)
-    }
-    
-    func previousDelay(_ sender: UISwipeGestureRecognizer) {
-        guard !currentAnimalHasBeenTappedOnce else { return }
-        Conductor.sharedInstance.previousDelay()
-        guard
-            let accessId = sender.view?.accessibilityIdentifier,
-            let animalType = EnvironmentType(rawValue: accessId)
-            else { return }
-        animalImageViews[1].image = determineAnimalImageForDelay(animalType)
-    }
-    
-    func determineAnimalImageForDelay(_ t: EnvironmentType) -> UIImage {
-        let conductor = Conductor.sharedInstance
-        if conductor.delay.isBypassed {
-            return t.animalImages[0]
-        }
-        switch conductor.delay.time {
-        case conductor.shortDelay:
-            return t.animalImages[1]
-        case conductor.mediumDelay:
-            return t.animalImages[2]
-        case conductor.longDelay:
-            return t.animalImages[3]
-        default:
-            return t.animalImages[3]
+            UIView.animate(withDuration: 0.2) { v.alpha = i == 1 ? 1 : 0 }
         }
     }
     
     func revealAllAnimals(_:UITapGestureRecognizer) {
         animalImageViews.forEach { (animal) in
-            UIView.animate(withDuration: 0.2, animations: {
-                animal.alpha = 0.7
-            })
+            UIView.animate(withDuration: 0.2, animations: { animal.alpha = 0.7 })
         }
         aboutToSwitchEnvironment = true
-        if currentAnimalHasBeenTappedOnce {
-            returnToCurrentEnvironment()
-        }
+        if currentAnimalHasBeenTappedOnce { returnToCurrentEnvironment() }
         currentAnimalHasBeenTappedOnce = !currentAnimalHasBeenTappedOnce
     }
     
@@ -255,31 +133,148 @@ class Environment: UIView {
     }
 }
 
+
+// MARK: - Environment Setup
+private typealias EnvironmentSetup = Environment
+extension EnvironmentSetup {
+    
+    func addChangeEnvironmentGestureRecognizer(view: UIImageView) {
+        let transitionEnvironmentPress = UITapGestureRecognizer(target: self, action: #selector(transitionEnvironment))
+        view.addGestureRecognizer(transitionEnvironmentPress)
+    }
+    
+    func addChangeDelaySwipeRecognizers(view: UIImageView) {
+        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(nextDelay))
+        swipeRight.direction = .right
+        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(previousDelay))
+        swipeLeft.direction = .left
+        view.addGestureRecognizer(swipeRight)
+        view.addGestureRecognizer(swipeLeft)
+    }
+    
+    func addRevealAllAnimalsGestureRecognizer(view: UIImageView) {
+        let revealAllAnimalsPress = UITapGestureRecognizer(target: self, action: #selector(revealAllAnimals))
+        view.addGestureRecognizer(revealAllAnimalsPress)
+    }
+    
+    func layoutView() {
+        layoutAnimals()
+        layoutKeys()
+        layoutWeather()
+    }
+    
+    func layoutAnimals() {
+        var types = EnvironmentType.all.filter { $0 != type }
+        // Ensure the current EnvironentType's Animal is in the middle
+        types.insert(type, at: 1)
+        for (index, t) in types.enumerated() { layoutAnimal(t, index: index) }
+    }
+    
+    func layoutAnimal(_ t: EnvironmentType, index: Int) {
+        
+        let isCurrentType = index == 1
+        
+        _ = UIImageView().then {
+            $0.image = t.animalImages[0]
+            $0.tag = index
+            $0.accessibilityIdentifier = t.rawValue
+            addSubview($0)
+            animalImageViews.append($0)
+            $0.alpha = isCurrentType ? 1 : 0
+            // Gesture Recognizers
+            $0.isUserInteractionEnabled = true
+            addChangeEnvironmentGestureRecognizer(view: $0)
+            addChangeDelaySwipeRecognizers(view: $0)
+            if index == 1 {
+                addRevealAllAnimalsGestureRecognizer(view: $0)
+                $0.image = animalImageForDelay(type)
+            }
+            // Anchors
+            $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
+            $0.widthAnchor.constraint(equalTo: $0.heightAnchor).isActive = true
+            $0.centerYAnchor.constraint(equalTo: centerYAnchor, constant: DISPLACEMENTS[index]).isActive = true
+            $0.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20).isActive = true
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+    }
+    
+    func layoutKeys() {
+        for (index, origin) in keyOrigins.enumerated() {
+            _ = Key(origin: origin, type: keyType).then {
+                $0.tag = index
+                $0.conductorDelegate = delegate
+                $0.animationDelegate = self
+                addSubview($0)
+            }
+        }
+    }
+    
+    func layoutWeather() {
+        let origin = CGPoint(x: frame.width - 100, y: 25)
+        let changeWeatherTap = UITapGestureRecognizer(target: self, action: #selector(changeWeather))
+        _ = Weather(origin: origin, type: weatherType).then {
+            $0.isUserInteractionEnabled = true
+            $0.addGestureRecognizer(changeWeatherTap)
+            addSubview($0)
+        }
+    }
+}
+
+
+// MARK: - Environment Delay Methods
+extension Environment {
+    
+    func animalImageForDelay(_ t: EnvironmentType) -> UIImage {
+        switch conductor.delay.time {
+        case conductor.shortDelay:
+            return t.animalImages[1]
+        case conductor.mediumDelay:
+            return t.animalImages[2]
+        case conductor.longDelay:
+            return t.animalImages[3]
+        default:
+            return t.animalImages[0]
+        }
+    }
+    
+    func nextDelay(_ sender: UISwipeGestureRecognizer) {
+        if currentAnimalHasBeenTappedOnce { return }
+        Conductor.sharedInstance.nextDelay()
+        updateNumberOfAnimals(sender)
+    }
+    
+    func previousDelay(_ sender: UISwipeGestureRecognizer) {
+        if currentAnimalHasBeenTappedOnce { return }
+        Conductor.sharedInstance.previousDelay()
+        updateNumberOfAnimals(sender)
+    }
+    
+    func updateNumberOfAnimals(_ sender: UISwipeGestureRecognizer) {
+        guard
+            let accessId = sender.view?.accessibilityIdentifier,
+            let animalType = EnvironmentType(rawValue: accessId)
+            else { return }
+        animalImageViews[1].image = animalImageForDelay(animalType)
+    }
+}
+
+
+// MARK: - Animal Sound Delegate
 protocol AnimateSoundDelegate: class {
-    func animateSound(_ shape: Shape)
-    func toggleFade(_ shape: Shape)
+    func animateSound(_ key: Key)
+    func toggleFade(_ key: Key)
 }
 
 extension Environment: AnimateSoundDelegate {
     
-    // TODO: remove, currently unused
-    func animationShouldBeThrottled(_ shape: Shape) -> Bool {
-        if animationThrottle.tag != shape.tag || animationThrottle.counter == ANIMATION_THROTTLE_COUNT {
-            animationThrottle = (shape.tag, 0)
-        }
-        animationThrottle.counter += 1
-        return animationThrottle.counter != 1
+    func toggleFade(_ key: Key) {
+        UIView.animate(withDuration: 0.1) { key.alpha = key.isPressed ? 1 : 0.7 }
+        key.isPressed = !key.isPressed
     }
     
-    
-    func toggleFade(_ shape: Shape) {
-        UIView.animate(withDuration: 0.1) { shape.alpha = shape.isPressed ? 1 : 0.7 }
-        shape.isPressed = !shape.isPressed
-    }
-    
-    func animateSound(_ shape: Shape) {
-        let noteFrequency = Conductor.sharedInstance.MIDINotes[shape.tag].midiNoteToFrequency()
-        let keyOrigin = keyOrigins[shape.tag]
+    func animateSound(_ key: Key) {
+        let noteFrequency = Conductor.sharedInstance.MIDINotes[key.tag].midiNoteToFrequency()
+        let keyOrigin = keyOrigins[key.tag]
         
         let circleOrigin = CGPoint(x: keyOrigin.x + 50, y: keyOrigin.y + 50)
         
@@ -318,13 +313,5 @@ extension Environment: AnimateSoundDelegate {
                 circleLayer.removeFromSuperlayer()
             }
         }
-    }
-}
-
-extension CAShapeLayer {
-    
-    func add(animations: [CABasicAnimation], cb: @escaping () -> ()) {
-        animations.forEach { add($0, forKey: $0.keyPath) }
-        cb()
     }
 }

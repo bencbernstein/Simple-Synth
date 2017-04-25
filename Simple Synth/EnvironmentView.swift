@@ -47,13 +47,19 @@ class Environment: UIView {
     }
     
     func changeWeather(_:UITapGestureRecognizer) {
-        weather = {
-            switch weather {
+        guard let currentWeatherView = subviews.filter({ $0 is Weather }).first else { return }
+        let conductor = Conductor.sharedInstance
+        currentWeatherView.removeFromSuperview()
+        weatherType = {
+            switch weatherType {
             case .sunny:
-                return .dark
-            case .dark:
+                conductor.MIDINotes = conductor.minorPentatonic
                 return .cloudy
             case .cloudy:
+                conductor.MIDINotes = conductor.bluesMinor
+                return .dark
+            case .dark:
+                conductor.MIDINotes = conductor.majorPentatonic
                 return .sunny
             }
         }()
@@ -167,9 +173,9 @@ extension EnvironmentSetup {
     }
     
     func layoutWeather() {
-        let origin = CGPoint(x: frame.width - 100, y: 25)
+        let origin = CGPoint(x: frame.width - 125, y: 25)
         let changeWeatherTap = UITapGestureRecognizer(target: self, action: #selector(changeWeather))
-        _ = Weather(origin: origin, type: weather).then {
+        _ = Weather(origin: origin, type: weatherType, environmentType: type).then {
             $0.isUserInteractionEnabled = true
             $0.addGestureRecognizer(changeWeatherTap)
             addSubview($0)

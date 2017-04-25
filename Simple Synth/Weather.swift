@@ -7,9 +7,11 @@ import UIKit
 class Weather: UIView {
     
     var type: WeatherType
+    var environmentType: EnvironmentType
     
-    init(origin: CGPoint, type: WeatherType) {
+    init(origin: CGPoint, type: WeatherType, environmentType: EnvironmentType) {
         self.type = type
+        self.environmentType = environmentType
         
         let size = type.size
         let frame = CGRect(origin: origin, size: size)
@@ -32,45 +34,51 @@ class Weather: UIView {
     
     func drawCloud() {
         drawSun()
-        let context = UIGraphicsGetCurrentContext()
         
-        context?.move(to: (2.5, 52.5))
-        context?.addCurve(to: (25, 30), control1: (5, 20), control2: (20, 20))
-        context?.addCurve(to: (72.5, 52.5), control1: (40, 5), control2: (60, 5))
-        context?.addCurve(to: (2.5, 52.5), control1: (70, 57.5), control2: (15, 57.5))
+        func drawWhiteCircle(x: Int, y: Int) {
+            let circle1 = UIGraphicsGetCurrentContext()
+            circle1?.addEllipse(in: CGRect(x: x, y: y, width: 35, height: 35))
+            circle1?.fill(Palette.cloud.color)
+            circle1?.drawPath(using: .fillStroke)
+        }
         
-        context?.fill(Palette.cloud.color)
-        context?.closePath()
+        drawWhiteCircle(x: 5, y: 42)
+        drawWhiteCircle(x: 25, y: 42)
+        drawWhiteCircle(x: 45, y: 42)
+        drawWhiteCircle(x: 15, y: 22)
+        drawWhiteCircle(x: 35, y: 27)
+
     }
     
     func drawMoon() {
-        let shadowContext = UIGraphicsGetCurrentContext()
         
-        shadowContext?.addEllipse(in: CGRect(x: 2.5, y: 2.5, width: 70, height: 70))
-        shadowContext?.fill(Palette.moonShadow.color)
-        shadowContext?.closePath()
+        //crescent moon
+        let crescentContext = UIGraphicsGetCurrentContext()
+        crescentContext?.addEllipse(in: CGRect(x: 20.5, y: 2.5, width: 70, height: 70))
         
-        let moonContext = UIGraphicsGetCurrentContext()
-        moonContext?.move(to: (55, 7.19))
-        // https://math.stackexchange.com/questions/873224/calculate-control-points-of-cubic-bezier-curve-approximating-a-part-of-a-circle
-        moonContext?.addCurve(to: (55, 67.81), control1: (78.33, 20.667), control2: (78.33, 54.333))
-        moonContext?.addCurve(to: (55, 7.19), control1: (63.33, 54.333), control2: (63.33, 20.667))
-        moonContext?.fill(Palette.moon.color)
-        moonContext?.closePath()
+        crescentContext?.fillAndStroke(fill: Palette.moon.color, stroke: (width: 2, color: Palette.moon.color ))
+        crescentContext?.drawPath(using: .fillStroke)
+        
+        //mask circle
+        let maskContext = UIGraphicsGetCurrentContext()
+        maskContext?.addEllipse(in: CGRect(x: 18, y: 0, width: 65, height: 65))
+        maskContext?.fill(Palette.backgroundColor(for: environmentType))
+        maskContext?.drawPath(using: .fillStroke)
+
     }
     
     func drawSun() {
         let context = UIGraphicsGetCurrentContext()
         
         context?.saveGState()
-        context?.addEllipse(in: CGRect(x: 2.5, y: 2.5, width: 70, height: 70))
+        context?.addEllipse(in: CGRect(x: 27.5, y: 2.5, width: 70, height: 70))
         context?.setShadow(offset: .zero, blur: 2, color: Palette.sunRim.color.cgColor)
         context?.fillAndStroke(fill: Palette.sun.color, stroke: (width: 2, color: Palette.sunRim.color))
         context?.drawPath(using: .fillStroke)
         
         func addGradient() {
             context?.restoreGState()
-            let origin = CGPoint(x: 37.5, y: 37.5)
+            let origin = CGPoint(x: 62.5, y: 37.5)
             let locations: [CGFloat] = [0.0, 1.0]
             let colors = [Palette.sunCenter.color.cgColor, Palette.sun.color.cgColor]
             let colorspace = CGColorSpaceCreateDeviceRGB()

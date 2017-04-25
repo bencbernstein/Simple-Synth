@@ -46,5 +46,5 @@ enum WeatherType: String {
     
     case cloudy, dark, sunny
     
-    var size: CGSize { return CGSize(width: 75, height: 75) }
+    var size: CGSize { return CGSize(width: 100, height: 100 ) }
 }

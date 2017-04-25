@@ -9,25 +9,24 @@ class Environment: UIView {
     
     var animalImageViews = [(EnvironmentType, UIImageView)]()
     
-    let ANIMATION_THROTTLE_COUNT = 40
     let DISPLACEMENTS: [CGFloat] = [-130, 0, 130]
     
     var aboutToSwitchEnvironment = false
     let conductor = Conductor.sharedInstance
-    let type: EnvironmentType
     lazy var keyOrigins: [CGPoint] = { return self.calculateOrigins() }()
     var keyType: KeyType { return type.key }
-    var weatherType: WeatherType {
-        didSet { layoutWeather() }
+    let type: EnvironmentType
+    var weather: WeatherType {
+        didSet { transition(to: type) }
     }
     
     weak var delegate: KeyInteractionDelegate?
     
-    init(type: EnvironmentType, weatherType: WeatherType = .cloudy) {
+    init(type: EnvironmentType, weatherType: WeatherType = .sunny) {
         self.type = type
-        self.weatherType = weatherType
+        self.weather = weatherType
         super.init(frame: UIScreen.main.bounds)
-        self.backgroundColor = type.backgroundColor
+        self.backgroundColor = type.backgroundColor(for: weather)
     }
     
     // Determines the origin for each key
@@ -48,10 +47,8 @@ class Environment: UIView {
     }
     
     func changeWeather(_:UITapGestureRecognizer) {
-        guard let currentWeatherView = subviews.filter({ $0 is Weather }).first else { return }
-        currentWeatherView.removeFromSuperview()
-        weatherType = {
-            switch weatherType {
+        weather = {
+            switch weather {
             case .sunny:
                 return .dark
             case .dark:
@@ -91,7 +88,7 @@ class Environment: UIView {
         NotificationCenter.default.post(
             name: Notification.Name(rawValue:"transitionEnvironment"),
             object: nil,
-            userInfo:["environment" : environmentType.rawValue]
+            userInfo: ["environment" : environmentType.rawValue, "weather" : weather.rawValue]
         )
     }
     
@@ -160,7 +157,7 @@ extension EnvironmentSetup {
     
     func layoutKeys() {
         for (index, origin) in keyOrigins.enumerated() {
-            _ = Key(origin: origin, type: keyType).then {
+            _ = Key(origin: origin, type: keyType, weather: weather).then {
                 $0.tag = index
                 $0.conductorDelegate = delegate
                 $0.animationDelegate = self
@@ -172,7 +169,7 @@ extension EnvironmentSetup {
     func layoutWeather() {
         let origin = CGPoint(x: frame.width - 100, y: 25)
         let changeWeatherTap = UITapGestureRecognizer(target: self, action: #selector(changeWeather))
-        _ = Weather(origin: origin, type: weatherType).then {
+        _ = Weather(origin: origin, type: weather).then {
             $0.isUserInteractionEnabled = true
             $0.addGestureRecognizer(changeWeatherTap)
             addSubview($0)
@@ -246,7 +243,7 @@ extension Environment: AnimateSoundDelegate {
         }
         
         let strokeAnimation = CABasicAnimation(keyPath: "strokeColor")
-        strokeAnimation.toValue = Palette.pond.color.cgColor
+        strokeAnimation.toValue = Palette.pond(weather: weather).color.cgColor
         strokeAnimation.duration = noteFrequency / 50
         
         var transform = CATransform3DIdentity

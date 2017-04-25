@@ -6,9 +6,10 @@ import UIKit
 
 class Key: UIView {
     
-    var type: KeyType
-    var isPressed = false
     var animationTimer = Timer()
+    var isPressed = false
+    var type: KeyType
+    var weather: WeatherType
     
     var currentPressure: CGFloat = 0  {
         didSet {
@@ -20,8 +21,9 @@ class Key: UIView {
     weak var animationDelegate: AnimateSoundDelegate?
     weak var conductorDelegate: KeyInteractionDelegate?
     
-    init(origin: CGPoint, type: KeyType) {
+    init(origin: CGPoint, type: KeyType, weather: WeatherType) {
         self.type = type
+        self.weather = weather
         
         let size = type.size
         let frame = CGRect(origin: origin, size: size)
@@ -55,7 +57,7 @@ class Key: UIView {
         context?.addLine(to: (50, 100))
         context?.addLine(to: (6.7, 75))
         
-        context?.fillAndStroke(fill: Palette.honeycomb.color, stroke: (2, Palette.honeycombRim.color))
+        context?.fillAndStroke(fill: Palette.honeycomb(weather: weather).color, stroke: (2, Palette.honeycombRim(weather: weather).color))
         context?.drawPath(using: .fillStroke)
     }
     
@@ -71,15 +73,15 @@ class Key: UIView {
         context?.addCurve(to: (50, 98), control1: (98, 78), control2: (78, 98))
         context?.addCurve(to: (2, 50), control1: (18, 98), control2: (2, 78))
         
-        context?.setShadow(offset: .zero, blur: 2, color: Palette.lilypadRim.color.cgColor)
-        context?.fillAndStroke(fill: Palette.lilypad.color, stroke: (width: 2, color: Palette.lilypadRim.color))
+        context?.setShadow(offset: .zero, blur: 2, color: Palette.lilypadRim(weather: weather).color.cgColor)
+        context?.fillAndStroke(fill: Palette.lilypad(weather: weather).color, stroke: (width: 2, color: Palette.lilypadRim(weather: weather).color))
         context?.drawPath(using: .fillStroke)
         
         func addGradient() {
             context?.restoreGState()
             let origin = CGPoint(x: 65, y: 50)
             let locations: [CGFloat] = [0.0, 1.0]
-            let colors = [Palette.lilypadLight.color.cgColor, Palette.lilypad.color.cgColor]
+            let colors = [Palette.lilypadLight(weather: weather).color.cgColor, Palette.lilypad(weather: weather).color.cgColor]
             let colorspace = CGColorSpaceCreateDeviceRGB()
             let gradient = CGGradient(colorsSpace: colorspace, colors: colors as CFArray, locations: locations)
             context?.drawRadialGradient(gradient!, startCenter: origin, startRadius: 0, endCenter: origin, endRadius: 30, options: [])
@@ -95,13 +97,13 @@ class Key: UIView {
             context?.translateBy(x: 50, y: 50)
             context?.rotate(by: CGFloat(Double.pi / 4 * Double(i)))
             context?.addEllipse(in: CGRect(x: -10, y: -50, width: 20, height: 100))
-            context?.fillAndStroke(fill: Palette.flower.color, stroke: (1, Palette.petal.color))
+            context?.fillAndStroke(fill: Palette.flower(weather: weather).color, stroke: (1, Palette.petal(weather: weather).color))
             context?.drawPath(using: .fillStroke)
             context?.restoreGState()
         }
         
         context?.addEllipse(in: CGRect(x: 35, y: 35, width: 30, height: 30))
-        context?.fillAndStroke(fill: Palette.pistal.color, stroke: (4, Palette.pistalRim.color))
+        context?.fillAndStroke(fill: Palette.pistal(weather: weather).color, stroke: (4, Palette.pistalRim(weather: weather).color))
         context?.drawPath(using: .fillStroke)
     }
     

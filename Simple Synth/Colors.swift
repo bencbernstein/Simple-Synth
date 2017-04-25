@@ -10,49 +10,114 @@ import UIKit
 
 enum Palette {
     
-    case purple, blue, green, yellow, orange, red, transparent, lilypad, lilypadLight, lilypadRim, pond, grass, flower, petal, pistal, pistalRim, honeycomb, honeycombRim, hive, sunCenter, sun, sunRim, moon, moonShadow, cloud
+    case
+    blue,
+    green,
+    orange,
+    purple,
+    red,
+    yellow,
+    // Transparent
+    transparent,
+    // Frog Environment
+    grass(weather: WeatherType),
+    lilypad(weather: WeatherType),
+    lilypadLight(weather: WeatherType),
+    lilypadRim(weather: WeatherType),
+    pond(weather: WeatherType),
+    // Bird Environment
+    flower(weather: WeatherType),
+    petal(weather: WeatherType),
+    pistal(weather: WeatherType),
+    pistalRim(weather: WeatherType),
+    // Bee Environment
+    hive(weather: WeatherType),
+    honeycomb(weather: WeatherType),
+    honeycombRim(weather: WeatherType),
+    // Cloudy
+    cloud,
+    // Night
+    moon,
+    moonShadow,
+    // Sunny
+    sunCenter,
+    sun,
+    sunRim
     
     var color: UIColor {
         switch self {
-        case .purple: return UIColor(hex: 0x4B0082)
-        case .blue: return UIColor(hex: 0x0000FF)
-        case .green: return UIColor(hex: 0x00FF00)
-        case .yellow: return UIColor(hex: 0xFFFF00)
-        case .orange: return UIColor(hex: 0xFF7F00)
-        case .red: return UIColor(hex: 0xFF0000)
-        case .transparent: return UIColor(white: 1, alpha: 0.0)
+        case .blue:
+            return UIColor(hex: 0x0000FF)
+        case .green:
+            return UIColor(hex: 0x00FF00)
+        case .orange:
+            return UIColor(hex: 0xFF7F00)
+        case .purple:
+            return UIColor(hex: 0x4B0082)
+        case .red:
+            return UIColor(hex: 0xFF0000)
+        case .yellow:
+            return UIColor(hex: 0xFFFF00)
+        // Transparent
+        case .transparent:
+            return UIColor(white: 1, alpha: 0.0)
         // Bee Environment
-        case .honeycomb: return UIColor(hex: 0xB04705)
-        case .honeycombRim: return UIColor(hex: 0x7F453A)
-        case .hive: return UIColor(hex: 0xFDB745)
+        case .hive(weather: .dark):
+            return UIColor(hex: 0xFDB745)
+        case .hive(weather: .sunny):
+            return UIColor.white
+        case .honeycomb:
+            return UIColor(hex: 0xB04705)
+        case .honeycombRim:
+            return UIColor(hex: 0x7F453A)
         // Bird Environment
-        case .flower: return UIColor.white
-        case .petal: return UIColor(hex : 0xD6D2EE)
-        case .grass: return UIColor(hex: 0x54C502)
-        case .pistal: return UIColor(hex: 0xFC8F68)
-        case .pistalRim: return UIColor(hex: 0xF3CF3C)
+        case .grass:
+            return UIColor(hex: 0x54C502)
+        case .flower:
+            return UIColor.white
+        case .petal:
+            return UIColor(hex : 0xD6D2EE)
+        case .pistal:
+            return UIColor(hex: 0xFC8F68)
+        case .pistalRim:
+            return UIColor(hex: 0xF3CF3C)
         // Frog Environment
-        case .lilypad: return UIColor(hex: 0x7BB970)
-        case .lilypadLight: return UIColor(hex: 0x95C26F)
-        case .lilypadRim: return UIColor(hex: 0x38654F)
-        case .pond: return UIColor(hex: 0x3583EA)
+        case .lilypad:
+            return UIColor(hex: 0x7BB970)
+        case .lilypadLight:
+            return UIColor(hex: 0x95C26F)
+        case .lilypadRim:
+            return UIColor(hex: 0x38654F)
+        case .pond:
+            return UIColor(hex: 0x3583EA)
+        // Cloudy
+        case .cloud:
+            return UIColor(hex: 0x39434C)
+        // Dark
+        case .moon:
+            return UIColor(hex: 0xB0ACA9)
+        case .moonShadow:
+            return UIColor(hex: 0x1E1D22)
         // Sun
-        case .sunCenter: return UIColor(hex: 0xFDFFD4)
-        case .sun: return UIColor(hex: 0xFEE600)
-        case .sunRim: return UIColor(hex: 0xFCD202)
-        // Moon
-        case .moon: return UIColor(hex: 0xB0ACA9)
-        case .moonShadow: return UIColor(hex: 0x1E1D22)
-        // Cloud
-        case .cloud: return UIColor(hex: 0x39434C)
+        case .sunCenter:
+            return UIColor(hex: 0xFDFFD4)
+        case .sun:
+            return UIColor(hex: 0xFEE600)
+        case .sunRim:
+            return UIColor(hex: 0xFCD202)
+        default:
+            return UIColor.white
         }
     }
     
-    static func backgroundColor(for environmentType: EnvironmentType) -> UIColor {
+    static func backgroundColor(for environmentType: EnvironmentType, weather: WeatherType) -> UIColor {
         switch environmentType {
-        case .frog: return Palette.pond.color
-        case .bird: return Palette.grass.color
-        case .bee: return Palette.hive.color
+        case .frog:
+            return Palette.pond(weather: weather).color
+        case .bird:
+            return Palette.grass(weather: weather).color
+        case .bee:
+            return Palette.hive(weather: weather).color
         }
     }
 }

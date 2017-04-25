@@ -16,9 +16,6 @@ class SimpleSynthVC: UIViewController {
     var environment = Environment() {
         didSet { setupSynth() }
     }
-    var isDay = true {
-        didSet { conductor.MIDINotes = isDay ? conductor.minorPentatonic : conductor.majorPentatonic }
-    }
     var no3DTouch = false
     
     override func viewDidAppear(_ animated: Bool) {
@@ -32,11 +29,8 @@ class SimpleSynthVC: UIViewController {
         environment.delegate = self
         environment.layoutView()
         
-        // Set conductor mixers
+        // Setup conductor
         setupSynth()
-        
-        // Set conductor scales
-        isDay = !isDay
         
         NotificationCenter.default.addObserver(
             forName: Notification.Name(rawValue:"transitionEnvironment"),
@@ -54,7 +48,7 @@ class SimpleSynthVC: UIViewController {
             let weatherType = WeatherType(rawValue: weatherString)
         else { return }
         
-        let newEnvironment = Environment(type: environmentType, weatherType: weatherType)
+        let newEnvironment = Environment(type: environmentType, weather: weatherType)
         newEnvironment.delegate = self
         newEnvironment.layoutView()
         newEnvironment.alpha = 0
@@ -83,6 +77,15 @@ class SimpleSynthVC: UIViewController {
             conductor.core.birdMixer.volume = 0
             conductor.core.frogMixer.volume = 0
             conductor.core.beeMixer.volume = 0.8
+        }
+        
+        switch environment.weather {
+        case .sunny:
+            conductor.MIDINotes = conductor.minorPentatonic
+        case .cloudy:
+            conductor.MIDINotes = conductor.bluesMinor
+        case .dark:
+            conductor.MIDINotes = conductor.majorPentatonic
         }
     }
 }

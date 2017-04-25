@@ -105,11 +105,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Simple Synth/SimpleSynthVC.swift"
-            timestampString = "514830601.097992"
+            timestampString = "514832573.291428"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "transitionEvironment(notification:)"
             landmarkType = "7">
          </BreakpointContent>

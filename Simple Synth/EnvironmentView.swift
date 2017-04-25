@@ -22,7 +22,7 @@ class Environment: UIView {
     
     weak var delegate: KeyInteractionDelegate?
     
-    init(type: EnvironmentType, weatherType: WeatherType = .sunny) {
+    init(type: EnvironmentType = .bee, weatherType: WeatherType = .dark) {
         self.type = type
         self.weather = weatherType
         super.init(frame: UIScreen.main.bounds)

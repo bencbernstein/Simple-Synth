@@ -29,10 +29,12 @@ enum Palette {
     flower(weather: WeatherType),
     petal(weather: WeatherType),
     pistal(weather: WeatherType),
+    pistalLight(weather: WeatherType),
     pistalRim(weather: WeatherType),
     // Bee Environment
     hive(weather: WeatherType),
     honeycomb(weather: WeatherType),
+    honeycombLight(weather: WeatherType),
     honeycombRim(weather: WeatherType),
     // Cloudy
     cloud,
@@ -68,6 +70,8 @@ enum Palette {
             return UIColor.white
         case .honeycomb:
             return UIColor(hex: 0xB04705)
+        case .honeycombLight:
+            return UIColor(hex: 0xCA611F)
         case .honeycombRim:
             return UIColor(hex: 0x7F453A)
         // Bird Environment
@@ -79,6 +83,8 @@ enum Palette {
             return UIColor(hex : 0xD6D2EE)
         case .pistal:
             return UIColor(hex: 0xFC8F68)
+        case .pistalLight:
+            return UIColor(hex: 0xFFC29B)
         case .pistalRim:
             return UIColor(hex: 0xF3CF3C)
         // Frog Environment

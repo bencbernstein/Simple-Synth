@@ -59,6 +59,16 @@ class Key: UIView {
         
         context?.fillAndStroke(fill: Palette.honeycomb(weather: weather).color, stroke: (2, Palette.honeycombRim(weather: weather).color))
         context?.drawPath(using: .fillStroke)
+        
+        func addGradient() {
+            let origin = CGPoint(x: 50, y: 50)
+            let locations: [CGFloat] = [0.0, 1.0]
+            let colors = [Palette.honeycombLight(weather: weather).color.cgColor, Palette.honeycomb(weather: weather).color.cgColor]
+            let colorspace = CGColorSpaceCreateDeviceRGB()
+            let gradient = CGGradient(colorsSpace: colorspace, colors: colors as CFArray, locations: locations)
+            context?.drawRadialGradient(gradient!, startCenter: origin, startRadius: 0, endCenter: origin, endRadius: 40, options: [])
+        }
+        addGradient()
     }
     
     func drawLilypad() {
@@ -105,6 +115,16 @@ class Key: UIView {
         context?.addEllipse(in: CGRect(x: 35, y: 35, width: 30, height: 30))
         context?.fillAndStroke(fill: Palette.pistal(weather: weather).color, stroke: (4, Palette.pistalRim(weather: weather).color))
         context?.drawPath(using: .fillStroke)
+        
+        func addGradient() {
+            let origin = CGPoint(x: 50, y: 50)
+            let locations: [CGFloat] = [0.0, 1.0]
+            let colors = [Palette.pistalLight(weather: weather).color.cgColor, Palette.pistal(weather: weather).color.cgColor]
+            let colorspace = CGColorSpaceCreateDeviceRGB()
+            let gradient = CGGradient(colorsSpace: colorspace, colors: colors as CFArray, locations: locations)
+            context?.drawRadialGradient(gradient!, startCenter: origin, startRadius: 0, endCenter: origin, endRadius: 15, options: [])
+        }
+        addGradient()
     }
     
     required init?(coder aDecoder: NSCoder) {

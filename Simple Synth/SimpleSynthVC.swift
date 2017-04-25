@@ -13,8 +13,7 @@ class SimpleSynthVC: UIViewController {
     
     let conductor = Conductor.sharedInstance
 
-    var environmentType: EnvironmentType = .bee
-    var environment = Environment(type: .bee) {
+    var environment = Environment() {
         didSet { setupSynth() }
     }
     var isDay = true {

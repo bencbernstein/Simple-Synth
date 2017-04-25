@@ -89,11 +89,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Simple Synth/SimpleSynthVC.swift"
-            timestampString = "514811908.225043"
+            timestampString = "514830601.097992"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
+            startingLineNumber = "15"
+            endingLineNumber = "15"
             landmarkName = "SimpleSynthVC"
             landmarkType = "3">
          </BreakpointContent>
@@ -105,11 +105,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Simple Synth/SimpleSynthVC.swift"
-            timestampString = "514827623.178912"
+            timestampString = "514830601.097992"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
             landmarkName = "transitionEvironment(notification:)"
             landmarkType = "7">
          </BreakpointContent>

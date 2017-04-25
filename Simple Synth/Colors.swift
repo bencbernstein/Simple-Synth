@@ -63,17 +63,41 @@ enum Palette {
         // Transparent
         case .transparent:
             return UIColor(white: 1, alpha: 0.0)
+            
         // Bee Environment
-        case .hive(weather: .dark):
-            return UIColor(hex: 0xFDB745)
+            
+            // Hive Weather - Colors
         case .hive(weather: .sunny):
-            return UIColor.white
-        case .honeycomb:
+            return UIColor(hex: 0xFDB745)
+        case .hive(weather: .cloudy):
+            return UIColor(hex: 0xD89A34)
+        case .hive(weather: .dark):
+            return UIColor(hex: 0x593B0C)
+            
+            // Honeycomb Weather - Colors
+        case .honeycomb(weather: .sunny):
             return UIColor(hex: 0xB04705)
-        case .honeycombLight:
+        case .honeycomb(weather: .cloudy):
+            return UIColor(hex: 0x8C3904)
+        case .honeycomb(weather: .dark):
+            return UIColor(hex: 0x4C240A)
+            
+            // Honeycomb Top Light - Weather Colors
+        case .honeycombLight(weather: .sunny):
             return UIColor(hex: 0xCA611F)
-        case .honeycombRim:
+        case .honeycombLight(weather: .cloudy):
+            return UIColor(hex: 0x8C3904)
+        case .honeycombLight(weather: .dark):
+            return UIColor(hex: 0x4C240A)
+            
+            // Honeycomb Edge - Weather Colors
+        case .honeycombRim(weather: .sunny):
             return UIColor(hex: 0x7F453A)
+        case .honeycombRim(weather: .cloudy):
+            return UIColor(hex: 0x5F322A)
+        case .honeycombRim(weather: .dark):
+            return UIColor(hex: 0x441F18)
+
         // Bird Environment
         case .grass:
             return UIColor(hex: 0x54C502)

@@ -1,19 +1,19 @@
 ///
-/// Shape.swift
+/// Key.swift
 ///
 
 import UIKit
 
-enum ShapeType {
+enum KeyType {
     
     case honeycomb, lilypad, flower
     
     var size: CGSize { return CGSize(width: 100, height: 100) }
 }
 
-class Shape: UIView {
+class Key: UIView {
     
-    var type: ShapeType
+    var type: KeyType
     var isPressed = false
     var animationTimer = Timer()
     
@@ -27,7 +27,7 @@ class Shape: UIView {
     weak var animationDelegate: AnimateSoundDelegate?
     weak var conductorDelegate: KeyInteractionDelegate?
     
-    init(origin: CGPoint, type: ShapeType) {
+    init(origin: CGPoint, type: KeyType) {
         self.type = type
         
         let size = type.size
@@ -117,19 +117,25 @@ class Shape: UIView {
     }
 }
 
+
 // MARK: - Key Interaction
-extension Shape {
+extension Key {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         conductorDelegate?.keyDown(self)
         let noteFrequency = Conductor.sharedInstance.MIDINotes[self.tag].midiNoteToFrequency()
-        self.animationTimer = Timer.scheduledTimer(timeInterval: 250 / noteFrequency , target: self, selector: #selector(executeAnimation), userInfo: nil, repeats: true)
+        self.animationTimer = Timer.scheduledTimer(
+            timeInterval: 250 / noteFrequency,
+            target: self,
+            selector: #selector(animateSound),
+            userInfo: nil,
+            repeats: true
+        )
         self.animationTimer.fire()
         animationDelegate?.toggleFade(self)
-
     }
     
-    func executeAnimation() {
+    func animateSound() {
         animationDelegate?.animateSound(self)
     }
     

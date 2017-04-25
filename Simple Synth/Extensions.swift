@@ -1,5 +1,5 @@
 ///
-///  CoreGraphics-Extensions.swift
+///  Extensions.swift
 ///
 
 import Foundation
@@ -32,5 +32,14 @@ extension CGContext {
     
     func move(to point: (Double, Double)) {
         return move(to: CGPoint(x: point.0, y: point.1))
+    }
+}
+
+
+extension CAShapeLayer {
+    
+    func add(animations: [CABasicAnimation], cb: @escaping () -> ()) {
+        animations.forEach { add($0, forKey: $0.keyPath) }
+        cb()
     }
 }

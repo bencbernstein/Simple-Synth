@@ -7,36 +7,36 @@ import UIKit
 
 class SimpleSynthVC: UIViewController {
     
-    let conductor = Conductor.sharedInstance
-    
+    let beeButton = UIButton()
     let birdButton = UIButton()
     let frogButton = UIButton()
-    let beeButton = UIButton()
     
-    let delayButton = UIButton()
-    let timeButton = UIButton()
-    
+    let conductor = Conductor.sharedInstance
+
     var environmentType: EnvironmentType = .frog
     var environment = Environment(type: .frog) {
-        didSet {
-            setupSynth()
-        }
+        didSet { setupSynth() }
     }
     var isDay = true {
-        didSet {
-            conductor.MIDINotes = isDay ? conductor.minorPentatonic : conductor.majorPentatonic
-            timeButton.setImage((isDay ? #imageLiteral(resourceName: "Sun") : #imageLiteral(resourceName: "Moon")), for: .normal)
-        }
+        didSet { conductor.MIDINotes = isDay ? conductor.minorPentatonic : conductor.majorPentatonic }
     }
     var no3DTouch = false
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
+        
+        // Check if iPhone has force touch
         no3DTouch = self.traitCollection.forceTouchCapability != UIForceTouchCapability.available
+        
+        // Setup UI
         view.addSubview(environment)
         environment.delegate = self
         environment.layoutView()
+        
+        // Set conductor mixers
         setupSynth()
+        
+        // Set conductor scales
         isDay = !isDay
         
         NotificationCenter.default.addObserver(
@@ -62,27 +62,9 @@ class SimpleSynthVC: UIViewController {
         UIView.animate(withDuration: 0.8, animations: {
             self.environment.alpha = 0
             newEnvironment.alpha = 1
-        }) { success in
+        }) { _ in
             self.environment.removeFromSuperview()
             self.environment = newEnvironment
-        }
-    }
-    
-    func nextDelayMode() {
-        if conductor.delay.isBypassed {
-            conductor.delay.time = conductor.shortDelay
-            conductor.delay.start()
-            delayButton.setImage(#imageLiteral(resourceName: "CLOCK-SHORT"), for: .normal)
-        } else if conductor.delay.time == conductor.shortDelay {
-            conductor.delay.time = conductor.mediumDelay
-            delayButton.setImage(#imageLiteral(resourceName: "CLOCK-MEDIUM"), for: .normal)
-        } else if conductor.delay.time == conductor.mediumDelay {
-            conductor.delay.time = conductor.longDelay
-            delayButton.setImage(#imageLiteral(resourceName: "CLOCK-LONG"), for: .normal)
-        }
-        else if conductor.delay.time == conductor.longDelay {
-            conductor.delay.bypass()
-            delayButton.setImage(#imageLiteral(resourceName: "CLOCK-NO"), for: .normal)
         }
     }
     
@@ -106,26 +88,26 @@ class SimpleSynthVC: UIViewController {
 
 
 protocol KeyInteractionDelegate: class {
-    func keyDown(_ shape: Shape)
-    func keyHeld(_ shape: Shape, currentPressure: CGFloat)
-    func keyUp(_ shape: Shape)
+    func keyDown(_ key: Key)
+    func keyHeld(_ key: Key, currentPressure: CGFloat)
+    func keyUp(_ key: Key)
 }
 
 
 extension SimpleSynthVC: KeyInteractionDelegate {
     
-    func keyDown(_ shape: Shape) {
-        let MIDINote = conductor.MIDINotes[shape.tag]
+    func keyDown(_ key: Key) {
+        let MIDINote = conductor.MIDINotes[key.tag]
         conductor.core.play(noteNumber: MIDINote, velocity: 127)
     }
     
-    func keyHeld(_ shape: Shape, currentPressure: CGFloat) {
+    func keyHeld(_ key: Key, currentPressure: CGFloat) {
         if no3DTouch { return }
         conductor.core.amplitude.sustainLevel = Double(currentPressure)
     }
     
-    func keyUp(_ shape: Shape) {
-        let MIDINote = conductor.MIDINotes[shape.tag]
+    func keyUp(_ key: Key) {
+        let MIDINote = conductor.MIDINotes[key.tag]
         conductor.core.stop(noteNumber: MIDINote)
     }
 }

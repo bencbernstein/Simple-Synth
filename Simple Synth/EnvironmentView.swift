@@ -4,47 +4,14 @@
 
 import Foundation
 import UIKit
-import AudioKit
-
-enum EnvironmentType: String {
-    
-    case bee, bird, frog
-    
-    static var all = [bee, bird, frog]
-    
-    var key: KeyType {
-        switch self {
-        case .bee:
-            return .honeycomb
-        case .bird:
-            return .flower
-        case .frog:
-            return .lilypad
-        }
-    }
-    
-    var animalImages: [UIImage] {
-        var images = [UIImage]()
-        for i in 1...4 {
-            images.append(UIImage(named: self.rawValue + "\(i)")!)
-        }
-        return images
-    }
-    
-    var backgroundColor: UIColor {
-        return Palette.backgroundColor(for: self)
-    }
-}
 
 class Environment: UIView {
     
-    var animalImageViews = [UIImageView]()
-    var currentAnimalHasBeenTappedOnce = false
+    var animalImageViews = [(EnvironmentType, UIImageView)]()
     
     let ANIMATION_THROTTLE_COUNT = 40
     let DISPLACEMENTS: [CGFloat] = [-130, 0, 130]
     
-    var animationThrottle = (tag: 0, counter: 0)
     var aboutToSwitchEnvironment = false
     let conductor = Conductor.sharedInstance
     let type: EnvironmentType
@@ -96,18 +63,28 @@ class Environment: UIView {
     }
     
     func returnToCurrentEnvironment() {
-        for (i, v) in animalImageViews.enumerated() {
+        for (i, v) in animalImageViews.map({ $0.1 }).enumerated() {
             UIView.animate(withDuration: 0.2) { v.alpha = i == 1 ? 1 : 0 }
         }
     }
     
-    func revealAllAnimals(_:UITapGestureRecognizer) {
-        animalImageViews.forEach { (animal) in
-            UIView.animate(withDuration: 0.2, animations: { animal.alpha = 0.7 })
+    func tappedAnimal(_ sender:UITapGestureRecognizer) {
+        if aboutToSwitchEnvironment {
+            transitionEvironment(sender)
+        } else {
+            animalImageViews.map({ $0.1 }).forEach { (animal) in
+                UIView.animate(withDuration: 0.2, animations: { animal.alpha = 0.7 })
+            }
         }
-        aboutToSwitchEnvironment = true
-        if currentAnimalHasBeenTappedOnce { returnToCurrentEnvironment() }
-        currentAnimalHasBeenTappedOnce = !currentAnimalHasBeenTappedOnce
+        aboutToSwitchEnvironment = !aboutToSwitchEnvironment
+    }
+    
+    func transitionEvironment(_ sender:UITapGestureRecognizer) {
+        guard
+            let accessId = sender.view?.accessibilityIdentifier,
+            let transitionType = EnvironmentType(rawValue: accessId)
+            else { return }
+        transitionType == type ? returnToCurrentEnvironment() : transition(to: transitionType)
     }
     
     func transition(to environmentType: EnvironmentType) {
@@ -116,16 +93,6 @@ class Environment: UIView {
             object: nil,
             userInfo:["environment" : environmentType.rawValue]
         )
-    }
-    
-    func transitionEnvironment(_ sender: UITapGestureRecognizer) {
-        // this method now doesn't get called if index is 1 because we have two of the same tap gesture recognizers
-        if !aboutToSwitchEnvironment { return }
-        guard
-            let accessId = sender.view?.accessibilityIdentifier,
-            let transitionType = EnvironmentType(rawValue: accessId)
-            else { return }
-        transitionType == type ? returnToCurrentEnvironment() : transition(to: transitionType)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -138,9 +105,9 @@ class Environment: UIView {
 private typealias EnvironmentSetup = Environment
 extension EnvironmentSetup {
     
-    func addChangeEnvironmentGestureRecognizer(view: UIImageView) {
-        let transitionEnvironmentPress = UITapGestureRecognizer(target: self, action: #selector(transitionEnvironment))
-        view.addGestureRecognizer(transitionEnvironmentPress)
+    func addTappedAnimalGestureRecognizer(view: UIImageView) {
+        let tapAnimal = UITapGestureRecognizer(target: self, action: #selector(tappedAnimal))
+        view.addGestureRecognizer(tapAnimal)
     }
     
     func addChangeDelaySwipeRecognizers(view: UIImageView) {
@@ -150,11 +117,6 @@ extension EnvironmentSetup {
         swipeLeft.direction = .left
         view.addGestureRecognizer(swipeRight)
         view.addGestureRecognizer(swipeLeft)
-    }
-    
-    func addRevealAllAnimalsGestureRecognizer(view: UIImageView) {
-        let revealAllAnimalsPress = UITapGestureRecognizer(target: self, action: #selector(revealAllAnimals))
-        view.addGestureRecognizer(revealAllAnimalsPress)
     }
     
     func layoutView() {
@@ -175,20 +137,18 @@ extension EnvironmentSetup {
         let isCurrentType = index == 1
         
         _ = UIImageView().then {
-            $0.image = t.animalImages[0]
+            $0.image = isCurrentType ? animalImageForDelay() : t.animalImages[0]
             $0.tag = index
             $0.accessibilityIdentifier = t.rawValue
             addSubview($0)
-            animalImageViews.append($0)
+            animalImageViews.append((t, $0))
             $0.alpha = isCurrentType ? 1 : 0
+            
             // Gesture Recognizers
             $0.isUserInteractionEnabled = true
-            addChangeEnvironmentGestureRecognizer(view: $0)
+            addTappedAnimalGestureRecognizer(view: $0)
             addChangeDelaySwipeRecognizers(view: $0)
-            if index == 1 {
-                addRevealAllAnimalsGestureRecognizer(view: $0)
-                $0.image = animalImageForDelay(type)
-            }
+            
             // Anchors
             $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
             $0.widthAnchor.constraint(equalTo: $0.heightAnchor).isActive = true
@@ -221,40 +181,31 @@ extension EnvironmentSetup {
 }
 
 
-// MARK: - Environment Delay Methods
+// MARK: - Environment Delay
 extension Environment {
     
-    func animalImageForDelay(_ t: EnvironmentType) -> UIImage {
+    func animalImageForDelay() -> UIImage {
+        if conductor.delay.isBypassed { return type.animalImages[0] }
         switch conductor.delay.time {
         case conductor.shortDelay:
-            return t.animalImages[1]
+            return type.animalImages[1]
         case conductor.mediumDelay:
-            return t.animalImages[2]
-        case conductor.longDelay:
-            return t.animalImages[3]
+            return type.animalImages[2]
         default:
-            return t.animalImages[0]
+            return type.animalImages[3]
         }
     }
     
-    func nextDelay(_ sender: UISwipeGestureRecognizer) {
-        if currentAnimalHasBeenTappedOnce { return }
-        Conductor.sharedInstance.nextDelay()
-        updateNumberOfAnimals(sender)
+    func nextDelay() {
+        if aboutToSwitchEnvironment { return }
+        conductor.nextDelay()
+        animalImageViews.filter({ $0.0 == type }).first?.1.image = animalImageForDelay()
     }
     
-    func previousDelay(_ sender: UISwipeGestureRecognizer) {
-        if currentAnimalHasBeenTappedOnce { return }
-        Conductor.sharedInstance.previousDelay()
-        updateNumberOfAnimals(sender)
-    }
-    
-    func updateNumberOfAnimals(_ sender: UISwipeGestureRecognizer) {
-        guard
-            let accessId = sender.view?.accessibilityIdentifier,
-            let animalType = EnvironmentType(rawValue: accessId)
-            else { return }
-        animalImageViews[1].image = animalImageForDelay(animalType)
+    func previousDelay() {
+        if aboutToSwitchEnvironment { return }
+        conductor.previousDelay()
+        animalImageViews.filter({ $0.0 == type }).first?.1.image = animalImageForDelay()
     }
 }
 

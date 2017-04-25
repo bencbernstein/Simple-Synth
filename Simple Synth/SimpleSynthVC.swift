@@ -13,8 +13,8 @@ class SimpleSynthVC: UIViewController {
     
     let conductor = Conductor.sharedInstance
 
-    var environmentType: EnvironmentType = .frog
-    var environment = Environment(type: .frog) {
+    var environmentType: EnvironmentType = .bee
+    var environment = Environment(type: .bee) {
         didSet { setupSynth() }
     }
     var isDay = true {
@@ -49,11 +49,13 @@ class SimpleSynthVC: UIViewController {
     
     func transitionEvironment(notification: Notification) {
         guard
-            let type = notification.userInfo?["environment"] as? String,
-            let environmentType = EnvironmentType(rawValue: type)
+            let environmentString = notification.userInfo?["environment"] as? String,
+            let environmentType = EnvironmentType(rawValue: environmentString),
+            let weatherString = notification.userInfo?["weather"] as? String,
+            let weatherType = WeatherType(rawValue: weatherString)
         else { return }
         
-        let newEnvironment = Environment(type: environmentType)
+        let newEnvironment = Environment(type: environmentType, weatherType: weatherType)
         newEnvironment.delegate = self
         newEnvironment.layoutView()
         newEnvironment.alpha = 0

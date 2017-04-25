@@ -4,11 +4,6 @@
 
 import UIKit
 
-struct EnvironmentPresets {
-    let type: EnvironmentType
-    let weather: WeatherType
-}
-
 // MARK: - Environment Type
 enum EnvironmentType: String {
     
@@ -28,15 +23,11 @@ enum EnvironmentType: String {
     }
     
     var animalImages: [UIImage] {
-        var images = [UIImage]()
-        for i in 1...4 {
-            images.append(UIImage(named: self.rawValue + "\(i)")!)
-        }
-        return images
+        return [1,2,3,4].map { UIImage(named: "\(rawValue)\($0)")! }
     }
     
-    var backgroundColor: UIColor {
-        return Palette.backgroundColor(for: self)
+    func backgroundColor(for weather: WeatherType) -> UIColor {
+        return Palette.backgroundColor(for: self, weather: weather)
     }
 }
 
@@ -51,7 +42,7 @@ enum KeyType {
 
 
 // MARK: - Weather Type
-enum WeatherType {
+enum WeatherType: String {
     
     case cloudy, dark, sunny
     

@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Environment.swift">
+   </FileRef>
+   <FileRef
       location = "group:Simple Synth.xcodeproj">
    </FileRef>
    <FileRef

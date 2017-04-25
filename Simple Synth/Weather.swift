@@ -4,13 +4,6 @@
 
 import UIKit
 
-enum WeatherType {
-    
-    case cloudy, dark, sunny
-    
-    var size: CGSize { return CGSize(width: 75, height: 75) }
-}
-
 class Weather: UIView {
     
     var type: WeatherType

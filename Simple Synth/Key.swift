@@ -4,13 +4,6 @@
 
 import UIKit
 
-enum KeyType {
-    
-    case honeycomb, lilypad, flower
-    
-    var size: CGSize { return CGSize(width: 100, height: 100) }
-}
-
 class Key: UIView {
     
     var type: KeyType

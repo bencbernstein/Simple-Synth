@@ -44,7 +44,7 @@ enum Palette {
         case .moon: return UIColor(hex: 0xFFFFFF)
         case .moonShadow: return UIColor(hex: 0x1E1D22)
         // Cloud
-        case .cloud: return UIColor(hex: 0x39434C)
+        case .cloud: return UIColor(hex: 0xFFFFFF)
         }
     }
     

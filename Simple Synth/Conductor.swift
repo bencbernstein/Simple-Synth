@@ -18,6 +18,8 @@ final class Conductor: AKMIDIListener {
     var MIDINotes: [UInt8]
     let minorPentatonic: [UInt8] = [69,72,74,76,79,81,84,86,88]
     let majorPentatonic: [UInt8] = [69,71,73,76,78,81,83,85,88]
+    let bluesMinor: [UInt8] = [69,72,74,77,79,81,84,86,89]
+
     
     var reverb: AKReverb
     var delay: AKDelay

@@ -172,7 +172,7 @@ extension EnvironmentSetup {
     func layoutWeather() {
         let origin = CGPoint(x: frame.width - 100, y: 25)
         let changeWeatherTap = UITapGestureRecognizer(target: self, action: #selector(changeWeather))
-        _ = Weather(origin: origin, type: weatherType).then {
+        _ = Weather(origin: origin, type: weatherType, environmentType: type).then {
             $0.isUserInteractionEnabled = true
             $0.addGestureRecognizer(changeWeatherTap)
             addSubview($0)

@@ -7,9 +7,11 @@ import UIKit
 class Weather: UIView {
     
     var type: WeatherType
+    var environmentType: EnvironmentType
     
-    init(origin: CGPoint, type: WeatherType) {
+    init(origin: CGPoint, type: WeatherType, environmentType: EnvironmentType) {
         self.type = type
+        self.environmentType = environmentType
         
         let size = type.size
         let frame = CGRect(origin: origin, size: size)
@@ -44,19 +46,22 @@ class Weather: UIView {
     }
     
     func drawMoon() {
-        let shadowContext = UIGraphicsGetCurrentContext()
         
-        shadowContext?.addEllipse(in: CGRect(x: 2.5, y: 2.5, width: 70, height: 70))
-        shadowContext?.fill(Palette.moonShadow.color)
-        shadowContext?.closePath()
-        
+        //crescent moon
         let moonContext = UIGraphicsGetCurrentContext()
         moonContext?.move(to: (55, 7.19))
-        // https://math.stackexchange.com/questions/873224/calculate-control-points-of-cubic-bezier-curve-approximating-a-part-of-a-circle
-        moonContext?.addCurve(to: (55, 67.81), control1: (78.33, 20.667), control2: (78.33, 54.333))
-        moonContext?.addCurve(to: (55, 7.19), control1: (63.33, 54.333), control2: (63.33, 20.667))
-        moonContext?.fill(Palette.moon.color)
-        moonContext?.closePath()
+        moonContext?.addEllipse(in: CGRect(x: 2.5, y: 2.5, width: 70, height: 70))
+        
+        moonContext?.fillAndStroke(fill: Palette.moon.color, stroke: (width: 2, color: Palette.moon.color ))
+        moonContext?.drawPath(using: .eoFillStroke)
+        
+        //mask color
+        let maskContext = UIGraphicsGetCurrentContext()
+        maskContext?.move(to: (55, 7.19))
+        maskContext?.addEllipse(in: CGRect(x: 1, y: 1, width: 63, height: 63))
+        maskContext?.fill(Palette.backgroundColor(for: environmentType))
+        maskContext?.drawPath(using: .fillStroke)
+
     }
     
     func drawSun() {

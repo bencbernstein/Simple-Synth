@@ -221,7 +221,9 @@ extension Environment: AnimateSoundDelegate {
     }
     
     func animateSound(_ key: Key) {
+        
         let noteFrequency = Conductor.sharedInstance.MIDINotes[key.tag].midiNoteToFrequency()
+        let animationDuration = noteFrequency / 50
         let keyOrigin = keyOrigins[key.tag]
         
         let circleOrigin = CGPoint(x: keyOrigin.x + 50, y: keyOrigin.y + 50)
@@ -244,7 +246,7 @@ extension Environment: AnimateSoundDelegate {
         
         let strokeAnimation = CABasicAnimation(keyPath: "strokeColor")
         strokeAnimation.toValue = Palette.pond(weather: weather).color.cgColor
-        strokeAnimation.duration = noteFrequency / 50
+        strokeAnimation.duration = animationDuration
         
         var transform = CATransform3DIdentity
         transform = CATransform3DTranslate(transform, circleOrigin.x, circleOrigin.y, 0)
@@ -253,10 +255,10 @@ extension Environment: AnimateSoundDelegate {
         
         let transformAnimation = CABasicAnimation(keyPath: "transform")
         transformAnimation.toValue = NSValue(caTransform3D: transform)
-        transformAnimation.duration = noteFrequency / 50
+        transformAnimation.duration = animationDuration
         
         circleLayer.add(animations: [strokeAnimation, transformAnimation]) { _ in
-            let delay = DispatchTime.now() + noteFrequency / 50
+            let delay = DispatchTime.now() + animationDuration - 2
             DispatchQueue.main.asyncAfter(deadline: delay) {
                 circleLayer.removeFromSuperlayer()
             }

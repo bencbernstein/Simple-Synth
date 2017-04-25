@@ -90,7 +90,7 @@ enum Palette {
         case .honeycombLight(weather: .dark):
             return UIColor(hex: 0x4C240A)
             
-            // Honeycomb Edge - Weather Colors
+            // Honeycomb Rim - Weather Colors
         case .honeycombRim(weather: .sunny):
             return UIColor(hex: 0x7F453A)
         case .honeycombRim(weather: .cloudy):

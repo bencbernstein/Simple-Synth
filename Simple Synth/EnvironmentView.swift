@@ -78,20 +78,25 @@ class Environment: UIView {
     }
 
     func returnToCurrentEnvironment() {
+        aboutToSwitchEnvironment = false
         for (i, v) in animalImageViews.map({ $0.1 }).enumerated() {
             UIView.animate(withDuration: 0.2) { v.alpha = i == 1 ? 1 : 0 }
         }
     }
     
-    func tappedAnimal(_ sender:UITapGestureRecognizer) {
+    func tappedChangedEnvironment(_ sender:UITapGestureRecognizer) {
         if aboutToSwitchEnvironment {
-            transitionEvironment(sender)
+            returnToCurrentEnvironment()
         } else {
+            aboutToSwitchEnvironment = true
             animalImageViews.map({ $0.1 }).forEach { (animal) in
                 UIView.animate(withDuration: 0.2, animations: { animal.alpha = 0.7 })
             }
         }
-        aboutToSwitchEnvironment = !aboutToSwitchEnvironment
+    }
+    
+    func tappedAnimal(_ sender:UITapGestureRecognizer) {
+        aboutToSwitchEnvironment ? transitionEvironment(sender) : nextDelay()
     }
     
     func transitionEvironment(_ sender:UITapGestureRecognizer) {
@@ -120,18 +125,14 @@ class Environment: UIView {
 private typealias EnvironmentSetup = Environment
 extension EnvironmentSetup {
     
-    func addChangeDelaySwipeRecognizers(view: UIImageView) {
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(nextDelay))
-        swipeRight.direction = .right
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(previousDelay))
-        swipeLeft.direction = .left
-        view.addGestureRecognizer(swipeRight)
-        view.addGestureRecognizer(swipeLeft)
+    func addTappedAnimalGestureRecognizer(view: UIImageView) {
+        let animalTap = UITapGestureRecognizer(target: self, action: #selector(tappedAnimal))
+        view.addGestureRecognizer(animalTap)
     }
     
-    func addTappedAnimalGestureRecognizer(view: UIImageView) {
-        let tapAnimal = UITapGestureRecognizer(target: self, action: #selector(tappedAnimal))
-        view.addGestureRecognizer(tapAnimal)
+    func addChangeEnvironmentGestureRecognizer(view: UIImageView) {
+        let environmentTap = UITapGestureRecognizer(target: self, action: #selector(tappedChangedEnvironment))
+        view.addGestureRecognizer(environmentTap)
     }
     
     func mist() {
@@ -184,6 +185,15 @@ extension EnvironmentSetup {
         layoutAnimals()
         layoutKeys()
         layoutWeather()
+        
+        _ = UIImageView(frame: CGRect(origin: CGPoint(x: frame.width - 125, y: frame.height - 125), size: CGSize(width: 100, height: 100))).then {
+            $0.image = #imageLiteral(resourceName: "hiker")
+            addSubview($0)
+            // Change environment gesture recognizer
+            $0.isUserInteractionEnabled = true
+            addChangeEnvironmentGestureRecognizer(view: $0)
+        }
+        
         if cloudyWeather {
             mist()
             mist()
@@ -208,12 +218,9 @@ extension EnvironmentSetup {
             addSubview($0)
             animalImageViews.append((t, $0))
             $0.alpha = isCurrentType ? 1 : 0
-            
-            // Gesture Recognizers
+            // Delay and change environment gesture recognizer
             $0.isUserInteractionEnabled = true
             addTappedAnimalGestureRecognizer(view: $0)
-            addChangeDelaySwipeRecognizers(view: $0)
-            
             // Anchors
             $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
             $0.widthAnchor.constraint(equalTo: $0.heightAnchor).isActive = true
@@ -262,14 +269,7 @@ extension Environment {
     }
     
     func nextDelay() {
-        if aboutToSwitchEnvironment { return }
         conductor.nextDelay()
-        animalImageViews.filter({ $0.0 == type }).first?.1.image = animalImageForDelay()
-    }
-    
-    func previousDelay() {
-        if aboutToSwitchEnvironment { return }
-        conductor.previousDelay()
         animalImageViews.filter({ $0.0 == type }).first?.1.image = animalImageForDelay()
     }
 }

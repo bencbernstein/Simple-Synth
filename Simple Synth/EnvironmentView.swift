@@ -186,18 +186,12 @@ extension EnvironmentSetup {
         layoutKeys()
         layoutWeather()
         
-        _ = UIImageView().then {
-            $0.image = #imageLiteral(resourceName: "bee1")
+        _ = UIImageView(frame: CGRect(origin: CGPoint(x: frame.width - 125, y: frame.height - 125), size: CGSize(width: 100, height: 100))).then {
+            $0.image = #imageLiteral(resourceName: "hiker")
             addSubview($0)
             // Change environment gesture recognizer
             $0.isUserInteractionEnabled = true
             addChangeEnvironmentGestureRecognizer(view: $0)
-            // Anchors
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            $0.widthAnchor.constraint(equalToConstant: 100).isActive = true
-            $0.heightAnchor.constraint(equalToConstant: 100).isActive = true
-            $0.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-            $0.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
         }
         
         if cloudyWeather {

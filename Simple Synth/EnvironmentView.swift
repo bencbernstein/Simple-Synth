@@ -125,18 +125,32 @@ extension EnvironmentSetup {
         
         var mistConstraint: NSLayoutConstraint!
         
+        
         _ = UIImageView().then {
-            $0.image = (mistCounter % 2 == 0) ? #imageLiteral(resourceName: "mist") : #imageLiteral(resourceName: "mist_inverted")
-            $0.alpha = 0.4
+            $0.image = (mistCounter % 2 == 0) ? #imageLiteral(resourceName: "mist_inverted") : #imageLiteral(resourceName: "mist")
+            $0.alpha = 0.45
             addSubview($0)
+            
             // Anchors
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
-            $0.widthAnchor.constraint(equalTo: widthAnchor, constant: 0.4).isActive = true
+            $0.widthAnchor.constraint(equalTo: widthAnchor, constant: 2.25).isActive = true
             $0.topAnchor.constraint(equalTo: topAnchor).isActive = true
-            mistConstraint = $0.leadingAnchor.constraint(equalTo: leadingAnchor, constant: frame.width * (mistCounter == 0 ? 0 : -1) - 0.2)
+            mistConstraint = $0.leadingAnchor.constraint(equalTo: leadingAnchor, constant: frame.width * (mistCounter == 0 ? 0 : -1))
             mistConstraint.isActive = true
+            
             layoutIfNeeded()
+            
+            // Blur mist edges
+            let maskLayer = CAGradientLayer()
+            maskLayer.frame = $0.bounds
+            maskLayer.shadowRadius = 0.5
+            maskLayer.shadowPath = CGPath(roundedRect: $0.bounds.insetBy(dx: 1, dy: 0), cornerWidth: 0, cornerHeight: 0, transform: nil)
+            maskLayer.shadowOpacity = 1
+            maskLayer.shadowOffset = .zero
+            maskLayer.shadowColor = UIColor.white.cgColor
+            $0.layer.mask = maskLayer
+            
             animateMist($0, leadingConstraint: mistConstraint)
         }
         
@@ -146,7 +160,7 @@ extension EnvironmentSetup {
     
     func animateMist(_ mist: UIImageView, leadingConstraint: NSLayoutConstraint) {
         leadingConstraint.constant += frame.width * (mistCounter == 0 ? 1 : 2)
-        UIView.animate(withDuration: (mistCounter == 0 ? 15 : 30), delay: 0, options: .curveLinear, animations: {
+        UIView.animate(withDuration: (mistCounter == 0 ? 30 : 60), delay: 0, options: .curveLinear, animations: {
             self.layoutIfNeeded()
         }) { _ in
             mist.removeFromSuperview()

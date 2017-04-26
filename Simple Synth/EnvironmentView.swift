@@ -6,23 +6,23 @@ import Foundation
 import UIKit
 
 class Environment: UIView {
-    
+
     var animalImageViews = [(EnvironmentType, UIImageView)]()
     
     let DISPLACEMENTS: [CGFloat] = [-130, 0, 130]
     
     var aboutToSwitchEnvironment = false
     let conductor = Conductor.sharedInstance
+    var cloudyWeather: Bool { return weather == .cloudy }
     lazy var keyOrigins: [CGPoint] = { return self.calculateOrigins() }()
     var keyType: KeyType { return type.key }
+    var mistCounter = 0
     let type: EnvironmentType
-    var weather: WeatherType {
-        didSet { transition(to: type) }
-    }
+    var weather: WeatherType
     
     weak var delegate: KeyInteractionDelegate?
     
-    init(type: EnvironmentType = .bee, weather: WeatherType = .dark) {
+    init(type: EnvironmentType = .frog, weather: WeatherType = .cloudy) {
         self.type = type
         self.weather = weather
         super.init(frame: UIScreen.main.bounds)
@@ -47,18 +47,21 @@ class Environment: UIView {
     }
     
     func changeWeather(_:UITapGestureRecognizer) {
-        weather = {
-            switch weather {
-            case .sunny:
-                return .cloudy
-            case .cloudy:
-                return .dark
-            case .dark:
-                return .sunny
-            }
-        }()
+        switch weather {
+        case .sunny:
+            transition(to: type, weather: .cloudy)
+        case .cloudy:
+            transition(to: type, weather: .dark)
+        case .dark:
+            transition(to: type, weather: .sunny)
+        }
     }
     
+    override func removeFromSuperview() {
+        weather = .dark
+        super.removeFromSuperview()
+    }
+
     func returnToCurrentEnvironment() {
         for (i, v) in animalImageViews.map({ $0.1 }).enumerated() {
             UIView.animate(withDuration: 0.2) { v.alpha = i == 1 ? 1 : 0 }
@@ -81,10 +84,10 @@ class Environment: UIView {
             let accessId = sender.view?.accessibilityIdentifier,
             let transitionType = EnvironmentType(rawValue: accessId)
             else { return }
-        transitionType == type ? returnToCurrentEnvironment() : transition(to: transitionType)
+        transitionType == type ? returnToCurrentEnvironment() : transition(to: transitionType, weather: weather)
     }
     
-    func transition(to environmentType: EnvironmentType) {
+    func transition(to environmentType: EnvironmentType, weather: WeatherType) {
         NotificationCenter.default.post(
             name: Notification.Name(rawValue:"transitionEnvironment"),
             object: nil,
@@ -102,11 +105,6 @@ class Environment: UIView {
 private typealias EnvironmentSetup = Environment
 extension EnvironmentSetup {
     
-    func addTappedAnimalGestureRecognizer(view: UIImageView) {
-        let tapAnimal = UITapGestureRecognizer(target: self, action: #selector(tappedAnimal))
-        view.addGestureRecognizer(tapAnimal)
-    }
-    
     func addChangeDelaySwipeRecognizers(view: UIImageView) {
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(nextDelay))
         swipeRight.direction = .right
@@ -114,6 +112,46 @@ extension EnvironmentSetup {
         swipeLeft.direction = .left
         view.addGestureRecognizer(swipeRight)
         view.addGestureRecognizer(swipeLeft)
+    }
+    
+    func addTappedAnimalGestureRecognizer(view: UIImageView) {
+        let tapAnimal = UITapGestureRecognizer(target: self, action: #selector(tappedAnimal))
+        view.addGestureRecognizer(tapAnimal)
+    }
+    
+    func addMist() {
+        
+        if !cloudyWeather { return }
+        
+        var mistConstraint: NSLayoutConstraint!
+        
+        _ = UIImageView().then {
+            $0.image = (mistCounter % 2 == 0) ? #imageLiteral(resourceName: "mist") : #imageLiteral(resourceName: "mist_inverted")
+            $0.alpha = 0.75
+            addSubview($0)
+            // Anchors
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            $0.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
+            $0.widthAnchor.constraint(equalTo: widthAnchor, constant: 0.4).isActive = true
+            $0.topAnchor.constraint(equalTo: topAnchor).isActive = true
+            mistConstraint = $0.leadingAnchor.constraint(equalTo: leadingAnchor, constant: frame.width * (mistCounter == 0 ? 0 : -1) - 0.2)
+            mistConstraint.isActive = true
+            layoutIfNeeded()
+            animateMist($0, leadingConstraint: mistConstraint)
+        }
+        
+        mistCounter += 1
+    }
+    
+    
+    func animateMist(_ mist: UIImageView, leadingConstraint: NSLayoutConstraint) {
+        leadingConstraint.constant += frame.width * (mistCounter == 0 ? 1 : 2)
+        UIView.animate(withDuration: (mistCounter == 0 ? 15 : 30), delay: 0, options: .curveLinear, animations: {
+            self.layoutIfNeeded()
+        }) { _ in
+            mist.removeFromSuperview()
+            self.addMist()
+        }
     }
     
     func layoutView() {
@@ -174,6 +212,8 @@ extension EnvironmentSetup {
             $0.addGestureRecognizer(changeWeatherTap)
             addSubview($0)
         }
+        addMist()
+        addMist()
     }
 }
 

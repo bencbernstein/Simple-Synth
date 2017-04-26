@@ -13,8 +13,8 @@ class SimpleSynthVC: UIViewController {
     
     let conductor = Conductor.sharedInstance
 
-    var environment = Environment() {
-        didSet { setupSynth() }
+    var environment: Environment! = Environment() {
+        didSet { if environment != nil { setupSynth() } }
     }
     var no3DTouch = false
     
@@ -49,10 +49,10 @@ class SimpleSynthVC: UIViewController {
         else { return }
         
         let newEnvironment = Environment(type: environmentType, weather: weatherType)
+        view.addSubview(newEnvironment)
         newEnvironment.delegate = self
         newEnvironment.layoutView()
         newEnvironment.alpha = 0
-        view.addSubview(newEnvironment)
         
         UIView.animate(withDuration: 0.8, animations: {
             self.environment.alpha = 0

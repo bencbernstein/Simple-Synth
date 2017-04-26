@@ -32,24 +32,24 @@ class GeneratorBank: AKPolyphonicNode {
         osc1.rampTime = 0.1
         osc1.attackDuration = 0.1
         osc1.sustainLevel = 0.8
-        osc1.decayDuration = 0.01
-        osc1.releaseDuration = 0.01
+        osc1.decayDuration = 0.3
+        osc1.releaseDuration = 0.2
         
         //frog
         osc2 = AKOscillatorBank(waveform: triangle)
         osc2.rampTime = 0.1
         osc2.attackDuration = 0.1
         osc2.sustainLevel = 0.8
-        osc2.decayDuration = 0.01
-        osc2.releaseDuration = 0.01
+        osc2.decayDuration = 0.3
+        osc2.releaseDuration = 0.2
         
         //bee
         osc3 = AKOscillatorBank(waveform: square)
         osc3.rampTime = 0.1
         osc3.attackDuration = 0.1
         osc3.sustainLevel = 0.8
-        osc3.decayDuration = 0.01
-        osc3.releaseDuration = 0.01
+        osc3.decayDuration = 0.3
+        osc3.releaseDuration = 0.2
         
         birdMixer = AKMixer(osc1)
         birdMixer.start()
@@ -74,9 +74,6 @@ class GeneratorBank: AKPolyphonicNode {
     }
     
     override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
-//        let freq = noteNumber.midiNoteToFrequency()
-//        let firePerSecond = freq / 100
-//        print("firePerSecond:", firePerSecond)
         osc1.play(noteNumber: noteNumber, velocity: velocity)
         osc2.play(noteNumber: noteNumber, velocity: velocity)
         osc3.play(noteNumber: noteNumber, velocity: velocity)

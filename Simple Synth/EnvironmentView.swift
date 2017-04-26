@@ -270,7 +270,7 @@ protocol AnimateSoundDelegate: class {
 extension Environment: AnimateSoundDelegate {
     
     func toggleFade(_ key: Key) {
-        UIView.animate(withDuration: 0.1) { key.alpha = key.isPressed ? 1 : 0.7 }
+        key.alpha = key.isPressed ? 1 : 0.7
         key.isPressed = !key.isPressed
     }
     

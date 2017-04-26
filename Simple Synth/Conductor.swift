@@ -20,7 +20,6 @@ final class Conductor: AKMIDIListener {
     let majorPentatonic: [UInt8] = [69,71,73,76,78,81,83,85,88]
     let bluesMinor: [UInt8] = [69,72,74,77,79,81,84,86,89]
 
-    
     var reverb: AKReverb
     var delay: AKDelay
     
@@ -46,7 +45,7 @@ final class Conductor: AKMIDIListener {
         reverb.loadFactoryPreset(.largeHall)
         reverb.play()
         
-        finalMixer = AKDryWetMixer(delay, reverb, balance: 0.4)
+        finalMixer = AKDryWetMixer(delay, reverb, balance: 0.5)
         
         tracker = AKFrequencyTracker(finalMixer, hopSize: 100, peakCount: 500)
         

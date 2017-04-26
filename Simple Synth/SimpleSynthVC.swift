@@ -81,11 +81,11 @@ class SimpleSynthVC: UIViewController {
         
         switch environment.weather {
         case .sunny:
-            conductor.MIDINotes = conductor.minorPentatonic
+            conductor.MIDINotes = conductor.majorPentatonic
         case .cloudy:
             conductor.MIDINotes = conductor.bluesMinor
         case .dark:
-            conductor.MIDINotes = conductor.majorPentatonic
+            conductor.MIDINotes = conductor.minorPentatonic
         }
     }
 }

@@ -57,6 +57,8 @@ final class Conductor: AKMIDIListener {
         AudioKit.start()
     }
     
+    
+    
     func nextDelay() {
         if delay.isBypassed {
             delay.time = shortDelay

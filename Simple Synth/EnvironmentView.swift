@@ -187,7 +187,7 @@ extension EnvironmentSetup {
         layoutWeather()
         
         _ = UIImageView(frame: CGRect(origin: CGPoint(x: frame.width - 125, y: frame.height - 125), size: CGSize(width: 100, height: 100))).then {
-            $0.image = #imageLiteral(resourceName: "hiker")
+            $0.image = #imageLiteral(resourceName: "Landscape-96")
             addSubview($0)
             // Change environment gesture recognizer
             $0.isUserInteractionEnabled = true

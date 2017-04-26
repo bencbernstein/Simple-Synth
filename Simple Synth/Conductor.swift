@@ -16,9 +16,9 @@ final class Conductor: AKMIDIListener {
     var core = GeneratorBank()
     
     var MIDINotes: [UInt8]
-    let minorPentatonic: [UInt8] = [69,72,74,76,79,81,84,86,88]
-    let majorPentatonic: [UInt8] = [69,71,73,76,78,81,83,85,88]
-    let bluesMinor: [UInt8] = [69,72,74,77,79,81,84,86,89]
+    let minorPentatonic: [UInt8] = [61, 64, 66, 68, 71, 73, 76, 78, 80]
+    let majorPentatonic: [UInt8] = [61, 63, 65, 68, 70, 73, 75, 77, 80]
+    let bluesMinor: [UInt8] = [61, 64, 66, 69, 71, 73, 76, 78, 81]
 
     var reverb: AKReverb
     var delay: AKDelay
@@ -33,6 +33,15 @@ final class Conductor: AKMIDIListener {
     
     private init () {
         
+//        let lowerminor = minorPentatonic.map { $0 - 3 }
+//        print(lowerminor)
+//        
+//        let lowerMajor = majorPentatonic.map { $0 - 3 }
+//        print(lowerMajor)
+//        
+//        let lowerblues = bluesMinor.map { $0 - 3 }
+//        print(lowerblues)
+//        
         MIDINotes = majorPentatonic
         
         delay = AKDelay(core)

@@ -9,6 +9,7 @@ class Environment: UIView {
 
     var animalImageViews = [(EnvironmentType, UIImageView)]()
     var mistImageViews = [UIImageView]()
+    var changeEnvironmentView = UIImageView()
     
     let DISPLACEMENTS: [CGFloat] = [-130, 0, 130]
     
@@ -82,6 +83,9 @@ class Environment: UIView {
         for (i, v) in animalImageViews.map({ $0.1 }).enumerated() {
             UIView.animate(withDuration: 0.2) { v.alpha = i == 1 ? 1 : 0 }
         }
+        UIView.animate(withDuration: 0.2) {
+            self.changeEnvironmentView.alpha = 0.7
+        }
     }
     
     func tappedChangedEnvironment(_ sender:UITapGestureRecognizer) {
@@ -91,6 +95,9 @@ class Environment: UIView {
             aboutToSwitchEnvironment = true
             animalImageViews.map({ $0.1 }).forEach { (animal) in
                 UIView.animate(withDuration: 0.2, animations: { animal.alpha = 0.7 })
+            }
+            UIView.animate(withDuration: 0.2) {
+                self.changeEnvironmentView.alpha = 0
             }
         }
     }
@@ -186,8 +193,9 @@ extension EnvironmentSetup {
         layoutKeys()
         layoutWeather()
         
-        _ = UIImageView(frame: CGRect(origin: CGPoint(x: frame.width - 125, y: frame.height - 125), size: CGSize(width: 100, height: 100))).then {
-            $0.image = #imageLiteral(resourceName: "Landscape-96")
+        changeEnvironmentView = UIImageView(frame: CGRect(origin: CGPoint(x: 15, y: 15), size: CGSize(width: 50, height: 50))).then {
+            $0.image = #imageLiteral(resourceName: "hiker")
+            $0.alpha = 0.7
             addSubview($0)
             // Change environment gesture recognizer
             $0.isUserInteractionEnabled = true

@@ -12,11 +12,23 @@ class SimpleSynthVC: UIViewController {
     let frogButton = UIButton()
     
     let conductor = Conductor.sharedInstance
-
-    var environment: Environment! = Environment() {
-        didSet { if environment != nil { setupSynth() } }
+    
+    var environment: Environment! {
+        didSet {
+            setupSynth()
+        }
     }
+    
     var no3DTouch = false
+    
+    var savedWeather: WeatherType? {
+        guard let weatherType = UserDefaults.standard.string(forKey: "weather") else { return nil }
+        return WeatherType(rawValue: weatherType) ?? nil
+    }
+    var savedEnvironment: EnvironmentType? {
+        guard let environmentType = UserDefaults.standard.string(forKey: "environment") else { return nil }
+        return EnvironmentType(rawValue: environmentType)
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
@@ -25,9 +37,7 @@ class SimpleSynthVC: UIViewController {
         no3DTouch = self.traitCollection.forceTouchCapability != UIForceTouchCapability.available
         
         // Setup UI
-        view.addSubview(environment)
-        environment.delegate = self
-        environment.layoutView()
+        setupEnvironment()
         
         // Setup conductor
         setupSynth()
@@ -37,6 +47,13 @@ class SimpleSynthVC: UIViewController {
             object: nil,
             queue: nil,
             using: transitionEvironment
+        )
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(SimpleSynthVC.willEnterForeground),
+            name: NSNotification.Name.UIApplicationWillEnterForeground,
+            object: nil
         )
     }
     
@@ -63,6 +80,13 @@ class SimpleSynthVC: UIViewController {
         }
     }
     
+    func setupEnvironment() {
+        environment = Environment(type: savedEnvironment ?? .frog, weather: savedWeather ?? .cloudy)
+        view.addSubview(environment)
+        environment.delegate = self
+        environment.layoutView()
+    }
+    
     func setupSynth() {
         switch environment.type {
         case .frog:
@@ -87,6 +111,13 @@ class SimpleSynthVC: UIViewController {
         case .dark:
             conductor.MIDINotes = conductor.majorPentatonic
         }
+    }
+    
+    func willEnterForeground() {
+        setupEnvironment()
+        setupSynth()
+        self.environment.alpha = 0
+        UIView.animate(withDuration: 2, animations: { self.environment.alpha = 1 })
     }
 }
 

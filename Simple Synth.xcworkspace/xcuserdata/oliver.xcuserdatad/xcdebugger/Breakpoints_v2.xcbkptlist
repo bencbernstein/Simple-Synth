@@ -89,11 +89,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Simple Synth/SimpleSynthVC.swift"
-            timestampString = "514830601.097992"
+            timestampString = "514929963.664411"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "15"
-            endingLineNumber = "15"
+            startingLineNumber = "21"
+            endingLineNumber = "21"
             landmarkName = "SimpleSynthVC"
             landmarkType = "3">
          </BreakpointContent>
@@ -105,29 +105,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Simple Synth/SimpleSynthVC.swift"
-            timestampString = "514911710.959848"
+            timestampString = "514931277.098292"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "transitionEvironment(notification:)"
+            startingLineNumber = "92"
+            endingLineNumber = "92"
+            landmarkName = "setupSynth()"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Simple Synth/SimpleSynthVC.swift"
-            timestampString = "514909123.89437"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "16"
-            endingLineNumber = "16"
-            landmarkName = "environment"
-            landmarkType = "24">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

@@ -8,6 +8,7 @@ import UIKit
 class Environment: UIView {
 
     var animalImageViews = [(EnvironmentType, UIImageView)]()
+    var mistImageViews = [UIImageView]()
     
     let DISPLACEMENTS: [CGFloat] = [-130, 0, 130]
     
@@ -23,10 +24,24 @@ class Environment: UIView {
     weak var delegate: KeyInteractionDelegate?
     
     init(type: EnvironmentType = .frog, weather: WeatherType = .cloudy) {
-        self.type = type
-        self.weather = weather
+        
+        self.type =  type
+        self.weather =  weather
         super.init(frame: UIScreen.main.bounds)
-        self.backgroundColor = type.backgroundColor(for: weather)
+        self.backgroundColor = self.type.backgroundColor(for: self.weather)
+        
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(Environment.didEnterBackground),
+            name: NSNotification.Name.UIApplicationDidEnterBackground,
+            object: nil
+        )
+    }
+    
+    func didEnterBackground() {
+        UserDefaults.standard.setValue(type.rawValue, forKey: "environment")
+        UserDefaults.standard.setValue(weather.rawValue, forKey: "weather")
+        removeFromSuperview()
     }
     
     // Determines the origin for each key
@@ -119,13 +134,10 @@ extension EnvironmentSetup {
         view.addGestureRecognizer(tapAnimal)
     }
     
-    func addMist() {
-        
-        if !cloudyWeather { return }
+    func mist() {
         
         var mistConstraint: NSLayoutConstraint!
-        
-        
+    
         _ = UIImageView().then {
             $0.image = (mistCounter % 2 == 0) ? #imageLiteral(resourceName: "mist_inverted") : #imageLiteral(resourceName: "mist")
             $0.alpha = 0.45
@@ -164,7 +176,7 @@ extension EnvironmentSetup {
             self.layoutIfNeeded()
         }) { _ in
             mist.removeFromSuperview()
-            self.addMist()
+            self.mist()
         }
     }
     
@@ -172,6 +184,10 @@ extension EnvironmentSetup {
         layoutAnimals()
         layoutKeys()
         layoutWeather()
+        if cloudyWeather {
+            mist()
+            mist()
+        }
     }
     
     func layoutAnimals() {
@@ -226,8 +242,6 @@ extension EnvironmentSetup {
             $0.addGestureRecognizer(changeWeatherTap)
             addSubview($0)
         }
-        addMist()
-        addMist()
     }
 }
 

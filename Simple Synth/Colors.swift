@@ -64,21 +64,21 @@ enum Palette {
         case .transparent:
             return UIColor(white: 1, alpha: 0.0)
             
-        // Bee Environment
+        // Bee Environment //
             
-            // Hive Weather - Colors
+            // Hive - Weather Colors
         case .hive(weather: .sunny):
             return UIColor(hex: 0xFDB745)
         case .hive(weather: .cloudy):
-            return UIColor(hex: 0xD89A34)
+            return UIColor(hex: 0xFDB745)
         case .hive(weather: .dark):
             return UIColor(hex: 0x593B0C)
             
-            // Honeycomb Weather - Colors
+            // Honeycomb - Weather Colors
         case .honeycomb(weather: .sunny):
             return UIColor(hex: 0xB04705)
         case .honeycomb(weather: .cloudy):
-            return UIColor(hex: 0x8C3904)
+            return UIColor(hex: 0xB04705)
         case .honeycomb(weather: .dark):
             return UIColor(hex: 0x4C240A)
             
@@ -86,7 +86,7 @@ enum Palette {
         case .honeycombLight(weather: .sunny):
             return UIColor(hex: 0xCA611F)
         case .honeycombLight(weather: .cloudy):
-            return UIColor(hex: 0x8C3904)
+            return UIColor(hex: 0xB04705)
         case .honeycombLight(weather: .dark):
             return UIColor(hex: 0x4C240A)
             
@@ -94,32 +94,93 @@ enum Palette {
         case .honeycombRim(weather: .sunny):
             return UIColor(hex: 0x7F453A)
         case .honeycombRim(weather: .cloudy):
-            return UIColor(hex: 0x5F322A)
+            return UIColor(hex: 0x7F453A)
         case .honeycombRim(weather: .dark):
             return UIColor(hex: 0x441F18)
 
-        // Bird Environment
-        case .grass:
+        // Bird Environment //
+            
+            //Grass - Weather Colors
+        case .grass(weather: .sunny):
             return UIColor(hex: 0x54C502)
-        case .flower:
+        case .grass(weather: .cloudy):
+            return UIColor(hex: 0x54C502)
+        case .grass(weather: .dark):
+            return UIColor(hex: 0x255900)
+
+            //Flower - Weather Colors
+        case .flower(weather: .sunny):
             return UIColor.white
-        case .petal:
+        case .flower(weather: .cloudy):
+            return UIColor.white
+        case .flower(weather: .dark):
+            return UIColor(hex : 0xB4B4B4)
+            
+            //Petal - Weather Colors
+        case .petal(weather: .sunny):
             return UIColor(hex : 0xD6D2EE)
-        case .pistal:
+        case .petal(weather: .cloudy):
+            return UIColor(hex : 0xD6D2EE)
+        case .petal(weather: .dark):
+            return UIColor(hex : 0x727272)
+            
+            //Pistal - Weather Colors
+        case .pistal(weather: .sunny):
             return UIColor(hex: 0xFC8F68)
-        case .pistalLight:
+        case .pistal(weather: .cloudy):
+            return UIColor(hex: 0xFC8F68)
+        case .pistal(weather: .dark):
+            return UIColor(hex: 0xA45C42)
+            
+            //Pistal Light - Weather Colors
+        case .pistalLight(weather: .sunny):
             return UIColor(hex: 0xFFC29B)
-        case .pistalRim:
+        case .pistalLight(weather: .cloudy):
+            return UIColor(hex: 0xFC8F68)
+        case .pistalLight(weather: .dark):
+            return UIColor(hex: 0xA45C42)
+            
+            //Pistal Rim - Weather Colors
+        case .pistalRim(weather: .sunny):
             return UIColor(hex: 0xF3CF3C)
-        // Frog Environment
-        case .lilypad:
+        case .pistalRim(weather: .cloudy):
+            return UIColor(hex: 0xF3CF3C)
+        case .pistalRim(weather: .dark):
+            return UIColor(hex: 0xA48B27)
+            
+        // Frog Environment //
+            // Lilypad - Weather Colors
+        case .lilypad(weather: .sunny):
             return UIColor(hex: 0x7BB970)
-        case .lilypadLight:
+        case .lilypad(weather: .cloudy):
+            return UIColor(hex: 0x7BB970)
+        case .lilypad(weather: .dark):
+            return UIColor(hex: 0x43673D)
+
+            // Lilypad Light - Weather Colors
+        case .lilypadLight(weather: .sunny):
             return UIColor(hex: 0x95C26F)
-        case .lilypadRim:
+        case .lilypadLight(weather: .cloudy):
+            return UIColor(hex: 0x7BB970)
+        case .lilypadLight(weather: .dark):
+            return UIColor(hex: 0x43673D)
+            
+            // Lilypad Rim - Weather Colors
+        case .lilypadRim(weather: .sunny):
             return UIColor(hex: 0x38654F)
-        case .pond:
+        case .lilypadRim(weather: .cloudy):
+            return UIColor(hex: 0x38654F)
+        case .lilypadRim(weather: .dark):
+            return UIColor(hex: 0x254837)
+            
+            // Pond - Weather Colors
+        case .pond(weather: .sunny):
             return UIColor(hex: 0x3583EA)
+        case .pond(weather: .cloudy):
+            return UIColor(hex: 0x3583EA)
+        case .pond(weather: .dark):
+            return UIColor(hex: 0x102F59)
+            
         // Cloudy
         case .cloud:
              return UIColor(hex: 0xFFFFFF)

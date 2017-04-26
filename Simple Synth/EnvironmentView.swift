@@ -127,7 +127,7 @@ extension EnvironmentSetup {
         
         _ = UIImageView().then {
             $0.image = (mistCounter % 2 == 0) ? #imageLiteral(resourceName: "mist") : #imageLiteral(resourceName: "mist_inverted")
-            $0.alpha = 0.75
+            $0.alpha = 0.4
             addSubview($0)
             // Anchors
             $0.translatesAutoresizingMaskIntoConstraints = false

@@ -343,7 +343,7 @@ extension Environment: AnimateSoundDelegate {
         transformAnimation.duration = animationDuration
         
         circleLayer.add(animations: [strokeAnimation, transformAnimation]) { _ in
-            let delay = DispatchTime.now() + animationDuration
+            let delay = DispatchTime.now() + animationDuration - 1
             DispatchQueue.main.asyncAfter(deadline: delay) {
                 circleLayer.removeFromSuperlayer()
             }
@@ -357,10 +357,7 @@ extension Environment: AnimateSoundDelegate {
                 return Palette.flower(weather: weather).color.cgColor
             case .frog:
                 return Palette.lilypad(weather: weather).color.cgColor
-
-           
             }
-
         }
     }
 }

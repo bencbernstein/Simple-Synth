@@ -6,7 +6,7 @@ import Foundation
 import UIKit
 
 class Environment: UIView {
-
+    
     var animalImageViews = [(EnvironmentType, UIImageView)]()
     var mistImageViews = [UIImageView]()
     var changeEnvironmentView = UIImageView()
@@ -77,7 +77,7 @@ class Environment: UIView {
         weather = .dark
         super.removeFromSuperview()
     }
-
+    
     func returnToCurrentEnvironment() {
         aboutToSwitchEnvironment = false
         for (i, v) in animalImageViews.map({ $0.1 }).enumerated() {
@@ -145,7 +145,7 @@ extension EnvironmentSetup {
     func mist() {
         
         var mistConstraint: NSLayoutConstraint!
-    
+        
         _ = UIImageView().then {
             $0.image = (mistCounter % 2 == 0) ? #imageLiteral(resourceName: "mist_inverted") : #imageLiteral(resourceName: "mist")
             $0.alpha = 0.45
@@ -194,8 +194,9 @@ extension EnvironmentSetup {
         layoutWeather()
         
         changeEnvironmentView = UIImageView(frame: CGRect(origin: CGPoint(x: 15, y: 15), size: CGSize(width: 50, height: 50))).then {
-            $0.image = #imageLiteral(resourceName: "hiker")
-            $0.alpha = 0.7
+            $0.image = #imageLiteral(resourceName: "hiker").withRenderingMode(.alwaysTemplate)
+            $0.tintColor = hikerTintColor()
+            $0.alpha = 0.8
             addSubview($0)
             // Change environment gesture recognizer
             $0.isUserInteractionEnabled = true
@@ -205,6 +206,17 @@ extension EnvironmentSetup {
         if cloudyWeather {
             mist()
             mist()
+        }
+    }
+    
+    func hikerTintColor() -> UIColor {
+        switch type {
+        case .bee:
+            return Palette.honeycomb(weather: weather).color
+        case .bird:
+            return Palette.flower(weather: weather).color
+        case .frog:
+            return Palette.lilypad(weather: weather).color
         }
     }
     

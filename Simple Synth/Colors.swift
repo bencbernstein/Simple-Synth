@@ -224,9 +224,6 @@ enum Palette {
             return UIColor(hex: 0xFEE600)
         case .sunRim:
             return UIColor(hex: 0xFCD202)
-        default:
-            return UIColor.white
-
         }
     }
     

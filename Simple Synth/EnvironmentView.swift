@@ -150,7 +150,7 @@ extension EnvironmentSetup {
             // Anchors
             $0.translatesAutoresizingMaskIntoConstraints = false
             $0.heightAnchor.constraint(equalTo: heightAnchor).isActive = true
-            $0.widthAnchor.constraint(equalTo: widthAnchor, constant: 2.25).isActive = true
+            $0.widthAnchor.constraint(equalTo: widthAnchor, constant: 2.5).isActive = true
             $0.topAnchor.constraint(equalTo: topAnchor).isActive = true
             mistConstraint = $0.leadingAnchor.constraint(equalTo: leadingAnchor, constant: frame.width * (mistCounter == 0 ? 0 : -1))
             mistConstraint.isActive = true
@@ -298,8 +298,6 @@ protocol AnimateSoundDelegate: class {
 extension Environment: AnimateSoundDelegate {
     
     func toggleFade(_ key: Key) {
-        
-        //key.tintColor = key.isPressed ? Palette.cloud.color ? Palette.blue.c
         key.alpha = key.isPressed ? 1 : 0.7
         key.isPressed = !key.isPressed
     }

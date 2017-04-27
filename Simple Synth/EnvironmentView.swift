@@ -83,9 +83,9 @@ class Environment: UIView {
         for (i, v) in animalImageViews.map({ $0.1 }).enumerated() {
             UIView.animate(withDuration: 0.2) { v.alpha = i == 1 ? 1 : 0 }
         }
-        UIView.animate(withDuration: 0.2) {
-            self.changeEnvironmentView.alpha = 0.7
-        }
+//        UIView.animate(withDuration: 0.2) {
+//            self.changeEnvironmentView.alpha = 0.7
+//        }
     }
     
     func tappedChangedEnvironment(_ sender:UITapGestureRecognizer) {
@@ -96,9 +96,9 @@ class Environment: UIView {
             animalImageViews.map({ $0.1 }).forEach { (animal) in
                 UIView.animate(withDuration: 0.2, animations: { animal.alpha = 0.7 })
             }
-            UIView.animate(withDuration: 0.2) {
-                self.changeEnvironmentView.alpha = 0
-            }
+//            UIView.animate(withDuration: 0.2) {
+//                self.changeEnvironmentView.alpha = 0
+//            }
         }
     }
     
@@ -193,8 +193,8 @@ extension EnvironmentSetup {
         layoutKeys()
         layoutWeather()
         
-        changeEnvironmentView = UIImageView(frame: CGRect(origin: CGPoint(x: 15, y: 15), size: CGSize(width: 50, height: 50))).then {
-            $0.image = #imageLiteral(resourceName: "hiker").withRenderingMode(.alwaysTemplate)
+        changeEnvironmentView = UIImageView(frame: CGRect(origin: CGPoint(x: frame.width - 100, y: frame.height  - 100), size: CGSize(width: 75, height: 75))).then {
+            $0.image = #imageLiteral(resourceName: "hiker").withRenderingMode(.alwaysTemplate).withHorizontallyFlippedOrientation()
             $0.tintColor = hikerTintColor()
             $0.alpha = 0.8
             addSubview($0)

@@ -25,17 +25,20 @@ enum Palette {
     lilypadLight(weather: WeatherType),
     lilypadRim(weather: WeatherType),
     pond(weather: WeatherType),
+    frogRipple(weather: WeatherType),
     // Bird Environment
     flower(weather: WeatherType),
     petal(weather: WeatherType),
     pistal(weather: WeatherType),
     pistalLight(weather: WeatherType),
     pistalRim(weather: WeatherType),
+    birdRipple(weather: WeatherType),
     // Bee Environment
     hive(weather: WeatherType),
     honeycomb(weather: WeatherType),
     honeycombLight(weather: WeatherType),
     honeycombRim(weather: WeatherType),
+    beeRipple(weather: WeatherType),
     // Cloudy
     cloud,
     // Night
@@ -97,6 +100,15 @@ enum Palette {
             return UIColor(hex: 0x7F453A)
         case .honeycombRim(weather: .dark):
             return UIColor(hex: 0x441F18)
+            
+            // Bee Ripple - Weather Colors
+        case .beeRipple(weather: .sunny):
+            return UIColor(hex: 0xFDC76E)
+        case .beeRipple(weather: .cloudy):
+            return UIColor(hex: 0xFDC76E)
+        case .beeRipple(weather: .dark):
+            return UIColor(hex: 0xFFB233)
+
 
         // Bird Environment //
             
@@ -148,6 +160,14 @@ enum Palette {
         case .pistalRim(weather: .dark):
             return UIColor(hex: 0xA48B27)
             
+            // Bird Ripple - Weather Colors
+        case .birdRipple(weather: .sunny):
+            return UIColor(hex: 0xBEC600)
+        case .birdRipple(weather: .cloudy):
+            return UIColor(hex: 0xBEC600)
+        case .birdRipple(weather: .dark):
+            return UIColor(hex: 0x455900)
+            
         // Frog Environment //
             // Lilypad - Weather Colors
         case .lilypad(weather: .sunny):
@@ -181,7 +201,15 @@ enum Palette {
         case .pond(weather: .dark):
             return UIColor(hex: 0x102F59)
             
-        // Cloudy
+            // Frog Ripple - Weather Colors
+        case .frogRipple(weather: .sunny):
+            return UIColor(hex: 0x3A8FFF)
+        case .frogRipple(weather: .cloudy):
+            return UIColor(hex: 0x3A8FFF)
+        case .frogRipple(weather: .dark):
+            return UIColor(hex: 0x1A4A8B)
+            
+            // Cloudy
         case .cloud:
              return UIColor(hex: 0xFFFFFF)
         // Dark

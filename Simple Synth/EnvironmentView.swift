@@ -358,11 +358,11 @@ extension Environment: AnimateSoundDelegate {
         func rippleColor() -> CGColor {
             switch type {
             case .bee:
-                return Palette.honeycomb(weather: weather).color.cgColor
+                return Palette.beeRipple(weather: weather).color.cgColor
             case .bird:
-                return Palette.flower(weather: weather).color.cgColor
+                return Palette.birdRipple(weather: weather).color.cgColor
             case .frog:
-                return Palette.lilypad(weather: weather).color.cgColor
+                return Palette.frogRipple(weather: weather).color.cgColor
 
            
             }

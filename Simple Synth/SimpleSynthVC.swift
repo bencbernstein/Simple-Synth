@@ -31,7 +31,7 @@ class SimpleSynthVC: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(false)
+        super.viewDidAppear(animated)
         
         // Check if iPhone has force touch
         no3DTouch = self.traitCollection.forceTouchCapability != UIForceTouchCapability.available

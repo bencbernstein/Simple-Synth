@@ -11,9 +11,9 @@ import AudioKit
 
 class GeneratorBank: AKPolyphonicNode {
     
-    var osc1: AKOscillatorBank
-    var osc2: AKOscillatorBank
-    var osc3: AKOscillatorBank
+    var hummingbirdOscillator: AKOscillatorBank
+    var frogOsccillator: AKOscillatorBank
+    var beeOscillator: AKOscillatorBank
     
     var frogMixer: AKMixer
     var birdMixer: AKMixer
@@ -27,37 +27,34 @@ class GeneratorBank: AKPolyphonicNode {
         let triangle = AKTable(.triangle)
         let square = AKTable(.square)
         
-        // hummingbird
-        osc1 = AKOscillatorBank(waveform: sine)
-        osc1.rampTime = 0.1
-        osc1.attackDuration = 0.1
-        osc1.sustainLevel = 0.8
-        osc1.decayDuration = 0.3
-        osc1.releaseDuration = 0.2
+        hummingbirdOscillator = AKOscillatorBank(waveform: sine)
+        hummingbirdOscillator.rampTime = 0.1
+        hummingbirdOscillator.attackDuration = 0.1
+        hummingbirdOscillator.sustainLevel = 0.8
+        hummingbirdOscillator.decayDuration = 0.3
+        hummingbirdOscillator.releaseDuration = 0.2
         
-        //frog
-        osc2 = AKOscillatorBank(waveform: triangle)
-        osc2.rampTime = 0.1
-        osc2.attackDuration = 0.1
-        osc2.sustainLevel = 0.8
-        osc2.decayDuration = 0.3
-        osc2.releaseDuration = 0.2
+        frogOsccillator = AKOscillatorBank(waveform: triangle)
+        frogOsccillator.rampTime = 0.1
+        frogOsccillator.attackDuration = 0.1
+        frogOsccillator.sustainLevel = 0.8
+        frogOsccillator.decayDuration = 0.3
+        frogOsccillator.releaseDuration = 0.2
         
-        //bee
-        osc3 = AKOscillatorBank(waveform: square)
-        osc3.rampTime = 0.1
-        osc3.attackDuration = 0.1
-        osc3.sustainLevel = 0.8
-        osc3.decayDuration = 0.3
-        osc3.releaseDuration = 0.2
+        beeOscillator = AKOscillatorBank(waveform: square)
+        beeOscillator.rampTime = 0.1
+        beeOscillator.attackDuration = 0.1
+        beeOscillator.sustainLevel = 0.8
+        beeOscillator.decayDuration = 0.3
+        beeOscillator.releaseDuration = 0.2
         
-        birdMixer = AKMixer(osc1)
+        birdMixer = AKMixer(hummingbirdOscillator)
         birdMixer.start()
         
-        frogMixer = AKMixer(osc2)
+        frogMixer = AKMixer(frogOsccillator)
         frogMixer.start()
         
-        beeMixer = AKMixer(osc3)
+        beeMixer = AKMixer(beeOscillator)
         beeMixer.start()
         
         sourceMixer = AKMixer(birdMixer, frogMixer, beeMixer)
@@ -74,14 +71,14 @@ class GeneratorBank: AKPolyphonicNode {
     }
     
     override func play(noteNumber: MIDINoteNumber, velocity: MIDIVelocity) {
-        osc1.play(noteNumber: noteNumber, velocity: velocity)
-        osc2.play(noteNumber: noteNumber, velocity: velocity)
-        osc3.play(noteNumber: noteNumber, velocity: velocity)
+        hummingbirdOscillator.play(noteNumber: noteNumber, velocity: velocity)
+        frogOsccillator.play(noteNumber: noteNumber, velocity: velocity)
+        beeOscillator.play(noteNumber: noteNumber, velocity: velocity)
     }
     
     override func stop(noteNumber: MIDINoteNumber) {
-        osc1.stop(noteNumber: noteNumber)
-        osc2.stop(noteNumber: noteNumber)
-        osc3.stop(noteNumber: noteNumber)
+        hummingbirdOscillator.stop(noteNumber: noteNumber)
+        frogOsccillator.stop(noteNumber: noteNumber)
+        beeOscillator.stop(noteNumber: noteNumber)
     }
 }

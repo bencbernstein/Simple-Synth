@@ -140,7 +140,7 @@ extension Key {
         conductorDelegate?.keyDown(self)
         let noteFrequency = Conductor.sharedInstance.MIDINotes[self.tag].midiNoteToFrequency()
         self.animationTimer = Timer.scheduledTimer(
-            timeInterval: 250 / noteFrequency,
+            timeInterval:  150 / noteFrequency,
             target: self,
             selector: #selector(animateSound),
             userInfo: nil,

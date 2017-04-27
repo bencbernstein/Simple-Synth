@@ -298,6 +298,8 @@ protocol AnimateSoundDelegate: class {
 extension Environment: AnimateSoundDelegate {
     
     func toggleFade(_ key: Key) {
+        
+        //key.tintColor = key.isPressed ? Palette.cloud.color ? Palette.blue.c
         key.alpha = key.isPressed ? 1 : 0.7
         key.isPressed = !key.isPressed
     }
@@ -305,7 +307,7 @@ extension Environment: AnimateSoundDelegate {
     func animateSound(_ key: Key) {
         
         let noteFrequency = Conductor.sharedInstance.MIDINotes[key.tag].midiNoteToFrequency()
-        let animationDuration = noteFrequency / 50
+        let animationDuration = noteFrequency / 150
         let keyOrigin = keyOrigins[key.tag]
         
         let circleOrigin = CGPoint(x: keyOrigin.x + 50, y: keyOrigin.y + 50)
@@ -321,13 +323,14 @@ extension Environment: AnimateSoundDelegate {
         let circleLayer = CAShapeLayer().then {
             $0.path = circlePath.cgPath
             $0.lineWidth = 1.0
-            $0.strokeColor = UIColor(red:0.31, green:0.53, blue:0.87, alpha:1.0).cgColor
+            $0.opacity = 0.6
+            $0.strokeColor = rippleColor()
             $0.fillColor = Palette.transparent.color.cgColor
             layer.insertSublayer($0, at: 0)
         }
         
         let strokeAnimation = CABasicAnimation(keyPath: "strokeColor")
-        strokeAnimation.toValue = self.type.backgroundColor(for: self.weather)
+        strokeAnimation.toValue = self.backgroundColor?.cgColor
         strokeAnimation.duration = animationDuration
         
         var transform = CATransform3DIdentity
@@ -340,10 +343,24 @@ extension Environment: AnimateSoundDelegate {
         transformAnimation.duration = animationDuration
         
         circleLayer.add(animations: [strokeAnimation, transformAnimation]) { _ in
-            let delay = DispatchTime.now() + animationDuration - 2
+            let delay = DispatchTime.now() + animationDuration
             DispatchQueue.main.asyncAfter(deadline: delay) {
                 circleLayer.removeFromSuperlayer()
             }
+        }
+        
+        func rippleColor() -> CGColor {
+            switch type {
+            case .bee:
+                return Palette.honeycomb(weather: weather).color.cgColor
+            case .bird:
+                return Palette.flower(weather: weather).color.cgColor
+            case .frog:
+                return Palette.lilypad(weather: weather).color.cgColor
+
+           
+            }
+
         }
     }
 }

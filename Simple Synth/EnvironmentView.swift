@@ -72,7 +72,7 @@ class Environment: UIView {
             transition(to: type, weather: .sunny)
         }
     }
-    
+
     override func removeFromSuperview() {
         weather = .dark
         super.removeFromSuperview()
@@ -83,9 +83,6 @@ class Environment: UIView {
         for (i, v) in animalImageViews.map({ $0.1 }).enumerated() {
             UIView.animate(withDuration: 0.2) { v.alpha = i == 1 ? 1 : 0 }
         }
-//        UIView.animate(withDuration: 0.2) {
-//            self.changeEnvironmentView.alpha = 0.7
-//        }
     }
     
     func tappedChangedEnvironment(_ sender:UITapGestureRecognizer) {
@@ -96,9 +93,6 @@ class Environment: UIView {
             animalImageViews.map({ $0.1 }).forEach { (animal) in
                 UIView.animate(withDuration: 0.2, animations: { animal.alpha = 0.7 })
             }
-//            UIView.animate(withDuration: 0.2) {
-//                self.changeEnvironmentView.alpha = 0
-//            }
         }
     }
     
@@ -143,6 +137,8 @@ extension EnvironmentSetup {
     }
     
     func mist() {
+        
+        if !cloudyWeather { return }
         
         var mistConstraint: NSLayoutConstraint!
         
@@ -203,10 +199,8 @@ extension EnvironmentSetup {
             addChangeEnvironmentGestureRecognizer(view: $0)
         }
         
-        if cloudyWeather {
-            mist()
-            mist()
-        }
+        mist()
+        mist()
     }
     
     func hikerTintColor() -> UIColor {
@@ -333,7 +327,7 @@ extension Environment: AnimateSoundDelegate {
         }
         
         let strokeAnimation = CABasicAnimation(keyPath: "strokeColor")
-        strokeAnimation.toValue = Palette.pond(weather: weather).color.cgColor
+        strokeAnimation.toValue = self.type.backgroundColor(for: self.weather)
         strokeAnimation.duration = animationDuration
         
         var transform = CATransform3DIdentity

@@ -32,16 +32,7 @@ final class Conductor: AKMIDIListener {
     var finalMixer: AKDryWetMixer
     
     private init () {
-        
-//        let lowerminor = minorPentatonic.map { $0 - 3 }
-//        print(lowerminor)
-//        
-//        let lowerMajor = majorPentatonic.map { $0 - 3 }
-//        print(lowerMajor)
-//        
-//        let lowerblues = bluesMinor.map { $0 - 3 }
-//        print(lowerblues)
-//        
+
         MIDINotes = majorPentatonic
         
         delay = AKDelay(core)

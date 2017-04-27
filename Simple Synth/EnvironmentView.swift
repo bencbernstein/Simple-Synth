@@ -176,7 +176,7 @@ extension EnvironmentSetup {
     
     func animateMist(_ mist: UIImageView, leadingConstraint: NSLayoutConstraint) {
         leadingConstraint.constant += frame.width * (mistCounter == 0 ? 1 : 2)
-        UIView.animate(withDuration: (mistCounter == 0 ? 4 : 8), delay: 0, options: .curveLinear, animations: {
+        UIView.animate(withDuration: (mistCounter == 0 ? 30 : 60), delay: 0, options: .curveLinear, animations: {
             self.layoutIfNeeded()
         }) { _ in
             mist.removeFromSuperview()
